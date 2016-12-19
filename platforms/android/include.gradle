@@ -1,0 +1,30 @@
+//default elements
+android {
+    productFlavors {
+        "nativescript-ns-urbanairship" {
+            dimension "nativescript-ns-urbanairship"
+        }
+    }
+}
+
+dependencies {
+     // Urban Airship SDK
+     compile "com.urbanairship.android:urbanairship-sdk:8.2.+"
+
+     // Required for GCM
+     compile "com.google.android.gms:play-services-gcm:7.8.0"
+}
+
+buildscript {
+    repositories {
+        maven {
+            url  "https://urbanairship.bintray.com/android"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
