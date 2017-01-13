@@ -2,11 +2,11 @@
 import { NsUrbanairship } from 'nativescript-ns-urbanairship';
 
 application.on(application.launchEvent, function (args) {
-	let nsUrbanairship = new NsUrbanairship();
-	nsUrbanairship.developmentAppKey = "G0mIxntETJKumFTCWGfaNQ";
-	nsUrbanairship.developmentAppSecret = "p0EMVN6zSmqSf5uxa1oP-w";
-	nsUrbanairship.gcmSender = "758734661063";
-	nsUrbanairship.startUp();
+	NsUrbanairship.getInstance().startUp({
+		developmentAppKey: "G0mIxntETJKumFTCWGfaNQ",
+		developmentAppSecret: "p0EMVN6zSmqSf5uxa1oP-w",
+		gcmSender: "758734661063",
+	});
 });
 
 application.start({ moduleName: "main-page" });

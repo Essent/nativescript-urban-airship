@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "nativescript-ns-urbanairship": "file:///Users/dennis/Repositories/nativescript-urbanairship",
+    "nativescript-ns-urbanairship": "file:///Users/oscarlodriguez/Documents/clients/Essent/nativescript-urban_airship",
     "nativescript-unit-test-runner": "^0.3.0",
     "tns-core-modules": "^2.3.0"
   },

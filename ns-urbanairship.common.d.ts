@@ -6,5 +6,13 @@ export declare class Common {
     productionAppKey: string;
     productionAppSecret: string;
     gcmSender: string;
-    constructor();
+}
+export interface UrbanAirshipSettings {
+    detectProvisioningMode: boolean;
+    inProduction: boolean;
+    developmentAppKey: string;
+    developmentAppSecret: string;
+    productionAppKey: string;
+    productionAppSecret: string;
+    gcmSender: string;
 }
