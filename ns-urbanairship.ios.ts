@@ -1,4 +1,4 @@
-import { Common, UrbanAirshipSettings } from './ns-urbanairship.common';
+import { UrbanAirshipSettings } from './ns-urbanairship.common';
 
 declare const UAConfig: any;
 declare const UAirship: any;
@@ -6,12 +6,15 @@ declare const UANotificationOptionAlert: any;
 declare const UANotificationOptionBadge: any;
 declare const UANotificationOptionSound: any;
 
-export class NsUrbanairship extends Common {
+export class NsUrbanairship {
 
 	private static instance: NsUrbanairship = new NsUrbanairship();
+	public gcmSender: string;
 
 	constructor() {
-		super();
+		if (NsUrbanairship.instance) {
+			throw new Error("Error: Instantiation failed: Use NsUrbanairship.getInstance() instead of new.");
+		}
 		NsUrbanairship.instance = this;
 	}
 

@@ -1,6 +1,7 @@
-import { Common, UrbanAirshipSettings } from './ns-urbanairship.common';
-export declare class NsUrbanairship extends Common {
+import { UrbanAirshipSettings } from './ns-urbanairship.common';
+export declare class NsUrbanairship {
     private static instance;
+    gcmSender: string;
     constructor();
     static getInstance(): NsUrbanairship;
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
