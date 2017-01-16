@@ -4,6 +4,9 @@ export declare class NsUrbanairship extends Common {
     constructor();
     static getInstance(): NsUrbanairship;
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
-    enablePush(userId: string): void;
+    enablePush(userId: string): Promise<{}>;
+    isEnabled(): boolean;
+    resetBadgeCount(): void;
+    notificationOptOut(): Promise<{}>;
     disablePush(): void;
 }
