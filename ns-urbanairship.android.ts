@@ -33,7 +33,7 @@ export class NsUrbanairship {
 		com.urbanairship.UAirship.takeOff(app.android.context, options);
 	}
 
-	public enablePush(userId: string) {
+	public enablePush(userId: string): Promise<boolean> {
 		return new Promise((resolve, reject) => {
 			UAirship.namedUser().identifier = userId;
 			UAirship.push().userPushNotificationsEnabled = true;

@@ -34,7 +34,7 @@ export class NsUrbanairship {
 		UAirship.push().notificationOptions = (UANotificationOptionAlert | UANotificationOptionBadge | UANotificationOptionSound);
 	}
 
-	public enablePush(userId: string) {
+	public enablePush(userId: string): Promise<boolean> {
 		return new Promise((resolve, reject) => {
 			UAirship.namedUser().identifier = userId;
 			UAirship.push().userPushNotificationsEnabled = true;
