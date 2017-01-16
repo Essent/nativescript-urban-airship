@@ -1,4 +1,4 @@
-import { UrbanAirshipSettings } from './ns-urbanairship.common';
+import { UrbanAirshipSettings, CommonUrbanAirship } from './ns-urbanairship.common';
 
 declare const UAConfig: any;
 declare const UAirship: any;
@@ -6,10 +6,9 @@ declare const UANotificationOptionAlert: any;
 declare const UANotificationOptionBadge: any;
 declare const UANotificationOptionSound: any;
 
-export class NsUrbanairship {
+export class NsUrbanairship implements CommonUrbanAirship {
 
 	private static instance: NsUrbanairship = new NsUrbanairship();
-	public gcmSender: string;
 
 	constructor() {
 		if (NsUrbanairship.instance) {
@@ -29,35 +28,38 @@ export class NsUrbanairship {
 		config.developmentAppSecret = urbanAirshipSettings.developmentAppSecret;
 		config.productionAppKey = urbanAirshipSettings.productionAppKey;
 		config.productionAppSecret = urbanAirshipSettings.productionAppSecret;
-		this.gcmSender = urbanAirshipSettings.gcmSender;
 		UAirship.takeOff(config);
 		UAirship.push().notificationOptions = (UANotificationOptionAlert | UANotificationOptionBadge | UANotificationOptionSound);
 	}
 
-	public enablePush(userId: string): Promise<boolean> {
-		return new Promise((resolve, reject) => {
-			UAirship.namedUser().identifier = userId;
-			UAirship.push().userPushNotificationsEnabled = true;
-			resolve(UAirship.push().userPushNotificationsEnabled);
+	public registerUser(userId: string): void {
+		UAirship.namedUser().identifier = userId;
+	}
+
+	public notificationOptIn(): Promise<boolean> {
+		return this.setOptIn(true);
+	}
+
+	private setOptIn(optIn: boolean): Promise<boolean> {
+		return new Promise((resolve) => {
+			UAirship.push().userPushNotificationsEnabled = optIn;
+			resolve(this.isEnabled());
 		});
 	}
 
 	public isEnabled(): boolean {
-		return UAirship.userPushNotificationsEnabled();
+		return UAirship.push().userPushNotificationsEnabled;
 	}
 
 	public resetBadgeCount(): void {
-		UAirship.resetBadge();
+		UAirship.push().resetBadge();
 	}
 
-	public notificationOptOut() {
-		return new Promise((resolve, reject) => {
-			UAirship.push().userPushNotificationsEnabled = false;
-			resolve(UAirship.push().userPushNotificationsEnabled);
-		});
+	public notificationOptOut(): Promise<boolean> {
+		return this.setOptIn(false);
 	}
 
-	public disablePush(): void {
+	public unRegisterUser(): void {
 		UAirship.namedUser().identifier = null;
 	}
 }

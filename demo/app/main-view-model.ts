@@ -11,10 +11,12 @@ export class HelloWorldModel extends Observable {
   }
 
   public registerClicked() {
-    NsUrbanairship.getInstance().enablePush("MyTestNameUserID3");
+    NsUrbanairship.getInstance().registerUser("MyTestNameUserID3");
+    NsUrbanairship.getInstance().notificationOptIn();
   }
 
   public unregisterClicked() {
-    NsUrbanairship.getInstance().disablePush();
+    NsUrbanairship.getInstance().unRegisterUser();
+    NsUrbanairship.getInstance().notificationOptOut();
   }
 }

@@ -1,11 +1,11 @@
-import { UrbanAirshipSettings } from './ns-urbanairship.common';
+import { UrbanAirshipSettings, CommonUrbanAirship } from './ns-urbanairship.common';
 import app = require("application");
 
 declare const urbanairship: any;
 declare const UAirship: any;
 declare const com: any;
 
-export class NsUrbanairship {
+export class NsUrbanairship implements CommonUrbanAirship {
 
 	private static instance: NsUrbanairship = new NsUrbanairship();
 
@@ -33,31 +33,30 @@ export class NsUrbanairship {
 		com.urbanairship.UAirship.takeOff(app.android.context, options);
 	}
 
-	public enablePush(userId: string): Promise<boolean> {
-		return new Promise((resolve, reject) => {
-			UAirship.namedUser().identifier = userId;
-			UAirship.push().userPushNotificationsEnabled = true;
-			resolve(UAirship.push().userPushNotificationsEnabled);
-		});
+	public enablePush(userId: String): void {
+		com.urbanairship.UAirship.shared().getNamedUser().setId(userId);
+		com.urbanairship.UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
+	}
+
+	public registerUser(userId: string): Promise<boolean> {
+		com.urbanairship.UAirship.shared().getNamedUser().setId(userId);
+	}
+
+	public notificationOptIn(): void {
 	}
 
 	public isEnabled(): boolean {
-		return UAirship.userPushNotificationsEnabled();
 	}
 
 	public resetBadgeCount(): void {
-		UAirship.resetBadge();
 	}
 
-	public notificationOptOut() {
-		return new Promise((resolve, reject) => {
-			UAirship.push().userPushNotificationsEnabled = false;
-			resolve(UAirship.push().userPushNotificationsEnabled);
-		});
+	public notificationOptOut(): Promise<boolean> {
+
 	}
 
-	public disablePush(): void {
-		UAirship.namedUser().identifier = null;
+	public unRegisterUser(): void {
+
 	}
 
 }
