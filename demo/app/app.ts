@@ -9,7 +9,7 @@ application.on(application.launchEvent, function (args) {
 		detectProvisioningMode: false,
 		inProduction: false,
 		productionAppKey: "production key here",
-		productionAppSecret: "production secret here",
+		productionAppSecret: "production secret here"
 	});
 });
 

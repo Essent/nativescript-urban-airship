@@ -31,12 +31,20 @@ export class NsUrbanairship extends Common {
 		UAirship.push().notificationOptions = (UANotificationOptionAlert | UANotificationOptionBadge | UANotificationOptionSound);
 	}
 
-	public enablePush(userId: string): void {
-		UAirship.namedUser().identifier = userId;
-		UAirship.push().userPushNotificationsEnabled = true;
+	public enablePush(userId: string): Promise<boolean> {
+		return new Promise((resolve, reject) => {
+			UAirship.namedUser().identifier = userId;
+			UAirship.push().userPushNotificationsEnabled = true;
+			resolve(UAirship.userPushNotificationsEnabled);
+		});
+	}
+
+	public resetBadgeCount() {
+		UAirship.resetBadge();
 	}
 
 	public disablePush(): void {
+		// open settings to disable push
 		UAirship.namedUser().identifier = null;
 	}
 }
