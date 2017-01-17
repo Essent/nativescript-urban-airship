@@ -79,3 +79,17 @@ export const urbanAirshipSettings: UrbanAirshipSettings = {
     productionAppSecret: "production secret here"
 };
 ```
+
+## Api interface
+```
+static getInstance(): NsUrbanairship;
+startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
+registerUser(userId: string): void;
+unRegisterUser(): void;
+notificationOptIn(): Promise<boolean>;
+notificationOptOut(): Promise<boolean>;
+private setOptIn(optIn);
+isEnabled(): boolean;
+resetBadgeCount(): void;
+```
+
