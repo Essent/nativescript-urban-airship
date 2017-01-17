@@ -2,8 +2,6 @@
 
 Steps to integrate into your main project
 
-In your application main.ts file
-
 ####main.ts
 
 ``` typescript
@@ -11,8 +9,6 @@ import { PushNotification } from './src/shared/push-notification/push-notificati
 
 PushNotification.initialize();
 ```
-
-In your application main.ts file
 
 ####push-notification.ts
 
