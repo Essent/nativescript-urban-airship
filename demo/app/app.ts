@@ -1,5 +1,5 @@
 ﻿import * as application from 'application';
-import { NsUrbanairship } from 'nativescript-ns-urbanairship';
+import { NsUrbanairship } from 'nativescript-urban-airship';
 
 application.on(application.launchEvent, function (args) {
 	NsUrbanairship.getInstance().startUp({

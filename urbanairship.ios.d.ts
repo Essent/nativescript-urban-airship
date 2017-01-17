@@ -1,4 +1,4 @@
-import { UrbanAirshipSettings, CommonUrbanAirship } from './ns-urbanairship.common';
+import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common';
 export declare class NsUrbanairship implements CommonUrbanAirship {
     private static instance;
     constructor();

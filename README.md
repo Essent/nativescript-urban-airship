@@ -1,0 +1,1 @@
+# NativeScript Urban Airship plugin
