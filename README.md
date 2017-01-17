@@ -4,7 +4,7 @@ Steps to integrate into your main project
 
 In your application main.ts file
 
-> main.ts
+####main.ts
 
 ``` typescript
 
@@ -15,7 +15,7 @@ PushNotification.initialize();
 
 In your application main.ts file
 
-> push-notification.ts
+####push-notification.ts
 
 ``` typescript
 
@@ -39,7 +39,7 @@ export class PushNotification {
 
 In your application urbanAirshipSettings.ts (filename optional)
 
-> urbanAirshipSettings.ts
+####urbanAirshipSettings.ts
 
 ``` typescript
 import { UrbanAirshipSettings } from 'nativescript-urban-airship';
