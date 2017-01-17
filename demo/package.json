@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "nativescript-unit-test-runner": "^0.3.0",
-        "nativescript-urban-airship": "../../nativescript-urban_airship_back",
+        "nativescript-urban-airship": "../../nativescript-urban_airship",
         "tns-core-modules": "^2.3.0"
     },
     "devDependencies": {
