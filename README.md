@@ -31,7 +31,9 @@ export class PushNotification {
         });
 
         on(resumeEvent, (args: ApplicationEventData) => {
-            NsUrbanairship.getInstance().resetBadgeCount();
+            if (application.ios) {
+                NsUrbanairship.getInstance().resetBadgeCount();
+            }
         });
     }
 }
