@@ -1,6 +1,6 @@
 # NativeScript Urban Airship plugin
 
-Steps to integrate
+Steps to integrate into your main project
 
 In your application main.ts file
 > main.ts
@@ -39,37 +39,7 @@ export class PushNotification {
 In your application urbanAirshipSettings.ts (filename optional)
 > urbanAirshipSettings.ts
 ```
-import { UrbanAirshipSettings } from '../../../config/_config';
-
-export const urbanAirshipSettings: UrbanAirshipSettings = {
-    developmentAppKey: "development key here",
-    developmentAppSecret: "development secret here",
-    gcmSender: "optional gcmSender",
-    detectProvisioningMode: false,
-    inProduction: false,
-    productionAppKey: "production key here",
-    productionAppSecret: "production secret here"
-};
-```
-
-In your application urbanAirshipSettings.ts
-> urbanAirshipSettings.ts
-```
-Optional typings host in your project config
-
-// interface for your settings object
-export interface UrbanAirshipSettings {
-    detectProvisioningMode: boolean;
-    inProduction: boolean;
-    developmentAppKey: string;
-    developmentAppSecret: string;
-    productionAppKey: string;
-    productionAppSecret: string;
-    gcmSender: string;
-}
-
-// implementation of your settings object
-export const urbanAirshipSettings: UrbanAirshipSettings = {
+export const urbanAirshipSettings = {
     developmentAppKey: "development key here",
     developmentAppSecret: "development secret here",
     gcmSender: "optional gcmSender",

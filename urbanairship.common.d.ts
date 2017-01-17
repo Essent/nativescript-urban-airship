@@ -5,7 +5,7 @@ export interface UrbanAirshipSettings {
     developmentAppSecret: string;
     productionAppKey: string;
     productionAppSecret: string;
-    gcmSender: string;
+    gcmSender?: string;
 }
 export interface CommonUrbanAirship {
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
