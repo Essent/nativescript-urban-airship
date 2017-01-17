@@ -4,7 +4,8 @@ Steps to integrate into your main project
 
 In your application main.ts file
 > main.ts
-```
+```typescript
+
 // import your push notification bootstrapping
 import { PushNotification } from './src/shared/push-notification/push-notification';
 
@@ -17,7 +18,8 @@ PushNotification.initialize();
 
 In your application main.ts file
 > push-notification.ts
-```
+``` typescript
+
 // import NativeScript hooks
 import { ApplicationEventData, on, launchEvent, resumeEvent } from 'application';
 import { NsUrbanairship } from 'nativescript-urban-airship';
@@ -38,7 +40,8 @@ export class PushNotification {
 
 In your application urbanAirshipSettings.ts (filename optional)
 > urbanAirshipSettings.ts
-```
+
+``` typescript
 import { UrbanAirshipSettings } from 'nativescript-urban-airship';
 
 export const urbanAirshipSettings: UrbanAirshipSettings = {
@@ -50,4 +53,21 @@ export const urbanAirshipSettings: UrbanAirshipSettings = {
     productionAppKey: "production key here",
     productionAppSecret: "production secret here"
 };
+```
+
+## Interface
+``` typescript
+export declare class NsUrbanairship implements CommonUrbanAirship {
+    private static instance;
+    constructor();
+    static getInstance(): NsUrbanairship;
+    startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
+    registerUser(userId: string): void;
+    unRegisterUser(): void;
+    notificationOptIn(): Promise<boolean>;
+    notificationOptOut(): Promise<boolean>;
+    private setOptIn(optIn);
+    isEnabled(): boolean;
+    resetBadgeCount(): void;
+}
 ```
