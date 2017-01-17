@@ -59,5 +59,4 @@ export class NsUrbanairship implements CommonUrbanAirship {
 	public isEnabled(): boolean {
 		return com.urbanairship.UAirship.shared().getPushManager().isPushEnabled();
 	}
-
 }

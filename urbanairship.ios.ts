@@ -62,5 +62,4 @@ export class NsUrbanairship implements CommonUrbanAirship {
 	public resetBadgeCount(): void {
 		UAirship.push().resetBadge();
 	}
-
 }
