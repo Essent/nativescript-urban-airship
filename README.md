@@ -7,10 +7,9 @@ In your application main.ts file
 ####main.ts
 
 ``` typescript
-
 import { PushNotification } from './src/shared/push-notification/push-notification';
-PushNotification.initialize();
 
+PushNotification.initialize();
 ```
 
 In your application main.ts file
@@ -18,7 +17,6 @@ In your application main.ts file
 ####push-notification.ts
 
 ``` typescript
-
 // import NativeScript hooks
 import { ApplicationEventData, on, launchEvent, resumeEvent } from 'application';
 import { NsUrbanairship } from 'nativescript-urban-airship';
@@ -57,20 +55,22 @@ export const urbanAirshipSettings: UrbanAirshipSettings = {
 };
 ```
 
-## Interface
+## API
 
 ``` typescript
-export declare class NsUrbanairship implements CommonUrbanAirship {
-    private static instance;
-    constructor();
-    static getInstance(): NsUrbanairship;
+export interface CommonUrbanAirship {
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
     registerUser(userId: string): void;
-    unRegisterUser(): void;
     notificationOptIn(): Promise<boolean>;
-    notificationOptOut(): Promise<boolean>;
-    private setOptIn(optIn);
     isEnabled(): boolean;
-    resetBadgeCount(): void;
+    notificationOptOut(): Promise<boolean>;
+    unRegisterUser(): void;
+    resetBadgeCount?(): void; 
 }
+```
+
+## Usage Example
+``` typescript
+NsUrbanairship.getInstance().isEnabled(); // return a boolean if the user has registered for notifications
+NsUrbanairship.getInstance().unRegisterUser(); // un-registers the user from receiving notifications
 ```
