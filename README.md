@@ -3,21 +3,18 @@
 Steps to integrate into your main project
 
 In your application main.ts file
+
 > main.ts
 
-```typescript
+``` typescript
 
-// import your push notification bootstrapping
 import { PushNotification } from './src/shared/push-notification/push-notification';
-
-/**
- * PushNotifications initialization
- */
 PushNotification.initialize();
 
 ```
 
 In your application main.ts file
+
 > push-notification.ts
 
 ``` typescript
@@ -41,6 +38,7 @@ export class PushNotification {
 ```
 
 In your application urbanAirshipSettings.ts (filename optional)
+
 > urbanAirshipSettings.ts
 
 ``` typescript
