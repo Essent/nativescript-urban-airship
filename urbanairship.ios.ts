@@ -1,4 +1,4 @@
-import { UrbanAirshipSettings, CommonUrbanAirship } from './ns-urbanairship.common';
+import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common';
 
 declare const UAConfig: any;
 declare const UAirship: any;
@@ -12,7 +12,7 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
 	constructor() {
 		if (NsUrbanairship.instance) {
-			throw new Error("Error: Instantiation failed: Use NsUrbanairship.getInstance() instead of new.");
+			throw new Error("Error: Instance failed: Use NsUrbanairship.getInstance() instead of new.");
 		}
 		NsUrbanairship.instance = this;
 	}
@@ -36,8 +36,16 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		UAirship.namedUser().identifier = userId;
 	}
 
+	public unRegisterUser(): void {
+		UAirship.namedUser().identifier = null;
+	}
+
 	public notificationOptIn(): Promise<boolean> {
 		return this.setOptIn(true);
+	}
+
+	public notificationOptOut(): Promise<boolean> {
+		return this.setOptIn(false);
 	}
 
 	private setOptIn(optIn: boolean): Promise<boolean> {
@@ -55,11 +63,4 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		UAirship.push().resetBadge();
 	}
 
-	public notificationOptOut(): Promise<boolean> {
-		return this.setOptIn(false);
-	}
-
-	public unRegisterUser(): void {
-		UAirship.namedUser().identifier = null;
-	}
 }

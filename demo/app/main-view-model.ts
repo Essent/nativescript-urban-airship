@@ -1,5 +1,5 @@
 import { Observable } from 'data/observable';
-import { NsUrbanairship } from 'nativescript-ns-urbanairship';
+import { NsUrbanairship } from 'nativescript-urban-airship';
 
 export class HelloWorldModel extends Observable {
   public message: string;

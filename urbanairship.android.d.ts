@@ -1,14 +1,14 @@
-import { UrbanAirshipSettings, CommonUrbanAirship } from './ns-urbanairship.common';
+import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common';
 export declare class NsUrbanairship implements CommonUrbanAirship {
     private static instance;
     constructor();
     static getInstance(): NsUrbanairship;
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
-    enablePush(userId: String): void;
-    registerUser(userId: string): Promise<boolean>;
-    notificationOptIn(): void;
+    registerUser(userId: string): void;
+    unRegisterUser(): void;
+    notificationOptIn(): Promise<boolean>;
+    notificationOptOut(): Promise<boolean>;
+    private setOptIn(optIn);
     isEnabled(): boolean;
     resetBadgeCount(): void;
-    notificationOptOut(): Promise<boolean>;
-    unRegisterUser(): void;
 }

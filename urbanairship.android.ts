@@ -1,4 +1,4 @@
-import { UrbanAirshipSettings, CommonUrbanAirship } from './ns-urbanairship.common';
+import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common';
 import app = require("application");
 
 declare const urbanairship: any;
@@ -11,7 +11,7 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
 	constructor() {
 		if (NsUrbanairship.instance) {
-			throw new Error("Error: Instantiation failed: Use NsUrbanairship.getInstance() instead of new.");
+			throw new Error("Error: Instance failed: Use NsUrbanairship.getInstance() instead of new.");
 		}
 		NsUrbanairship.instance = this;
 	}
@@ -33,29 +33,34 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		com.urbanairship.UAirship.takeOff(app.android.context, options);
 	}
 
-	public enablePush(userId: String): void {
+	public registerUser(userId: string): void {
 		com.urbanairship.UAirship.shared().getNamedUser().setId(userId);
-		com.urbanairship.UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
-	}
-
-	public registerUser(userId: string): Promise<boolean> {
-		com.urbanairship.UAirship.shared().getNamedUser().setId(userId);
-	}
-
-	public notificationOptIn(): void {
-	}
-
-	public isEnabled(): boolean {
-	}
-
-	public resetBadgeCount(): void {
-	}
-
-	public notificationOptOut(): Promise<boolean> {
-
 	}
 
 	public unRegisterUser(): void {
+		com.urbanairship.UAirship.shared().getNamedUser().setId(null);
+	}
+
+	public notificationOptIn(): Promise<boolean> {
+		return this.setOptIn(true);
+	}
+
+	public notificationOptOut(): Promise<boolean> {
+		return this.setOptIn(false);
+	}
+
+	private setOptIn(optIn: boolean): Promise<boolean> {
+		return new Promise((resolve) => {
+			com.urbanairship.UAirship.shared().getPushManager().setUserNotificationsEnabled(optIn);
+			resolve(this.isEnabled());
+		});
+	}
+
+	public isEnabled(): boolean {
+		return com.urbanairship.UAirship.shared().getPushManager().isPushEnabled();
+	}
+
+	public resetBadgeCount(): void {
 
 	}
 

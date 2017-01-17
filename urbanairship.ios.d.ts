@@ -5,10 +5,10 @@ export declare class NsUrbanairship implements CommonUrbanAirship {
     static getInstance(): NsUrbanairship;
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
     registerUser(userId: string): void;
+    unRegisterUser(): void;
     notificationOptIn(): Promise<boolean>;
+    notificationOptOut(): Promise<boolean>;
     private setOptIn(optIn);
     isEnabled(): boolean;
     resetBadgeCount(): void;
-    notificationOptOut(): Promise<boolean>;
-    unRegisterUser(): void;
 }
