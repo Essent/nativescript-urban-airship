@@ -39,7 +39,9 @@ export class PushNotification {
 In your application urbanAirshipSettings.ts (filename optional)
 > urbanAirshipSettings.ts
 ```
-export const urbanAirshipSettings = {
+import { UrbanAirshipSettings } from 'nativescript-urban-airship';
+
+export const urbanAirshipSettings: UrbanAirshipSettings = {
     developmentAppKey: "development key here",
     developmentAppSecret: "development secret here",
     gcmSender: "optional gcmSender",
