@@ -4,6 +4,7 @@ Steps to integrate into your main project
 
 In your application main.ts file
 > main.ts
+
 ```typescript
 
 // import your push notification bootstrapping
@@ -18,6 +19,7 @@ PushNotification.initialize();
 
 In your application main.ts file
 > push-notification.ts
+
 ``` typescript
 
 // import NativeScript hooks
@@ -56,6 +58,7 @@ export const urbanAirshipSettings: UrbanAirshipSettings = {
 ```
 
 ## Interface
+
 ``` typescript
 export declare class NsUrbanairship implements CommonUrbanAirship {
     private static instance;
