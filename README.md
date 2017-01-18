@@ -58,7 +58,7 @@ export interface CommonUrbanAirship {
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
     registerUser(userId: string): void;
     notificationOptIn(): Promise<boolean>;
-    isEnabled(): boolean;
+    isOptIn(): boolean;
     notificationOptOut(): Promise<boolean>;
     unRegisterUser(): void;
     resetBadgeCount?(): void; 
@@ -67,6 +67,6 @@ export interface CommonUrbanAirship {
 
 ## Usage Example
 ``` typescript
-NsUrbanairship.getInstance().isEnabled(); // return a boolean if the user has registered for notifications
+NsUrbanairship.getInstance().isOptIn(); // return a boolean if the user has registered for notifications
 NsUrbanairship.getInstance().unRegisterUser(); // un-registers the user from receiving notifications
 ```
