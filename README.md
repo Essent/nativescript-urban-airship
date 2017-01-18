@@ -2,6 +2,12 @@
 
 Steps to integrate into your main project
 
+Make sure you have the NativeScript cli installed.
+
+```
+tns plugin add nativescript-urban-airship
+```
+
 ####main.ts
 
 ``` typescript

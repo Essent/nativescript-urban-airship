@@ -1,7 +1,7 @@
 {
     "name": "nativescript-urban-airship",
     "version": "1.1.0",
-    "description": "Your awesome NativeScript plugin.",
+    "description": "Urban Airship plugin for NativeScript.",
     "main": "urbanairship",
     "typings": "index.d.ts",
     "nativescript": {
@@ -11,6 +11,7 @@
         }
     },
     "scripts": {
+        "prepublish": "npm run build",
         "build": "tsc",
         "demo.ios": "npm run preparedemo && cd demo && tns emulate ios --log trace",
         "demo.ios.device": "npm run preparedemo && cd demo && tns run ios",
@@ -34,7 +35,7 @@
     ],
     "author": {
         "name": "Essent",
-        "email": "youremail@yourdomain.com"
+        "email": "oscar.lodriguez@essent.nl"
     },
     "bugs": {
         "url": "https://github.com/Essent/nativescript-urban-airship.git/issues"
