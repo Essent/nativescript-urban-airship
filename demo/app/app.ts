@@ -3,9 +3,9 @@ import { NsUrbanairship } from 'nativescript-urban-airship';
 
 application.on(application.launchEvent, args => {
 	NsUrbanairship.getInstance().startUp({
-		developmentAppKey: "G0mIxntETJKumFTCWGfaNQ",
-		developmentAppSecret: "p0EMVN6zSmqSf5uxa1oP-w",
-		gcmSender: "758734661063",
+		developmentAppKey: "your dev key here",
+		developmentAppSecret: "your dev secret",
+		gcmSender: "Your gcmSender",
 		detectProvisioningMode: false,
 		inProduction: false,
 		productionAppKey: "production key here",
