@@ -12,7 +12,7 @@ export interface CommonUrbanAirship {
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
     registerUser(userId: string): void;
     notificationOptIn(): Promise<boolean>;
-    isEnabled(): boolean;
+    isOptIn(): boolean;
     notificationOptOut(): Promise<boolean>;
     unRegisterUser(): void;
     resetBadgeCount?(): void;

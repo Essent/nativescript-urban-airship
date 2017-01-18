@@ -13,10 +13,4 @@ application.on(application.launchEvent, args => {
 	});
 });
 
-application.on(application.resumeEvent, args => {
-	if (application.ios) {
-		NsUrbanairship.getInstance().resetBadgeCount();
-	}
-});
-
 application.start({ moduleName: "main-page" });

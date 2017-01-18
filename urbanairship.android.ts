@@ -52,11 +52,14 @@ export class NsUrbanairship implements CommonUrbanAirship {
 	private setOptIn(optIn: boolean): Promise<boolean> {
 		return new Promise((resolve) => {
 			com.urbanairship.UAirship.shared().getPushManager().setUserNotificationsEnabled(optIn);
-			resolve(this.isEnabled());
+			resolve(this.isOptIn());
 		});
 	}
 
-	public isEnabled(): boolean {
+	public isOptIn(): boolean {
 		return com.urbanairship.UAirship.shared().getPushManager().isPushEnabled();
 	}
+
+	// support only for ios
+	public resetBadgeCount(): void { }
 }

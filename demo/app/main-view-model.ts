@@ -11,12 +11,41 @@ export class HelloWorldModel extends Observable {
   }
 
   public registerClicked() {
-    NsUrbanairship.getInstance().registerUser("MyTestNameUserID3");
+    NsUrbanairship.getInstance().registerUser("MyTestNameUserID10");
+  }
+  
+  public registerClickedAnotherUser() {
+    NsUrbanairship.getInstance().registerUser("MyTestNameUserID11");
+  }
+
+  public registerClickedAnotherUser13() {
+    NsUrbanairship.getInstance().registerUser("MyTestNameUserID13");
+  }
+
+  public registerClickedAnotherUser14() {
+    NsUrbanairship.getInstance().registerUser("MyTestNameUserID14");
+  }
+
+  public optIn() {
     NsUrbanairship.getInstance().notificationOptIn();
+  }
+
+  public optOut() {
+    NsUrbanairship.getInstance().notificationOptOut();
   }
 
   public unregisterClicked() {
     NsUrbanairship.getInstance().unRegisterUser();
-    NsUrbanairship.getInstance().notificationOptOut();
+    alert('user will no longer receive notifications');
+  }
+
+  public notificationStatus () {
+    const status = NsUrbanairship.getInstance().isEnabled();
+    alert('user has opt in: ' + status);
+  }
+
+  public resetBadgeCount() {
+      NsUrbanairship.getInstance().resetBadgeCount();
+      alert('Badge is reset');
   }
 }

@@ -9,6 +9,6 @@ export declare class NsUrbanairship implements CommonUrbanAirship {
     notificationOptIn(): Promise<boolean>;
     notificationOptOut(): Promise<boolean>;
     private setOptIn(optIn);
-    isEnabled(): boolean;
+    isOptIn(): boolean;
     resetBadgeCount(): void;
 }

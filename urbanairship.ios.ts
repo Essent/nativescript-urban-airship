@@ -51,11 +51,11 @@ export class NsUrbanairship implements CommonUrbanAirship {
 	private setOptIn(optIn: boolean): Promise<boolean> {
 		return new Promise((resolve) => {
 			UAirship.push().userPushNotificationsEnabled = optIn;
-			resolve(this.isEnabled());
+			resolve(this.isOptIn());
 		});
 	}
 
-	public isEnabled(): boolean {
+	public isOptIn(): boolean {
 		return UAirship.push().userPushNotificationsEnabled;
 	}
 
