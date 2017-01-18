@@ -2,6 +2,10 @@
 
 Steps to integrate into your main project
 
+```
+npm install nativescript-urban-airship --save
+```
+
 ####main.ts
 
 ``` typescript

@@ -1,6 +1,6 @@
 {
     "name": "nativescript-urban-airship",
-    "version": "1.1.0",
+    "version": "1.0.0",
     "description": "Your awesome NativeScript plugin.",
     "main": "urbanairship",
     "typings": "index.d.ts",
@@ -11,6 +11,7 @@
         }
     },
     "scripts": {
+        "prepublish": "npm run setup",
         "build": "tsc",
         "demo.ios": "npm run preparedemo && cd demo && tns emulate ios --log trace",
         "demo.ios.device": "npm run preparedemo && cd demo && tns run ios",
