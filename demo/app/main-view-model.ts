@@ -13,7 +13,7 @@ export class HelloWorldModel extends Observable {
   public registerClicked() {
     NsUrbanairship.getInstance().registerUser("MyTestNameUserID10");
   }
-  
+
   public registerClickedAnotherUser() {
     NsUrbanairship.getInstance().registerUser("MyTestNameUserID11");
   }
@@ -40,7 +40,7 @@ export class HelloWorldModel extends Observable {
   }
 
   public notificationStatus () {
-    const status = NsUrbanairship.getInstance().isEnabled();
+    const status = NsUrbanairship.getInstance().isOptIn();
     alert('user has opt in: ' + status);
   }
 
