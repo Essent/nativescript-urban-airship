@@ -1,5 +1,9 @@
 # NativeScript Urban Airship plugin
 
+[![npm version](https://img.shields.io/npm/v/nativescript-urban-airship.svg?style=flat-square)](https://www.npmjs.com/package/nativescript-urban-airship)
+[![Dependency Status](https://img.shields.io/david/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship)
+[![devDependency Status](https://img.shields.io/david/dev/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship#info=devDependencies)
+
 Steps to integrate into your main project
 
 Make sure you have the NativeScript cli installed.
@@ -67,7 +71,7 @@ export interface CommonUrbanAirship {
     isOptIn(): boolean;
     notificationOptOut(): Promise<boolean>;
     unRegisterUser(): void;
-    resetBadgeCount?(): void; 
+    resetBadgeCount?(): void;
 }
 ```
 
