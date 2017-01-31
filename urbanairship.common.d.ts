@@ -7,11 +7,13 @@ export interface UrbanAirshipSettings {
     productionAppSecret: string;
     gcmSender?: string;
 }
+
 export interface CommonUrbanAirship {
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
     registerUser(userId: string): void;
     notificationOptIn(): Promise<boolean>;
     isOptIn(): boolean;
+    getChannelID(): string;
     notificationOptOut(): Promise<boolean>;
     unRegisterUser(): void;
     resetBadgeCount(): void;
