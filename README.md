@@ -12,15 +12,15 @@ Make sure you have the NativeScript cli installed.
 tns plugin add nativescript-urban-airship
 ```
 
-####main.ts
+#### main.ts
 
 ``` typescript
-import { PushNotification } from './src/shared/push-notification/push-notification';
+import { PushNotification } from './push-notification';
 
 PushNotification.initialize();
 ```
 
-####push-notification.ts
+#### push-notification.ts
 
 ``` typescript
 // import NativeScript hooks
@@ -45,7 +45,7 @@ export class PushNotification {
 
 In your application urbanAirshipSettings.ts (filename optional)
 
-####urbanAirshipSettings.ts
+#### urbanAirshipSettings.ts
 
 ``` typescript
 import { UrbanAirshipSettings } from 'nativescript-urban-airship';
@@ -69,9 +69,10 @@ export interface CommonUrbanAirship {
     registerUser(userId: string): void;
     notificationOptIn(): Promise<boolean>;
     isOptIn(): boolean;
+    getChannelID(): string;
     notificationOptOut(): Promise<boolean>;
     unRegisterUser(): void;
-    resetBadgeCount?(): void;
+    resetBadgeCount(): void;
 }
 ```
 

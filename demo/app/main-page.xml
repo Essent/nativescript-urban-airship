@@ -1,21 +1,24 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded">
-  <StackLayout>
-    
-    <Label text="{{ message }}" class="message" textWrap="true"/>
-    <StackLayout class="test-block">
-      <Button text="Register this user MyTestNameUserID10" tap="{{ registerClicked }}"></Button>
-      <Button text="Register this user MyTestNameUserID11" tap="{{ registerClickedAnotherUser }}"></Button>
-      <Button text="Register this user MyTestNameUserID13" tap="{{ registerClickedAnotherUser13 }}"></Button>
-      <Button text="Register this user MyTestNameUserID14" tap="{{ registerClickedAnotherUser14 }}"></Button>
-      <Button text="Unregister user" tap="{{ unregisterClicked }}"></Button>
+  <ScrollView>
+    <StackLayout>
+      <Label text="{{ message }}" class="message" textWrap="true"/>
+
+      <StackLayout class="test-block">
+        <Button text="Register this user MyTestNameUserID10" tap="{{ registerClicked }}"></Button>
+        <Button text="Register this user MyTestNameUserID11" tap="{{ registerClickedAnotherUser }}"></Button>
+        <Button text="Register this user MyTestNameUserID13" tap="{{ registerClickedAnotherUser13 }}"></Button>
+        <Button text="Register this user MyTestNameUserID14" tap="{{ registerClickedAnotherUser14 }}"></Button>
+        <Button text="Unregister user" tap="{{ unregisterClicked }}"></Button>
+      </StackLayout>
+
+      <Button text="Opt in" tap="{{ optIn }}"></Button>
+      <Button text="Opt out" tap="{{ optOut }}"></Button>
+
+      <Button text="Check user opt in status" tap="{{ notificationStatus }}"></Button>
+
+      <Button text="Current channelID" tap="{{ channelID }}"></Button>
+
+      <Button text="Reset Notification badge (ios only)" tap="{{ resetBadgeCount }}"></Button>
     </StackLayout>
-
-    <Button text="Opt in" tap="{{ optIn }}"></Button>
-    <Button text="Opt out" tap="{{ optOut }}"></Button>
-
-    <Button text="Check user opt in status" tap="{{ notificationStatus }}"></Button>
-
-    <Button text="Reset Notification badge (ios only)" tap="{{ resetBadgeCount }}"></Button>
-
-  </StackLayout>
+  </ScrollView>
 </Page>

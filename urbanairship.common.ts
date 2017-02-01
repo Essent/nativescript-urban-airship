@@ -13,6 +13,7 @@ export interface CommonUrbanAirship {
     registerUser(userId: string): void;
     notificationOptIn(): Promise<boolean>;
     isOptIn(): boolean;
+    getChannelID(): string;
     notificationOptOut(): Promise<boolean>;
     unRegisterUser(): void;
     resetBadgeCount(): void;
