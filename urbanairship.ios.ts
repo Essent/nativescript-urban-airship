@@ -59,6 +59,10 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		return UAirship.push().userPushNotificationsEnabled;
 	}
 
+	public getChannelID(): string {
+		return UAirship.push().channelID;
+	}
+
 	public resetBadgeCount(): void {
 		UAirship.push().resetBadge();
 	}

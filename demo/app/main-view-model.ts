@@ -1,4 +1,5 @@
 import { Observable } from 'data/observable';
+import * as scrollViewModule from 'ui/scroll-view';
 import { NsUrbanairship } from 'nativescript-urban-airship';
 
 export class HelloWorldModel extends Observable {
@@ -11,19 +12,19 @@ export class HelloWorldModel extends Observable {
   }
 
   public registerClicked() {
-    NsUrbanairship.getInstance().registerUser("MyTestNameUserID10");
+    NsUrbanairship.getInstance().registerUser('MyTestNameUserID10');
   }
 
   public registerClickedAnotherUser() {
-    NsUrbanairship.getInstance().registerUser("MyTestNameUserID11");
+    NsUrbanairship.getInstance().registerUser('MyTestNameUserID11');
   }
 
   public registerClickedAnotherUser13() {
-    NsUrbanairship.getInstance().registerUser("MyTestNameUserID13");
+    NsUrbanairship.getInstance().registerUser('MyTestNameUserID13');
   }
 
   public registerClickedAnotherUser14() {
-    NsUrbanairship.getInstance().registerUser("MyTestNameUserID14");
+    NsUrbanairship.getInstance().registerUser('MyTestNameUserID14');
   }
 
   public optIn() {
@@ -39,13 +40,18 @@ export class HelloWorldModel extends Observable {
     alert('user will no longer receive notifications');
   }
 
-  public notificationStatus () {
+  public notificationStatus() {
     const status = NsUrbanairship.getInstance().isOptIn();
-    alert('user has opt in: ' + status);
+    alert(`user has opt in: ${status}`);
   }
 
   public resetBadgeCount() {
-      NsUrbanairship.getInstance().resetBadgeCount();
-      alert('Badge is reset');
+    NsUrbanairship.getInstance().resetBadgeCount();
+    alert('Badge is reset');
+  }
+
+  public channelID() {
+    const channelID = NsUrbanairship.getInstance().getChannelID();
+    alert(`the current channelID: ${channelID}`);
   }
 }
