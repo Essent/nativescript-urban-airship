@@ -2,9 +2,9 @@
 import { isIOS } from 'platform';
 import { NsUrbanairship } from 'nativescript-urban-airship';
 
-// startup calls takeoff during launchevent on iOS 
-application.on(application.launchEvent, args => {
-	if (isIOS) {
+// startup calls takeoff during launchevent for iOS 
+if (isIOS) {
+	application.on(application.launchEvent, args => {
 		NsUrbanairship.getInstance().startUp({
 			developmentAppKey: "your dev key here",
 			developmentAppSecret: "your dev secret",
@@ -14,7 +14,6 @@ application.on(application.launchEvent, args => {
 			productionAppKey: "production key here",
 			productionAppSecret: "production secret here",
 		});
-	}
-});
-
+	});
+}
 application.start({ moduleName: "main-page" });
