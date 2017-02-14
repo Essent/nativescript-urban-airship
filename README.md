@@ -99,7 +99,7 @@ import { urbanAirshipSettings } from 'your config file location';
 declare const com: any;
 
 @JavaProxy('com.tns.YourApplicationName')
-class EnergyDirectApplication extends android.app.Application {
+class YourApplicationName extends android.app.Application {
     public onCreate(): void {
         super.onCreate();
 
