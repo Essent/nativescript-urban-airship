@@ -22,12 +22,12 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
 	public startUp(urbanAirshipSettings: UrbanAirshipSettings): void {
 		const options = new com.urbanairship.AirshipConfigOptions.Builder()
-			.setDevelopmentAppKey('your dev key here')
-			.setDevelopmentAppSecret('your dev secret')
-			.setProductionAppKey('production key here')
-			.setProductionAppSecret('production secret here')
-			.setInProduction(false)
-			.setGcmSender('Your gcmSender')
+			.setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
+			.setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
+			.setProductionAppKey(urbanAirshipSettings.productionAppKey)
+			.setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
+			.setInProduction(urbanAirshipSettings.inProduction)
+			.setGcmSender(urbanAirshipSettings.gcmSender) // FCM/GCM sender ID
 			.build();
 
 		com.urbanairship.UAirship.takeOff(app.android.context, options);
@@ -66,5 +66,5 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
 	// support only for ios
 	public resetBadgeCount(): void { }
-	
+
 }
