@@ -81,3 +81,43 @@ export interface CommonUrbanAirship {
 NsUrbanairship.getInstance().isOptIn(); // return a boolean if the user has registered for notifications
 NsUrbanairship.getInstance().unRegisterUser(); // un-registers the user from receiving notifications
 ```
+
+## PushNotification registration for Android
+Registering the Urban Airship's takeoff at the correct moment is crucial for Android. That is why the implementation differs a bit compared to iOS. 
+Android in particular requires the takeoff to be called on the onCreate lifeCycle of the application for it to register the Broadcast receivers in time. 
+
+Extend your application using the NativeScript documentation
+### This is appliciable for NativeScript versions 2.3 - 2.5
+
+> application.android.ts
+
+```
+import * as application from 'application';
+import { urbanAirshipSettings } from 'your config file location';
+
+// the `JavaProxy` decorator specifies the package and the name for the native *.JAVA file generated.
+declare const com: any;
+
+@JavaProxy('com.tns.YourApplicationName')
+class EnergyDirectApplication extends android.app.Application {
+    public onCreate(): void {
+        super.onCreate();
+
+        /**
+         * Android needs to have this file static
+         * for notifying all receivers in time
+         */
+        const options = new com.urbanairship.AirshipConfigOptions.Builder()
+            .setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
+            .setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
+            .setProductionAppKey(urbanAirshipSettings.productionAppKey)
+            .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
+            .setInProduction(urbanAirshipSettings.inProduction)
+            .setGcmSender(urbanAirshipSettings.gcmSender)
+            .build();
+
+        com.urbanairship.UAirship.takeOff(application.android.context, options);
+    }
+}
+```
+
