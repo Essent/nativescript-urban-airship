@@ -18,8 +18,15 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
 
+	<!-- 
+		Alter your Application name with caution
+		Eventhough, you do need to extend this class to make the takeoff call possible
+		Keep in mind that anything referencing the previous class: com.tns.NativeScriptApplication will no longer work for Android.
+		If you are having issues because you or a 3rd party plugin is referencing the old class directly. 
+		Consider using: application.android.context instead.
+	-->
 	<application
-		android:name="com.tns.NativeScriptApplication"
+		android:name="com.tns.YourApplicationName"
 		android:allowBackup="true"
 		android:icon="@drawable/icon"
 		android:label="@string/app_name"

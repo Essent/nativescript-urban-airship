@@ -20,18 +20,8 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		return NsUrbanairship.instance;
 	}
 
-	public startUp(urbanAirshipSettings: UrbanAirshipSettings): void {
-		let options = new com.urbanairship.AirshipConfigOptions.Builder()
-			.setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
-			.setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
-			.setProductionAppKey(urbanAirshipSettings.productionAppKey)
-			.setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
-			.setInProduction(urbanAirshipSettings.inProduction)
-			.setGcmSender(urbanAirshipSettings.gcmSender) // FCM/GCM sender ID
-			.build();
-
-		com.urbanairship.UAirship.takeOff(app.android.context, options);
-	}
+	// handled in Android's Application OnCreate Event
+	public startUp(urbanAirshipSettings: UrbanAirshipSettings): void { }
 
 	public registerUser(userId: string): void {
 		com.urbanairship.UAirship.shared().getNamedUser().setId(userId);
