@@ -21,7 +21,7 @@ export class NsUrbanairship implements CommonUrbanAirship {
 	}
 
 	public startUp(urbanAirshipSettings: UrbanAirshipSettings): void {
-		let options = new com.urbanairship.AirshipConfigOptions.Builder()
+		const options = new com.urbanairship.AirshipConfigOptions.Builder()
 			.setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
 			.setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
 			.setProductionAppKey(urbanAirshipSettings.productionAppKey)
@@ -66,5 +66,5 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
 	// support only for ios
 	public resetBadgeCount(): void { }
-	
+
 }

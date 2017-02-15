@@ -1,6 +1,6 @@
 {
     "nativescript": {
-        "id": "nl.energiedirect.selfserviceapp",
+        "id": "com.tns.YourApplicationName",
         "tns-ios": {
             "version": "2.4.0"
         },
