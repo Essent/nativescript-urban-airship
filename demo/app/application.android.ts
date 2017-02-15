@@ -1,4 +1,5 @@
 import * as application from 'application';
+import { urbanAirshipSettings } from './urbanAirshipSettings';
 
 declare const com: any;
 
@@ -8,7 +9,7 @@ declare const com: any;
  * Keep in mind that anything referencing the previous class: com.tns.NativeScriptApplication will no longer work for Android.
  * If you are having issues because you or a 3rd party plugin is referencing the old class directly. 
  * In the plugin or code that refer to com.tns.NativeScriptApplication directly, Consider using: application.android.context instead.
- **/ 
+ **/
 @JavaProxy('com.tns.YourApplicationName')
 class YourApplicationName extends android.app.Application {
     public onCreate(): void {
@@ -19,14 +20,14 @@ class YourApplicationName extends android.app.Application {
          * for notifying all receivers in time
          */
         const options = new com.urbanairship.AirshipConfigOptions.Builder()
-            .setDevelopmentAppKey('your dev key here')
-            .setDevelopmentAppSecret('your dev secret')
-            .setProductionAppKey('production key here')
-            .setProductionAppSecret('production secret here')
-            .setInProduction(false)
-            .setGcmSender('Your gcmSender')
+            .setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
+            .setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
+            .setProductionAppKey(urbanAirshipSettings.productionAppKey)
+            .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
+            .setInProduction(urbanAirshipSettings.inProduction)
+            .setGcmSender(urbanAirshipSettings.gcmSender)
             .build();
-        
+
         // call takeoff method in the onCreate method
         com.urbanairship.UAirship.takeOff(application.android.context, options);
     }
