@@ -154,9 +154,3 @@ export interface CommonUrbanAirship {
 NsUrbanairship.getInstance().isOptIn(); // return a boolean if the user has registered for notifications
 NsUrbanairship.getInstance().unRegisterUser(); // un-registers the user from receiving notifications
 ```
-
-## Improvements
-- [ ] align the plugin api names with apis of Urban Airhship SDK 
-- [ ] add the `PushNotification.initialize` to plugin
-- [ ] create native android plugin with custom Application to override `Application.onCreate`
-- [ ] check nativescript 2.5 compat
