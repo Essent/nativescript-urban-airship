@@ -1,19 +1,8 @@
 ﻿import * as application from 'application';
-import { isIOS } from 'platform';
+import { PushNotification } from './push-notification';
 import { NsUrbanairship } from 'nativescript-urban-airship';
 
-// startup calls takeoff during launchevent for iOS 
-if (isIOS) {
-	application.on(application.launchEvent, args => {
-		NsUrbanairship.getInstance().startUp({
-			developmentAppKey: "your dev key here",
-			developmentAppSecret: "your dev secret",
-			gcmSender: "Your gcmSender",
-			detectProvisioningMode: false,
-			inProduction: false,
-			productionAppKey: "production key here",
-			productionAppSecret: "production secret here",
-		});
-	});
-}
+// place your initialize before the start of your application
+PushNotification.initialize();
+
 application.start({ moduleName: "main-page" });
