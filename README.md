@@ -61,7 +61,7 @@ export const urbanAirshipSettings: UrbanAirshipSettings = {
 // import NativeScript hooks
 import { ApplicationEventData, on, launchEvent, resumeEvent, ios } from 'application';
 import { NsUrbanairship } from 'nativescript-urban-airship';
-import { urbanAirshipSettings } from './push-notification-settings';
+import { urbanAirshipSettings } from './urbanAirshipSettings';
 
 export class PushNotification {
     public static initialize(): void {
