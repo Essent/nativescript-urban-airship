@@ -30,8 +30,6 @@ based Urban Airship SDK [8.2.5](https://github.com/urbanairship/android-library/
 ## Setup
 Steps to integrate into your main project
 
-***NOTE tested with nativescript 2.4.0***
-
 ```bash
 tns plugin add nativescript-urban-airship
 ```
