@@ -17,6 +17,8 @@
 - android 2.5.0
 - ios 2.5.0
 
+## Steps to integrate into your main project
+
 ### iOS SDK
 based Urban Airship SDK [8.1.4](https://github.com/urbanairship/ios-library/releases/tag/8.1.4)
 [Urban Airship iOS documentation](http://docs.urbanairship.com/platform/ios.html)
