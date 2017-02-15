@@ -4,6 +4,19 @@
 [![Dependency Status](https://img.shields.io/david/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship)
 [![devDependency Status](https://img.shields.io/david/dev/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship#info=devDependencies)
 
+### Successfully Tested on the following configurations
+> test case
+- tns cli version 2.5.0
+- tns-core-modules 2.4.0
+- android 2.4.1
+- ios 2.4.0
+
+> test case
+- tns cli version 2.5.0
+- tns-core-modules 2.5.0
+- android 2.5.0
+- ios 2.5.0
+
 ### iOS SDK
 based Urban Airship SDK [8.1.4](https://github.com/urbanairship/ios-library/releases/tag/8.1.4)
 [Urban Airship iOS documentation](http://docs.urbanairship.com/platform/ios.html)
