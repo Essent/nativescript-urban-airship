@@ -80,7 +80,7 @@ export class PushNotification {
 }
 ```
 
-> app/main.ts
+> app/app.ts
 
 ``` typescript
 import { PushNotification } from './push-notification';
