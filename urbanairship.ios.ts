@@ -28,6 +28,7 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		config.developmentAppSecret = urbanAirshipSettings.developmentAppSecret;
 		config.productionAppKey = urbanAirshipSettings.productionAppKey;
 		config.productionAppSecret = urbanAirshipSettings.productionAppSecret;
+		config.inProduction = urbanAirshipSettings.inProduction;
 		UAirship.takeOff(config);
 		UAirship.push().notificationOptions = (UANotificationOptionAlert | UANotificationOptionBadge | UANotificationOptionSound);
 	}
