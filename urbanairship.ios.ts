@@ -1,7 +1,6 @@
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common';
 
-declare const UAConfig: any;
-declare const UAirship: any;
+// @TODO see if we can use UANotificationOptions
 declare const UANotificationOptionAlert: any;
 declare const UANotificationOptionBadge: any;
 declare const UANotificationOptionSound: any;
