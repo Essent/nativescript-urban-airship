@@ -1,9 +1,5 @@
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common';
-import app = require("application");
-
-declare const urbanairship: any;
-declare const UAirship: any;
-declare const com: any;
+import * as app from 'application';
 
 export class NsUrbanairship implements CommonUrbanAirship {
 
