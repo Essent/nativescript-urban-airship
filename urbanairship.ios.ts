@@ -63,6 +63,11 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		return UAirship.push().channelID;
 	}
 
+	// support only for android
+	public getRegistrationToken(): string {
+		return "";
+	}
+
 	public resetBadgeCount(): void {
 		UAirship.push().resetBadge();
 	}

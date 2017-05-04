@@ -11,5 +11,6 @@ export declare class NsUrbanairship implements CommonUrbanAirship {
     private setOptIn(optIn);
     isOptIn(): boolean;
     getChannelID(): string;
+    getRegistrationToken(): string;
     resetBadgeCount(): void;
 }

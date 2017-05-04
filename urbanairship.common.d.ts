@@ -16,4 +16,5 @@ export interface CommonUrbanAirship {
     notificationOptOut(): Promise<boolean>;
     unRegisterUser(): void;
     resetBadgeCount(): void;
+    getRegistrationToken(): string;
 }

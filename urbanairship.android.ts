@@ -60,6 +60,10 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		return com.urbanairship.UAirship.shared().getPushManager().getChannelId();
 	}
 
+	public getRegistrationToken(): string {
+		return com.urbanairship.UAirship.shared().getPushManager().getRegistrationToken();
+	}
+
 	// support only for ios
 	public resetBadgeCount(): void { }
 
