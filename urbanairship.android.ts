@@ -66,5 +66,6 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
 	// support only for ios
 	public resetBadgeCount(): void { }
+	public setNotificationDelegate(delegate: any): void { }
 
 }

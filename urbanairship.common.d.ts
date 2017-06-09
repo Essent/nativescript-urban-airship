@@ -10,6 +10,7 @@ export interface UrbanAirshipSettings {
 export interface CommonUrbanAirship {
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
     registerUser(userId: string): void;
+    setNotificationDelegate(delegate: any): void;
     notificationOptIn(): Promise<boolean>;
     isOptIn(): boolean;
     getChannelID(): string;
