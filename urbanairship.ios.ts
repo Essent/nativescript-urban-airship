@@ -63,6 +63,10 @@ export class NsUrbanairship implements CommonUrbanAirship {
 		return UAirship.push().channelID;
 	}
 
+	public setNotificationDelegate(delegate: any): void {
+		UAirship.push().pushNotificationDelegate = delegate;
+	}
+
 	// support only for android
 	public getRegistrationToken(): string {
 		return "";

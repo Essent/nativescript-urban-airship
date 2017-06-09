@@ -13,4 +13,5 @@ export declare class NsUrbanairship implements CommonUrbanAirship {
     getChannelID(): string;
     getRegistrationToken(): string;
     resetBadgeCount(): void;
+    setNotificationDelegate(delegate: any): void;
 }
