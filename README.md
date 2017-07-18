@@ -4,6 +4,16 @@
 [![Dependency Status](https://img.shields.io/david/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship)
 [![devDependency Status](https://img.shields.io/david/dev/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship#info=devDependencies)
 
+## Plugin Setup
+To debug/modify this plugin for development execute the following:
+1. `cd src`
+2. `npm run postclone`
+3. `npm run demo.ios` or `npm run demo.android` to run the demo.
+4. In another command prompt/terminal `npm run plugin.tscwatch` to watch to typescript changes in the plugin and to autmatically apply them in the demo.
+
+Incase you need to clean and fresh start the project run :
+`npm run clean`
+
 ### Successfully Tested on the following configurations
 > test case
 - tns cli version 2.5.0

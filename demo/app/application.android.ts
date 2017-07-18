@@ -1,6 +1,7 @@
-import * as application from 'application';
+import * as application from "tns-core-modules/application";
 import { urbanAirshipSettings } from './urbanAirshipSettings';
 
+declare const android: any;
 declare const com: any;
 
 /**
