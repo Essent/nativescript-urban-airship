@@ -1,5 +1,7 @@
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common';
-import * as app from 'application';
+import * as app from "tns-core-modules/application";
+
+declare const com: any;
 
 export class NsUrbanairship implements CommonUrbanAirship {
 

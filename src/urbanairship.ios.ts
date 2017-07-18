@@ -4,6 +4,9 @@ import { UrbanAirshipSettings, CommonUrbanAirship } from './urbanairship.common'
 declare const UANotificationOptionAlert: any;
 declare const UANotificationOptionBadge: any;
 declare const UANotificationOptionSound: any;
+declare const UAPushNotificationDelegate: any;
+declare const UAConfig: any;
+declare const UAirship: any;
 
 export class NsUrbanairship implements CommonUrbanAirship {
 
