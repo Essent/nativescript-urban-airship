@@ -1,0 +1,34 @@
+//default elements
+android {
+    productFlavors {
+        "nativescript-urban-airship" {
+            dimension "nativescript-urban-airship"
+        }
+    }
+}
+
+dependencies {
+    // Urban Airship SDK (latest sdk version at the point of commiting was 8.7.0)
+     compile 'com.urbanairship.android:urbanairship-sdk:8.6.+'
+     compile 'com.google.android.gms:play-services-gcm:11.0.1'
+
+     // Recommended for in-app messaging
+     compile 'com.android.support:cardview-v7:25.3.1'
+
+     // Recommended for location services
+     compile 'com.google.android.gms:play-services-location:11.0.1'
+}
+
+buildscript {
+    repositories {
+        maven {
+            url  "https://urbanairship.bintray.com/android"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
