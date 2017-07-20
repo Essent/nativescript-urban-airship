@@ -1,4 +1,4 @@
-﻿import * as application from 'application';
+﻿import * as application from 'tns-core-modules/application';
 import { PushNotification } from './push-notification';
 import { NsUrbanairship } from 'nativescript-urban-airship';
 
