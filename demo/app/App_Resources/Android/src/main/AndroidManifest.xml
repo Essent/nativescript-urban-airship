@@ -25,6 +25,10 @@
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme">
 
+		<meta-data
+				android:name="com.urbanairship.autopilot"
+				android:value="com.urbanairship.Autopilot"/>
+
 		<activity
 			android:name="com.tns.NativeScriptActivity"
 			android:label="@string/title_activity_kimera"

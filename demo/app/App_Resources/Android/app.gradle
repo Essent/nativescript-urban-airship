@@ -9,12 +9,8 @@ android {
   defaultConfig {  
     generatedDensities = []
     applicationId = "org.nativescript.demo"
-    multiDexEnabled true
   }  
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
-  }
-  dexOptions {
-    preDexLibraries = false
   }
 } 

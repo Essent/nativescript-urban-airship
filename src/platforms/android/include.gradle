@@ -8,10 +8,11 @@ android {
 }
 
 dependencies {
-    // Urban Airship SDK (latest sdk version at the point of commiting was 8.7.0)
-     compile 'com.urbanairship.android:urbanairship-fcm:9.1.0'
-     compile 'com.google.firebase:firebase-messaging:15.0.0'
-
+    // Urban Airship SDK
+    // @TODO: update sdk to use FCM because Google will drop support for GCM on April 11, 2019
+    compile 'com.urbanairship.android:urbanairship-sdk:9.0.0'
+    compile 'com.google.android.gms:play-services-gcm:11.8.0'
+    compile 'com.google.android.gms:play-services-location:11.8.0'
 }
 
 buildscript {
