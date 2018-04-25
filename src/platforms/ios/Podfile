@@ -1,0 +1,2 @@
+platform :ios, ‘9.0’
+pod 'UrbanAirship-iOS-SDK' , '9.0.5'

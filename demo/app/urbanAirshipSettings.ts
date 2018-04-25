@@ -3,6 +3,7 @@ import { UrbanAirshipSettings } from 'nativescript-urban-airship';
 /**
  * Optional: declare your model where you see fit inside of your application.
  * A good place might be your application configuration file.
+ *
  **/
 export const urbanAirshipSettings: UrbanAirshipSettings = {
     developmentAppKey: "Your Development App Key",

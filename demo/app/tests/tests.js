@@ -1,13 +1,12 @@
-var NsUrbanairship = require("nativescript-ns-urbanairship").NsUrbanairship;
-var nsUrbanairship = new NsUrbanairship();
+var UrbanAirship = require("nativescript-urban-airship").UrbanAirship;
+var urbanAirship = new UrbanAirship();
 
-// TODO replace 'functionname' with an acual function name of your plugin class and run with 'npm test <platform>'
-describe("functionname", function() {
-  it("exists", function() {
-    expect(nsUrbanairship.functionname).toBeDefined();
-  });
+describe("greet function", function() {
+    it("exists", function() {
+        expect(urbanAirship.greet).toBeDefined();
+    });
 
-  it("returns a promise", function() {
-    expect(nsUrbanairship.functionname()).toEqual(jasmine.any(Promise));
-  });
+    it("returns a string", function() {
+        expect(urbanAirship.greet()).toEqual("Hello, NS");
+    });
 });

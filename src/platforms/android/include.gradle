@@ -1,0 +1,29 @@
+//default elements
+android {
+    productFlavors {
+        "nativescript-urban-airship" {
+            dimension "nativescript-urban-airship"
+        }
+    }
+}
+
+dependencies {
+    // Urban Airship SDK (latest sdk version at the point of commiting was 8.7.0)
+     compile 'com.urbanairship.android:urbanairship-fcm:9.1.0'
+     compile 'com.google.firebase:firebase-messaging:15.0.0'
+
+}
+
+buildscript {
+    repositories {
+        maven {
+            url  "https://urbanairship.bintray.com/android"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
