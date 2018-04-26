@@ -7,7 +7,7 @@ This is a plugin to use the [Urban Airship](https://www.urbanairship.com/) SDK (
 Run the following command from the root of your project:
 
 ```console
-$ tns plugin add nativescript-urban-airship
+tns plugin add nativescript-urban-airship
 ```
 
 ### Setup (Android Only)
@@ -19,7 +19,7 @@ Add the following meta-data to the application tag in the AndroidManifest.xml fi
 ```
 
 ## Usage
-In your app folder create a file for your setting:
+In your app folder create a file for your settings:
 
 ```ts
 import { UrbanAirshipSettings } from 'nativescript-urban-airship';
