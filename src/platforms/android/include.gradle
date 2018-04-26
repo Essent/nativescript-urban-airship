@@ -1,0 +1,30 @@
+//default elements
+android {
+    productFlavors {
+        "nativescript-urban-airship" {
+            dimension "nativescript-urban-airship"
+        }
+    }
+}
+
+dependencies {
+    // Urban Airship SDK
+    // @TODO: update sdk to use FCM because Google will drop support for GCM on April 11, 2019
+    compile 'com.urbanairship.android:urbanairship-sdk:9.0.0'
+    compile 'com.google.android.gms:play-services-gcm:11.8.0'
+    compile 'com.google.android.gms:play-services-location:11.8.0'
+}
+
+buildscript {
+    repositories {
+        maven {
+            url  "https://urbanairship.bintray.com/android"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}

@@ -1,44 +1,27 @@
-# NativeScript Urban Airship plugin
+# NativeScript plugin for Urban Airship
+[![npm version](https://badge.fury.io/js/nativescript-urban-airship.svg)](https://www.npmjs.com/package/nativescript-urban-airship)
 
-[![npm version](https://img.shields.io/npm/v/nativescript-urban-airship.svg?style=flat-square)](https://www.npmjs.com/package/nativescript-urban-airship)
-[![Dependency Status](https://img.shields.io/david/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship)
-[![devDependency Status](https://img.shields.io/david/dev/essent/nativescript-urban-airship.svg?style=flat-square)](https://david-dm.org/essent/nativescript-urban-airship#info=devDependencies)
+This is a plugin to use the [Urban Airship](https://www.urbanairship.com/) SDK (Android v9.0.0, iOS v9.0.5) with NativeScript.
 
-### Successfully Tested on the following configurations
-> test case
-- tns cli version 2.5.0
-- tns-core-modules 2.4.0
-- android 2.4.1
-- ios 2.4.0
+## Installation
+Run the following command from the root of your project:
 
-> test case
-- tns cli version 2.5.0
-- tns-core-modules 2.5.0
-- android 2.5.0
-- ios 2.5.0
-
-## Steps to integrate into your main project
-
-### iOS SDK
-based Urban Airship SDK [8.1.4](https://github.com/urbanairship/ios-library/releases/tag/8.1.4)
-[Urban Airship iOS documentation](http://docs.urbanairship.com/platform/ios.html)
-
-### Android SDK
-based Urban Airship SDK [8.2.5](https://github.com/urbanairship/android-library/releases/tag/8.2.5)
-[Urban Airship Android documentation](http://docs.urbanairship.com/platform/android.html)
-
-## Setup
-Steps to integrate into your main project
-
-```bash
+```console
 tns plugin add nativescript-urban-airship
 ```
 
-Create in your app folder a file named `urbanAirshipSettings.ts` (filename optional)
+### Setup (Android Only)
+Add the following meta-data to the application tag in the AndroidManifest.xml file of your app ([example](./demo/app/App_Resources/Android/src/main/AndroidManifest.xml)):
+```xml
+<meta-data
+    android:name="com.urbanairship.autopilot"
+    android:value="com.urbanairship.Autopilot"/>
+```
 
-> app/urbanAirshipSettings.ts
+## Usage
+In your app folder create a file for your settings:
 
-``` typescript
+```ts
 import { UrbanAirshipSettings } from 'nativescript-urban-airship';
 
 export const urbanAirshipSettings: UrbanAirshipSettings = {
@@ -55,116 +38,66 @@ export const urbanAirshipSettings: UrbanAirshipSettings = {
 };
 ```
 
-> app/push-notification.ts
+At the launch of your app call `startUp` with your own settings from the previous step, preferably in your app.ts.
 
-``` typescript
-// import NativeScript hooks
-import { ApplicationEventData, on, launchEvent, resumeEvent, ios } from 'application';
-import { NsUrbanairship } from 'nativescript-urban-airship';
-import { urbanAirshipSettings } from './urbanAirshipSettings';
-
-export class PushNotification {
-    public static initialize(): void {
-        // for android we need to create a custom application to run takeOff during onCreate
-        if (ios) {
-            on(launchEvent, (args: ApplicationEventData) => {
-                NsUrbanairship.getInstance().startUp(urbanAirshipSettings);
-            });
-
-            on(resumeEvent, (args: ApplicationEventData) => {
-                // example for resetting badge on resume
-                NsUrbanairship.getInstance().resetBadgeCount();
-            });
-        }
-    }
-}
+```ts
+NsUrbanairship.getInstance().startUp(urbanAirshipSettings);
 ```
 
-> app/app.ts
+## Optional functions
 
-``` typescript
-import { PushNotification } from './push-notification';
+### Setting Named User Id
+To register a named user id call `registerUser()`.
 
-PushNotification.initialize();
+```ts
+NsUrbanairship.getInstance().registerUser('MY_NEW_USER_ID');
 ```
 
-### PushNotification registration for Android
-Registering the Urban Airship's takeoff at the correct moment is crucial for Android. That is why the implementation differs a bit compared to iOS. 
-Android in particular requires the takeoff to be called on the onCreate lifeCycle of the application for it to register the Broadcast receivers in time. 
+### Removing Named User Id
+To remove a named user id call `unRegisterUser()`.
 
-Extend your application using the [NativeScript documentation](https://docs.nativescript.org/runtimes/android/advanced-topics/extend-application-activity#extending-application)
-
-***This is appliciable for NativeScript versions 2.3 - 2.5***
-
-> app/application.android.ts
-
-```typescript
-import * as application from 'application';
-import { urbanAirshipSettings } from './urbanAirshipSettings';
-
-declare const com: any;
-
-// the `JavaProxy` decorator specifies the package and the name
-@JavaProxy('com.tns.YourApplicationName')
-class YourApplicationName extends android.app.Application {
-    public onCreate(): void {
-        super.onCreate();
-
-        /**
-         * Android needs to have this file static
-         * for notifying all receivers in time
-         */
-        const options = new com.urbanairship.AirshipConfigOptions.Builder()
-            .setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
-            .setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
-            .setProductionAppKey(urbanAirshipSettings.productionAppKey)
-            .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
-            .setInProduction(urbanAirshipSettings.inProduction)
-            .setGcmSender(urbanAirshipSettings.gcmSender)
-            .build();
-
-        // you can add Notification customization like `notificationIcon` here
-        // .setNotificationIcon(android.R.drawable.ic_notification)
-        // .setNotificationAccentColor(android.support.v4.content.ContextCompat(application.android.context, android.R.color.accent))
-
-        com.urbanairship.UAirship.takeOff(application.android.context, options);
-    }
-}
+```ts
+NsUrbanairship.getInstance().unRegisterUser();
 ```
 
-> app/App_Resources/Android/AndroidManifest.xml
+### Enabling User Notifications
+To set user notifications to enabled call `notificationOptIn()`.
 
-```xml
-    <!--
-        com tns folder will contain to the correct javaclass in 2.6.0,
-        keep domain and namespace as com.tns
-    -->
-    <application
-        android:name="com.tns.YourApplicationName"
-        android:allowBackup="true"
-        android:icon="@drawable/icon"
-        android:label="@string/app_name"
-        android:theme="@style/SplashTheme">
+```ts
+NsUrbanairship.getInstance().notificationOptIn();
 ```
 
-## API
+### Disabling User Notifications
+To set user notifications to disabled call `notificationOptOut()`.
 
-``` typescript
-export interface CommonUrbanAirship {
-    startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
-    registerUser(userId: string): void;
-    notificationOptIn(): Promise<boolean>;
-    isOptIn(): boolean;
-    getChannelID(): string;
-    notificationOptOut(): Promise<boolean>;
-    unRegisterUser(): void;
-    resetBadgeCount(): void;
-    getRegistrationToken(): string;
-}
+```ts
+NsUrbanairship.getInstance().notificationOptOut();
 ```
 
-## Usage Example
-``` typescript
-NsUrbanairship.getInstance().isOptIn(); // return a boolean if the user has registered for notifications
-NsUrbanairship.getInstance().unRegisterUser(); // un-registers the user from receiving notifications
+### Getting Enabled User Notifications
+To get the status of enabled push notifications call `isOptIn()`, this will return true or false.
+
+```ts
+NsUrbanairship.getInstance().isOptIn();
+```
+
+### Getting Channel ID
+To get the channel ID call `getChannelID()`, this will return a string.
+
+```ts
+NsUrbanairship.getInstance().getChannelID();
+```
+
+### Getting Registration Token
+To get the registration token (APNS token for iOS and GCM token for Android) call `getRegistrationToken()`, this will return a string.
+
+```ts
+NsUrbanairship.getInstance().getRegistrationToken();
+```
+
+### Resetting Badge Count (iOS only)
+To reset the badge count call `resetBadgeCount()`.
+
+```ts
+NsUrbanairship.getInstance().resetBadgeCount();
 ```
