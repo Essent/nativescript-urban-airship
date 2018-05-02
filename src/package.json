@@ -28,11 +28,18 @@
         "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
         "prepack": "npm run build.native"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Essent/nativescript-urban-airship.git"
+    },
     "keywords": [
         "NativeScript",
         "JavaScript",
         "Android",
-        "iOS"
+        "iOS",
+        "UrbanAirship",
+        "Push",
+        "Notifications"
     ],
     "author": {
         "name": "Essent",
