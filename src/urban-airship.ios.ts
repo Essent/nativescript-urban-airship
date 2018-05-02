@@ -87,15 +87,10 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
     // delegate is type of UAPushNotificationDelegate
     public setNotificationDelegate(delegate: any): void {
-        if (delegate.conformsToProtocol(UAPushNotificationDelegate)) {
-            if (!this.pushIsValid()) {
-                return;
-            }
-            UAirship.push().pushNotificationDelegate = delegate;
+        if (!this.pushIsValid()) {
+            return;
         }
-        else {
-            console.error('setNotificationDelegate - Given object does not implement pushNotificationDelegate protocol');
-        }
+        UAirship.push().pushNotificationDelegate = delegate;
     }
 
     // support only for android
