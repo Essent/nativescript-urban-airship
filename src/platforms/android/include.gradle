@@ -1,30 +1,41 @@
+/* Include.gradle configuration: http://docs.nativescript.org/plugins/plugins#includegradle-specification */
+
 //default elements
 android {
-    productFlavors {
-        "nativescript-urban-airship" {
-            dimension "nativescript-urban-airship"
-        }
-    }
+    
 }
 
 dependencies {
-    // Urban Airship SDK
-    // @TODO: update sdk to use FCM because Google will drop support for GCM on April 11, 2019
-    compile 'com.urbanairship.android:urbanairship-sdk:9.0.0'
-    compile 'com.google.android.gms:play-services-gcm:11.8.0'
-    compile 'com.google.android.gms:play-services-location:11.8.0'
+    // Urban Airship - FCM
+    implementation 'com.urbanairship.android:urbanairship-core:9.5.0'
+    implementation 'com.urbanairship.android:urbanairship-fcm:9.5.0'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 }
 
 buildscript {
     repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://dl.bintray.com/android/android-tools/' }
+        maven { url 'https://dl.bintray.com/firebase/gradle/' }
+
         maven {
             url  "https://urbanairship.bintray.com/android"
         }
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.2.0' // google-services plugin
     }
 }
 
 allprojects {
     repositories {
+        google()
+        mavenCentral()
         jcenter()
+        maven { url 'https://dl.bintray.com/android/android-tools/' }
+        maven { url 'https://dl.bintray.com/firebase/gradle/' }
     }
 }

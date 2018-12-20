@@ -1,8 +1,8 @@
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urban-airship.common';
-export declare class NsUrbanairship implements CommonUrbanAirship {
+export declare class NsUrbanAirship implements CommonUrbanAirship {
     private static instance;
     constructor();
-    static getInstance(): NsUrbanairship;
+    static getInstance(): NsUrbanAirship;
     startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
     registerUser(userId: string): void;
     unRegisterUser(): void;
