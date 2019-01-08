@@ -14,3 +14,4 @@ node_modules
 .idea/
 .vscode/
 .nsprepareinfo
+!demo/hooks/after-prepare/firebase-copy-google-services.js
