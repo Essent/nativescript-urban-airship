@@ -15,3 +15,4 @@ node_modules
 .vscode/
 .nsprepareinfo
 !demo/hooks/after-prepare/firebase-copy-google-services.js
+!demo/hooks/after-prepare/firebase-adjust-gradle.js
