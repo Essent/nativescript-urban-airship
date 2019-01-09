@@ -1,41 +1,25 @@
-/* Include.gradle configuration: http://docs.nativescript.org/plugins/plugins#includegradle-specification */
-
-//default elements
 android {
-    
-}
 
+    // (possibly-temporary) workaround for https://stackoverflow.com/questions/52518378/more-than-one-file-was-found-with-os-independent-path-meta-inf-proguard-android
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+}
+repositories {
+    mavenCentral()
+    maven {
+        url "https://maven.google.com"
+    }
+    jcenter()
+}
 dependencies {
-    // Urban Airship - FCM
-    implementation 'com.urbanairship.android:urbanairship-core:9.5.0'
-    implementation 'com.urbanairship.android:urbanairship-fcm:9.5.0'
-    implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
-}
+    compile 'com.urbanairship.android:urbanairship-fcm:9.1.0'
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://dl.bintray.com/android/android-tools/' }
-        maven { url 'https://dl.bintray.com/firebase/gradle/' }
-
-        maven {
-            url  "https://urbanairship.bintray.com/android"
-        }
-    }
-    dependencies {
-        classpath 'com.google.gms:google-services:4.2.0' // google-services plugin
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://dl.bintray.com/android/android-tools/' }
-        maven { url 'https://dl.bintray.com/firebase/gradle/' }
-    }
+    // make sure you have these versions by updating your local Android SDK's (Android Support repo and Google repo)
+    compile "com.google.firebase:firebase-core:16.0.6"
+    // compile "com.google.firebase:firebase-analytics:16.0.6"
+    // for reading google-services.json and configuration
+    compile "com.google.android.gms:play-services-base:'15.0.+'"
+    // Cloud Messaging (FCM)
+    compile "com.google.firebase:firebase-messaging:17.3.4"
 }
