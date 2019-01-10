@@ -23,6 +23,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-nativescript-launcher": "^0.4.0",
     "lazy": "1.0.11",
+    "mz": "^2.7.0",
     "nativescript-css-loader": "~0.26.1",
     "nativescript-dev-typescript": "~0.7.2",
     "nativescript-dev-webpack": "~0.15.1",
