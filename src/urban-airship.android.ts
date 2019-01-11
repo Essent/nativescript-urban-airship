@@ -1,4 +1,3 @@
-import * as app from "tns-core-modules/application";
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urban-airship.common';
 import UAirship = com.urbanairship.UAirship;
 import AirshipConfigOptions = com.urbanairship.AirshipConfigOptions;
@@ -18,17 +17,17 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         return NsUrbanAirship.instance;
     }
 
-    public startUp(urbanAirshipSettings: UrbanAirshipSettings): void {
+    public startUp(urbanAirshipSettings: UrbanAirshipSettings, application: any): void {
         const options = new AirshipConfigOptions.Builder()
             .setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
             .setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
             .setProductionAppKey(urbanAirshipSettings.productionAppKey)
             .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
             .setInProduction(urbanAirshipSettings.inProduction)
-            .setFcmSenderId(urbanAirshipSettings.fcmSender) // FCM/GCM sender ID
+            .setFcmSenderId(urbanAirshipSettings.fcmSender)
             .build();
 
-        UAirship.takeOff(app.android.context, options);
+        UAirship.takeOff(application, options);
     }
 
     public registerUser(userId: string): void {

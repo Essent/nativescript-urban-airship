@@ -23,7 +23,7 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         return NsUrbanAirship.instance;
     }
 
-    public startUp(urbanAirshipSettings: UrbanAirshipSettings): void {
+    public startUp(urbanAirshipSettings: UrbanAirshipSettings, _application: any): void {
         let config = UAConfig.defaultConfig();
         config.detectProvisioningMode = urbanAirshipSettings.detectProvisioningMode;
         config.developmentAppKey = urbanAirshipSettings.developmentAppKey;

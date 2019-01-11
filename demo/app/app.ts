@@ -1,7 +1,4 @@
-﻿import * as application from 'tns-core-modules/application';
-import { PushNotification } from './push-notification';
-import { NsUrbanAirship } from 'nativescript-urban-airship';
+﻿import './custom.delegate';
+import * as application from 'tns-core-modules/application';
 
-// place your initialize before the start of your application
-PushNotification.initialize();
 application.start({ moduleName: "main-page" });

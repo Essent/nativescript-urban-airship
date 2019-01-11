@@ -3,7 +3,7 @@ export declare class NsUrbanAirship implements CommonUrbanAirship {
     private static instance;
     constructor();
     static getInstance(): NsUrbanAirship;
-    startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
+    startUp(urbanAirshipSettings: UrbanAirshipSettings, application: any): void;
     registerUser(userId: string): void;
     unRegisterUser(): void;
     notificationOptIn(): Promise<boolean>;

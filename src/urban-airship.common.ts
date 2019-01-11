@@ -9,7 +9,7 @@ export interface UrbanAirshipSettings {
 }
 
 export interface CommonUrbanAirship {
-    startUp(urbanAirshipSettings: UrbanAirshipSettings): void;
+    startUp(urbanAirshipSettings: UrbanAirshipSettings, application: any): void;
     registerUser(userId: string): void;
     setNotificationDelegate(delegate: any): void;
     notificationOptIn(): Promise<boolean>;
