@@ -14,5 +14,6 @@ node_modules
 .idea/
 .vscode/
 .nsprepareinfo
+src/platforms/android/nativescript_urban_airship.aar
 !demo/hooks/after-prepare/firebase-copy-google-services.js
 !demo/hooks/after-prepare/firebase-adjust-gradle.js
