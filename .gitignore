@@ -16,5 +16,7 @@ node_modules
 .vscode/
 .nsprepareinfo
 src/platforms/android/nativescript_urban_airship.aar
+publish/package-lock.json
+publish/package/
 !demo/hooks/after-prepare/firebase-copy-google-services.js
 !demo/hooks/after-prepare/firebase-adjust-gradle.js
