@@ -8,7 +8,6 @@ import { UrbanAirshipSettings } from 'nativescript-urban-airship';
 export const urbanAirshipSettings: UrbanAirshipSettings = {
     developmentAppKey: "Your Development App Key",
     developmentAppSecret: "Your Development App Secret",
-    // FCM Sender ID
     fcmSender: "Your Google API Project Number",
     detectProvisioningMode: false,
     // Toggles between the development and production app credentials
