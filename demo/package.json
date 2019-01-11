@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "nl.energiedirect.selfserviceapp",
+    "id": "nl.essent.urbanairship",
     "tns-android": {
       "version": "5.0.0"
     },
