@@ -12,9 +12,6 @@ android {
     generatedDensities = []
   }
 
-
-
-
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
   }  
