@@ -3,7 +3,7 @@ import { NsUrbanAirship } from 'nativescript-urban-airship';
 
 // the `JavaProxy` decorator specifies the package and the name for the native *.JAVA file generated.
 @JavaProxy('com.tns.MyUAApplication')
-class EnergyDirectApplication extends android.app.Application {
+class MyCustomApplication extends android.app.Application {
 
     public onCreate(): void {
         super.onCreate();
@@ -20,4 +20,4 @@ class EnergyDirectApplication extends android.app.Application {
 }
 
 /* tslint:disable */
-EnergyDirectApplication;
+MyCustomApplication;
