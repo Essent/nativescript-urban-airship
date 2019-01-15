@@ -31,7 +31,7 @@ First create a file with all your Urban Airship setting ([example](./demo/app/ur
     ```
     Use that custom application in the application tag in your `AndroidManifest.xml` ([example](./demo/app/App_Resources/Android/src/main/AndroidManifest.xml#L22)).
 
-2. Place your `google-services.json` in your `App_Resources/Android` folder.
+2. Place your `google-services.json` in your `App_Resources/Android` folder. This json file can be created using the [setup of FCM](https://firebase.google.com/docs/android/setup).
 
 3. Copy the hooks [firebase-adjust-gradle.js](./demo/hooks/after-prepare/firebase-adjust-gradle.js) and [firebase-copy-google-services.js](./demo/hooks/after-prepare/firebase-copy-google-services.js) from our demo app to the `after-prepare` folder of your app.
 
