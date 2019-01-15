@@ -15,7 +15,7 @@ npm install nativescript-urban-airship
 First create a file with all your Urban Airship setting ([example](./demo/app/urbanAirshipSettings.ts)).
 
 #### Android
-1. Create a custom native android.app.Application in the app folder ([example](./demo/app/application.android.ts)) that calls `startUp()` with your settings in the `onCreate()`:
+1. Create a custom native android.app.Application in your app folder ([example](./demo/app/application.android.ts)) that calls `startUp()` with your settings in the `onCreate()`:
     ```ts
     public onCreate(): void {
         super.onCreate();
@@ -34,7 +34,7 @@ First create a file with all your Urban Airship setting ([example](./demo/app/ur
 5. Specify the right `id` in your app's `package.json`.
 
 #### iOS
-Create a custom UIApplicationDelegate in your `app` folder ([example](./demo/app/custom.delegate.ts)) that calls `startUp()` with your settings in the `applicationDidFinishLaunchingWithOptions()`:
+Create a custom UIApplicationDelegate in your app folder ([example](./demo/app/custom.delegate.ts)) that calls `startUp()` with your settings in the `applicationDidFinishLaunchingWithOptions()`:
 ```ts
 applicationDidFinishLaunchingWithOptions(application: UIApplication, launchOptions: NSDictionary<string, any>): boolean {
     NsUrbanAirship.getInstance().startUp(urbanAirshipSettings);
