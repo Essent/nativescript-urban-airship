@@ -4,6 +4,12 @@
 This is a plugin to use the [Urban Airship](https://www.urbanairship.com/) SDK (Android v9.1.0, iOS v10.0.3) with NativeScript.  
 For iOS this plugin uses APNS and for Android it uses FCM.
 
+## Requirements
+* Xcode 10.x
+* Android SDK 28
+* NativeScript CLI 5.x
+* Urban Airship account
+
 ## Installation
 Run the following command from the root of your project:
 
