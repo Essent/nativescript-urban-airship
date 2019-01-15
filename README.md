@@ -15,7 +15,7 @@ npm install nativescript-urban-airship
 First create a file with all your Urban Airship setting ([example](./demo/app/urbanAirshipSettings.ts)).
 
 #### Android
-1. Create a custom native android.app.Application in the app folder ([example](./demo/app/application.android.ts)) that calls `startUp` with your settings in the `onCreate()`:
+1. Create a custom native android.app.Application in the app folder ([example](./demo/app/application.android.ts)) that calls `startUp()` with your settings in the `onCreate()`:
     ```ts
     public onCreate(): void {
         super.onCreate();
@@ -23,18 +23,18 @@ First create a file with all your Urban Airship setting ([example](./demo/app/ur
         NsUrbanAirship.getInstance().startUp(urbanAirshipSettings, this);
     }
     ```
-    Use that custom application in the application tag in your `AndroidManifest.xml` ([example](./demo/app/App_Resources/Android/src/main/AndroidManifest.xml)).
+    Use that custom application in the application tag in your `AndroidManifest.xml` ([example](./demo/app/App_Resources/Android/src/main/AndroidManifest.xml#L22)).
 
 2. Place your `google-services.json` in your `App_Resources/Android` folder.
 
 3. Copy the hooks [firebase-adjust-gradle.js](./demo/hooks/after-prepare/firebase-adjust-gradle.js) and [firebase-copy-google-services.js](./demo/hooks/after-prepare/firebase-copy-google-services.js) from our demo app to the `after-prepare` folder of your app.
 
-4. Specify the right `applicationId` in your app's `app.gradle` ([example](./demo/app/App_Resources/Android/app.gradle)).
+4. Specify the right `applicationId` in your app's `app.gradle` ([example](./demo/app/App_Resources/Android/app.gradle#L10)).
 
 5. Specify the right `id` in your app's `package.json`.
 
 #### iOS
-Create a custom UIApplicationDelegate in the app folder ([example](./demo/app/custom.delegate.ts)) that calls `startUp` with your settings in the `applicationDidFinishLaunchingWithOptions()`:
+Create a custom UIApplicationDelegate in your `app` folder ([example](./demo/app/custom.delegate.ts)) that calls `startUp()` with your settings in the `applicationDidFinishLaunchingWithOptions()`:
 ```ts
 applicationDidFinishLaunchingWithOptions(application: UIApplication, launchOptions: NSDictionary<string, any>): boolean {
     NsUrbanAirship.getInstance().startUp(urbanAirshipSettings);
