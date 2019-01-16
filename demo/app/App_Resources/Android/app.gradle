@@ -6,11 +6,25 @@
 //}
 
 android {  
-  defaultConfig {  
+  defaultConfig {
+    applicationId = "nl.essent.urbanairship"
+
     generatedDensities = []
-    applicationId = "org.nativescript.demo"
-  }  
+  }
+
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
-  }
-} 
+  }  
+}
+
+configurations.all {
+resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+    def requested = details.requested
+    if (requested.group == 'com.android.support') {
+        if (!requested.name.startsWith("multidex")) {
+            details.useVersion '27.1.1'
+        }
+     }
+
+   }
+}

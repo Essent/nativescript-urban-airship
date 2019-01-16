@@ -8,22 +8,22 @@ declare const UAPushNotificationDelegate: any;
 declare const UAConfig: any;
 declare const UAirship: any;
 
-export class NsUrbanairship implements CommonUrbanAirship {
+export class NsUrbanAirship implements CommonUrbanAirship {
 
-    private static instance: NsUrbanairship = new NsUrbanairship();
+    private static instance: NsUrbanAirship = new NsUrbanAirship();
 
     constructor() {
-        if (NsUrbanairship.instance) {
-            throw new Error("Error: Instance failed: Use NsUrbanairship.getInstance() instead of new.");
+        if (NsUrbanAirship.instance) {
+            throw new Error("Error: Instance failed: Use NsUrbanAirship.getInstance() instead of new.");
         }
-        NsUrbanairship.instance = this;
+        NsUrbanAirship.instance = this;
     }
 
     static getInstance() {
-        return NsUrbanairship.instance;
+        return NsUrbanAirship.instance;
     }
 
-    public startUp(urbanAirshipSettings: UrbanAirshipSettings): void {
+    public startUp(urbanAirshipSettings: UrbanAirshipSettings, _application: any): void {
         let config = UAConfig.defaultConfig();
         config.detectProvisioningMode = urbanAirshipSettings.detectProvisioningMode;
         config.developmentAppKey = urbanAirshipSettings.developmentAppKey;

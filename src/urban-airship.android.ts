@@ -1,42 +1,41 @@
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urban-airship.common';
-import * as app from "tns-core-modules/application";
+import UAirship = com.urbanairship.UAirship;
+import AirshipConfigOptions = com.urbanairship.AirshipConfigOptions;
 
-declare const com: any;
+export class NsUrbanAirship implements CommonUrbanAirship {
 
-export class NsUrbanairship implements CommonUrbanAirship {
-
-    private static instance: NsUrbanairship = new NsUrbanairship();
+    private static instance: NsUrbanAirship = new NsUrbanAirship();
 
     constructor() {
-        if (NsUrbanairship.instance) {
-            throw new Error("Error: Instance failed: Use NsUrbanairship.getInstance() instead of new.");
+        if (NsUrbanAirship.instance) {
+            throw new Error("Error: Instance failed: Use NsUrbanAirship.getInstance() instead of new.");
         }
-        NsUrbanairship.instance = this;
+        NsUrbanAirship.instance = this;
     }
 
     static getInstance() {
-        return NsUrbanairship.instance;
+        return NsUrbanAirship.instance;
     }
 
-    public startUp(urbanAirshipSettings: UrbanAirshipSettings): void {
-        const options = new com.urbanairship.AirshipConfigOptions.Builder()
+    public startUp(urbanAirshipSettings: UrbanAirshipSettings, application: any): void {
+        const options = new AirshipConfigOptions.Builder()
             .setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
             .setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
             .setProductionAppKey(urbanAirshipSettings.productionAppKey)
             .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
             .setInProduction(urbanAirshipSettings.inProduction)
-            .setGcmSender(urbanAirshipSettings.gcmSender) // FCM/GCM sender ID
+            .setFcmSenderId(urbanAirshipSettings.fcmSender)
             .build();
 
-        com.urbanairship.UAirship.takeOff(app.android.context, options);
+        UAirship.takeOff(application, options);
     }
 
     public registerUser(userId: string): void {
-        com.urbanairship.UAirship.shared().getNamedUser().setId(userId);
+        UAirship.shared().getNamedUser().setId(userId);
     }
 
     public unRegisterUser(): void {
-        com.urbanairship.UAirship.shared().getNamedUser().setId(null);
+        UAirship.shared().getNamedUser().setId(null);
     }
 
     public notificationOptIn(): Promise<boolean> {
@@ -49,21 +48,21 @@ export class NsUrbanairship implements CommonUrbanAirship {
 
     private setOptIn(optIn: boolean): Promise<boolean> {
         return new Promise((resolve) => {
-            com.urbanairship.UAirship.shared().getPushManager().setUserNotificationsEnabled(optIn);
+            UAirship.shared().getPushManager().setUserNotificationsEnabled(optIn);
             resolve(this.isOptIn());
         });
     }
 
     public isOptIn(): boolean {
-        return com.urbanairship.UAirship.shared().getPushManager().isPushEnabled();
+        return UAirship.shared().getPushManager().isPushEnabled();
     }
 
     public getChannelID(): string {
-        return com.urbanairship.UAirship.shared().getPushManager().getChannelId();
+        return UAirship.shared().getPushManager().getChannelId();
     }
 
     public getRegistrationToken(): string {
-        return com.urbanairship.UAirship.shared().getPushManager().getRegistrationToken();
+        return UAirship.shared().getPushManager().getRegistrationToken();
     }
 
     // support only for ios

@@ -1,6 +1,6 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import * as scrollViewModule from "tns-core-modules/ui/scroll-view";
-import { NsUrbanairship } from 'nativescript-urban-airship';
+import { NsUrbanAirship } from 'nativescript-urban-airship';
 
 export class HelloWorldModel extends Observable {
     public message: string;
@@ -12,46 +12,46 @@ export class HelloWorldModel extends Observable {
     }
 
     public registerClicked() {
-        NsUrbanairship.getInstance().registerUser('MyTestNameUserID10');
+        NsUrbanAirship.getInstance().registerUser('MyTestNameUserID10');
     }
 
     public registerClickedAnotherUser() {
-        NsUrbanairship.getInstance().registerUser('MyTestNameUserID11');
+        NsUrbanAirship.getInstance().registerUser('MyTestNameUserID11');
     }
 
     public registerClickedAnotherUser13() {
-        NsUrbanairship.getInstance().registerUser('MyTestNameUserID13');
+        NsUrbanAirship.getInstance().registerUser('MyTestNameUserID13');
     }
 
     public registerClickedAnotherUser14() {
-        NsUrbanairship.getInstance().registerUser('MyTestNameUserID14');
+        NsUrbanAirship.getInstance().registerUser('MyTestNameUserID14');
     }
 
     public optIn() {
-        NsUrbanairship.getInstance().notificationOptIn();
+        NsUrbanAirship.getInstance().notificationOptIn();
     }
 
     public optOut() {
-        NsUrbanairship.getInstance().notificationOptOut();
+        NsUrbanAirship.getInstance().notificationOptOut();
     }
 
     public unregisterClicked() {
-        NsUrbanairship.getInstance().unRegisterUser();
+        NsUrbanAirship.getInstance().unRegisterUser();
         alert('user will no longer receive notifications');
     }
 
     public notificationStatus() {
-        const status = NsUrbanairship.getInstance().isOptIn();
+        const status = NsUrbanAirship.getInstance().isOptIn();
         alert(`user has opt in: ${status}`);
     }
 
     public resetBadgeCount() {
-        NsUrbanairship.getInstance().resetBadgeCount();
+        NsUrbanAirship.getInstance().resetBadgeCount();
         alert('Badge is reset');
     }
 
     public channelID() {
-        const channelID = NsUrbanairship.getInstance().getChannelID();
+        const channelID = NsUrbanAirship.getInstance().getChannelID();
         alert(`the current channelID: ${channelID}`);
     }
 }

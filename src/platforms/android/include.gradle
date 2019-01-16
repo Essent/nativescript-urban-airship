@@ -1,30 +1,25 @@
-//default elements
 android {
-    productFlavors {
-        "nativescript-urban-airship" {
-            dimension "nativescript-urban-airship"
-        }
+
+    // (possibly-temporary) workaround for https://stackoverflow.com/questions/52518378/more-than-one-file-was-found-with-os-independent-path-meta-inf-proguard-android
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
     }
 }
-
+repositories {
+    mavenCentral()
+    maven {
+        url "https://maven.google.com"
+    }
+    jcenter()
+}
 dependencies {
-    // Urban Airship SDK
-    // @TODO: update sdk to use FCM because Google will drop support for GCM on April 11, 2019
-    compile 'com.urbanairship.android:urbanairship-sdk:9.0.0'
-    compile 'com.google.android.gms:play-services-gcm:11.8.0'
-    compile 'com.google.android.gms:play-services-location:11.8.0'
-}
+    compile 'com.urbanairship.android:urbanairship-fcm:9.1.0'
 
-buildscript {
-    repositories {
-        maven {
-            url  "https://urbanairship.bintray.com/android"
-        }
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
+    // make sure you have these versions by updating your local Android SDK's (Android Support repo and Google repo)
+    compile "com.google.firebase:firebase-core:16.0.6"
+    // compile "com.google.firebase:firebase-analytics:16.0.6"
+    // for reading google-services.json and configuration
+    compile "com.google.android.gms:play-services-base:'15.0.+'"
+    // Cloud Messaging (FCM)
+    compile "com.google.firebase:firebase-messaging:17.3.4"
 }
