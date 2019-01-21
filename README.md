@@ -43,7 +43,7 @@ First create a file with all your Urban Airship setting ([example](./demo/app/ur
 Create a custom UIApplicationDelegate in your app folder ([example](./demo/app/custom.delegate.ts)) that calls `startUp()` with your settings in the `applicationDidFinishLaunchingWithOptions()`:
 ```ts
 applicationDidFinishLaunchingWithOptions(application: UIApplication, launchOptions: NSDictionary<string, any>): boolean {
-    NsUrbanAirship.getInstance().startUp(urbanAirshipSettings);
+    NsUrbanAirship.getInstance().startUp(urbanAirshipSettings, null);
     return true;
 };
 ```
