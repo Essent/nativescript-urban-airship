@@ -49,6 +49,25 @@ applicationDidFinishLaunchingWithOptions(application: UIApplication, launchOptio
 ```
 Import that custom UIApplicationDelegate in your `app.ts` ([example](./demo/app/app.ts)).
 
+### Known Issues
+When using webpack, calling `startUp()` on Android in a custom native android.app.Application is not working, in that case it is better to call the native function instead of `startUp()`:
+```ts
+public onCreate(): void {
+    super.onCreate();
+
+    const options = new com.urbanairship.AirshipConfigOptions.Builder()
+        .setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
+        .setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
+        .setProductionAppKey(urbanAirshipSettings.productionAppKey)
+        .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
+        .setInProduction(urbanAirshipSettings.inProduction)
+        .setFcmSenderId(urbanAirshipSettings.fcmSender)
+        .build();
+
+    com.urbanairship.UAirship.takeOff(this, options);
+}
+```
+
 ### Optional functions
 
 #### Setting Named User Id
