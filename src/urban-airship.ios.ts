@@ -82,7 +82,7 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         if (!this.pushIsValid()) {
             return undefined;
         }
-        return UAirship.push().channelID;
+        return UAirship.channel().identifier;
     }
 
     // delegate is type of UAPushNotificationDelegate

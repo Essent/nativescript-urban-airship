@@ -7,7 +7,7 @@ if (ios) {
         public static ObjCProtocols = [UIApplicationDelegate];
 
         applicationDidFinishLaunchingWithOptions(application: UIApplication, launchOptions: NSDictionary<string, any>): boolean {
-            NsUrbanAirship.getInstance().startUp(urbanAirshipSettings);
+            NsUrbanAirship.getInstance().startUp(urbanAirshipSettings, null);
             return true;
         };
 
