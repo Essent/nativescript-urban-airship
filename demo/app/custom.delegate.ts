@@ -9,7 +9,7 @@ if (ios) {
         applicationDidFinishLaunchingWithOptions(application: UIApplication, launchOptions: NSDictionary<string, any>): boolean {
             NsUrbanAirship.getInstance().startUp(urbanAirshipSettings, null);
             return true;
-        };
+        }
 
         applicationWillResignActive(application: UIApplication): void {
             NsUrbanAirship.getInstance().resetBadgeCount();
