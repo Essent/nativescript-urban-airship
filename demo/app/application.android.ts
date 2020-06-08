@@ -10,13 +10,6 @@ class MyCustomApplication extends android.app.Application {
 
         NsUrbanAirship.getInstance().startUp(urbanAirshipSettings, this);
     }
-
-    public attachBaseContext(baseContext: android.content.Context) {
-        super.attachBaseContext(baseContext);
-
-        // This code enables MultiDex support for the application (if needed)
-        android.support.multidex.MultiDex.install(this);
-    }
 }
 
 /* tslint:disable */

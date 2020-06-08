@@ -1,13 +1,13 @@
 var path = require("path");
 var fs = require('mz/fs');
 
-module.exports = function(logger, projectData, hookArgs) {
+module.exports = function($logger, $projectData, hookArgs) {
 
     return new Promise(function(resolve, reject) {
-        if (hookArgs.platform.toLowerCase() === 'android') {
+        if (hookArgs.prepareData.platform.toLowerCase() === 'android') {
 
             // Change build.gradle in app folder
-            var appGradle = path.join(projectData.platformsDir, "android", "app", "build.gradle");
+            var appGradle = path.join($projectData.platformsDir, "android", "app", "build.gradle");
 
             fs.exists(appGradle).then(function (exists) {
                 if (!exists) {
@@ -21,14 +21,14 @@ module.exports = function(logger, projectData, hookArgs) {
                 })
                 .then(function (fileContent) {
                     if (!fileContent.toString().match(/^\s*apply plugin: 'com.google.gms.google-services'/mg)) {
-                        logger.info('Add "apply plugin: \'com.google.gms.google-services\'"');
+                        $logger.info('Add "apply plugin: \'com.google.gms.google-services\'"');
                         return fs.appendFile(appGradle, '\napply plugin: \'com.google.gms.google-services\'');
                     }
-                    logger.warn('"apply plugin: \'com.google.gms.google-services\'" already added');
+                    $logger.warn('"apply plugin: \'com.google.gms.google-services\'" already added');
                 });
 
             // Change build.gradle in root folder
-            var mainGradle = path.join(projectData.platformsDir, "android", "build.gradle");
+            var mainGradle = path.join($projectData.platformsDir, "android", "build.gradle");
 
             fs.exists(mainGradle).then(function (exists) {
                 if (!exists) {
@@ -43,10 +43,10 @@ module.exports = function(logger, projectData, hookArgs) {
                 .then(function (fileContent) {
                     if (!fileContent.toString().match(/^\s*classpath 'com.google.gms:google-services:4.2.0'/mg)) {
                         var newFileContent = fileContent.replace("dependencies {", "dependencies {\nclasspath 'com.google.gms:google-services:4.2.0'");
-                        logger.info('Add "classpath \'com.google.gms:google-services:4.2.0\'"');
+                        $logger.info('Add "classpath \'com.google.gms:google-services:4.2.0\'"');
                         return fs.writeFile(mainGradle, newFileContent);
                     }
-                    logger.warn('"classpath \'com.google.gms:google-services:4.2.0\'" already added');
+                    $logger.warn('"classpath \'com.google.gms:google-services:4.2.0\'" already added');
                 });
         }
 

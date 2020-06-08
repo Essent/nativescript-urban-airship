@@ -1,4 +1,4 @@
 ﻿import './custom.delegate';
-import * as application from 'tns-core-modules/application';
+import * as app from "tns-core-modules/application";
 
-application.start({ moduleName: "main-page" });
+app.run({ moduleName: "app-root" });
