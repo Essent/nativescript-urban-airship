@@ -1,3 +1,3 @@
 platform :ios, '11.0'
 
-pod 'UrbanAirship-iOS-SDK', :git => 'git@github.com:Essent/ios-library.git', :branch => 'ua12_xcode12'
+pod 'UrbanAirship-iOS-SDK', :git => 'https://github.com/Essent/ios-library.git', :branch => 'ua12_xcode12'
