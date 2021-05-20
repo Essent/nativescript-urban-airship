@@ -58,11 +58,11 @@ export class NsUrbanAirship implements CommonUrbanAirship {
     }
 
     public getChannelID(): string {
-        return UAirship.shared().getPushManager().getChannelId();
+        return UAirship.shared().getChannel().getId();
     }
 
     public getRegistrationToken(): string {
-        return UAirship.shared().getPushManager().getRegistrationToken();
+        return UAirship.shared().getPushManager().getPushToken();
     }
 
     // support only for ios
