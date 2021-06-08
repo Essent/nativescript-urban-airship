@@ -1,13 +1,13 @@
 # NativeScript plugin for Urban Airship
 [![npm version](https://badge.fury.io/js/nativescript-urban-airship.svg)](https://www.npmjs.com/package/nativescript-urban-airship)
 
-This is a plugin to use the [Urban Airship](https://www.urbanairship.com/) SDK (Android v9.1.0, iOS v10.0.3) with NativeScript.  
+This is a plugin to use the [Urban Airship](https://www.urbanairship.com/) SDK (Android v14.4.0, iOS v14.4.1) with NativeScript.  
 For iOS this plugin uses APNS and for Android it uses FCM.
 
 ## Requirements
-* Xcode 10.x
-* Android SDK 28
-* NativeScript CLI 5.x
+* Xcode 12.x
+* Android SDK 29
+* NativeScript CLI 7.x
 * Urban Airship account
 
 ## Installation

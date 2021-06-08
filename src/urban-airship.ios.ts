@@ -1,13 +1,5 @@
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urban-airship.common';
 
-// @TODO see if we can use UANotificationOptions
-declare const UANotificationOptionAlert: any;
-declare const UANotificationOptionBadge: any;
-declare const UANotificationOptionSound: any;
-declare const UAPushNotificationDelegate: any;
-declare const UAConfig: any;
-declare const UAirship: any;
-
 export class NsUrbanAirship implements CommonUrbanAirship {
 
     private static instance: NsUrbanAirship = new NsUrbanAirship();
@@ -36,7 +28,7 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         if (!this.pushIsValid()) {
             return;
         }
-        UAirship.push().notificationOptions = (UANotificationOptionAlert | UANotificationOptionBadge | UANotificationOptionSound);
+        UAirship.push().notificationOptions = (UANotificationOptions.Alert | UANotificationOptions.Badge | UANotificationOptions.Sound);
     }
 
     public registerUser(userId: string): void {

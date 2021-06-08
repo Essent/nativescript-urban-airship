@@ -1,8 +1,9 @@
-import { ios } from "tns-core-modules/application";
+import { ios } from "@nativescript/core/application";
 import { urbanAirshipSettings } from '~/urbanAirshipSettings';
 import { NsUrbanAirship } from 'nativescript-urban-airship';
 
 if (ios) {
+    @NativeClass()
     class MyDelegate extends UIResponder implements UIApplicationDelegate {
         public static ObjCProtocols = [UIApplicationDelegate];
 
