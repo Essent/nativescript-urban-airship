@@ -1,5 +1,4 @@
-import { Observable } from 'tns-core-modules/data/observable';
-import * as scrollViewModule from "tns-core-modules/ui/scroll-view";
+import { Observable } from '@nativescript/core';
 import { NsUrbanAirship } from 'nativescript-urban-airship';
 
 export class HelloWorldModel extends Observable {

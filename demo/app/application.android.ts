@@ -2,6 +2,7 @@ import { urbanAirshipSettings } from '~/urbanAirshipSettings';
 import { NsUrbanAirship } from 'nativescript-urban-airship';
 
 // the `JavaProxy` decorator specifies the package and the name for the native *.JAVA file generated.
+@NativeClass()
 @JavaProxy('com.tns.MyUAApplication')
 class MyCustomApplication extends android.app.Application {
 

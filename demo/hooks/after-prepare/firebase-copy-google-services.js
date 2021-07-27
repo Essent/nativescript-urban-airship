@@ -8,15 +8,15 @@ module.exports = function($logger, $projectData, hookArgs) {
         var isReleaseBuild = (hookArgs.appFilesUpdaterOptions && hookArgs.appFilesUpdaterOptions.release) ? true : false;
         var validProdEnvs = ['prod','production'];
         var isProdEnv = false; // building with --env.prod or --env.production flag
-        if (hookArgs.platformSpecificData.env) {
-            Object.keys(hookArgs.platformSpecificData.env).forEach((key) => {
+        if (hookArgs.prepareData.env) {
+            Object.keys(hookArgs.prepareData.env).forEach((key) => {
                 if (validProdEnvs.indexOf(key)>-1) { isProdEnv=true; }
             });
         }
         var buildType = isReleaseBuild || isProdEnv ? 'production' : 'development';
 
         /* Create info file in platforms dir so we can detect changes in environment and force prepare if needed */
-        var npfInfoPath = path.join($projectData.platformsDir, hookArgs.platform.toLowerCase(), ".pluginfirebaseinfo");
+        var npfInfoPath = path.join($projectData.platformsDir, hookArgs.prepareData.platform.toLowerCase(), ".pluginfirebaseinfo");
         var npfInfo = {
             buildType: buildType,
         };
@@ -26,7 +26,7 @@ module.exports = function($logger, $projectData, hookArgs) {
         }
 
         /* Handle preparing of Google Services files */
-        if (hookArgs.platform.toLowerCase() === 'android') {
+        if (hookArgs.prepareData.platform.toLowerCase() === 'android') {
             var destinationGoogleJson = path.join($projectData.platformsDir, "android", "app", "google-services.json");
             var destinationGoogleJsonAlt = path.join($projectData.platformsDir, "android", "google-services.json");
             var sourceGoogleJson = path.join($projectData.appResourcesDirectoryPath, "Android", "google-services.json");
