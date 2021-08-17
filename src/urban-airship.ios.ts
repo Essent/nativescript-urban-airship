@@ -85,9 +85,11 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         UAirship.push().pushNotificationDelegate = delegate;
     }
 
-    // support only for android
     public getRegistrationToken(): string {
-        return "";
+        if (!this.pushIsValid()) {
+            return undefined;
+        }
+        return UAirship.push().deviceToken;
     }
 
     public resetBadgeCount(): void {
