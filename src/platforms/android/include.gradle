@@ -14,6 +14,7 @@ repositories {
 }
 dependencies {
     compile 'com.urbanairship.android:urbanairship-fcm:14.4.0'
+    compile "com.urbanairship.android:urbanairship-automation:14.4.0"
 
     // make sure you have these versions by updating your local Android SDK's (Android Support repo and Google repo)
     compile "com.google.firebase:firebase-core:16.0.6"
