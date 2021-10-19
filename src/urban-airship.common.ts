@@ -19,4 +19,5 @@ export interface CommonUrbanAirship {
     unRegisterUser(): void;
     resetBadgeCount(): void;
     getRegistrationToken(): string;
+    openPreferenceCenter(id: string): void;
 }

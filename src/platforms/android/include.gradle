@@ -13,5 +13,8 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.urbanairship.android:urbanairship-fcm:15.0.0'
+    def airshipVersion = "15.0.0"
+
+    implementation "com.urbanairship.android:urbanairship-fcm:$airshipVersion"
+    implementation "com.urbanairship.android:urbanairship-preference-center:$airshipVersion"
 }

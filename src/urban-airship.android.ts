@@ -2,6 +2,7 @@ import { UrbanAirshipSettings, CommonUrbanAirship } from './urban-airship.common
 import UAirship = com.urbanairship.UAirship;
 import AirshipConfigOptions = com.urbanairship.AirshipConfigOptions;
 import PrivacyManager = com.urbanairship.PrivacyManager;
+import PreferenceCenterModule = com.urbanairship.preferencecenter;
 export class NsUrbanAirship implements CommonUrbanAirship {
 
     private static instance: NsUrbanAirship = new NsUrbanAirship();
@@ -12,7 +13,7 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         }
         NsUrbanAirship.instance = this;
     }
-
+ 
     static getInstance() {
         return NsUrbanAirship.instance;
     }
@@ -63,6 +64,10 @@ export class NsUrbanAirship implements CommonUrbanAirship {
 
     public getRegistrationToken(): string {
        return UAirship.shared().getPushManager().getPushToken();
+    }
+
+    public openPreferenceCenter(id: string): void {
+        PreferenceCenterModule.PreferenceCenter.shared().open(id);
     }
 
     // support only for ios

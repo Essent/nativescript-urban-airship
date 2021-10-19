@@ -6519,3 +6519,737 @@ declare module com {
 //com.urbanairship.util.ImageUtils.ImageProcessor:1
 //com.urbanairship.util.JsonDataStoreQueue:1
 
+//preff
+/// <reference path="android-declarations.d.ts"/>
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class BuildConfig {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.BuildConfig>;
+				public static DEBUG: boolean;
+				public static LIBRARY_PACKAGE_NAME: string;
+				public static BUILD_TYPE: string;
+				public static AIRSHIP_VERSION: string;
+				public static SDK_VERSION: string;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class OpenPreferenceCenterAction {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.OpenPreferenceCenterAction>;
+				public acceptsArguments(param0: com.urbanairship.actions.ActionArguments): boolean;
+				public constructor(param0: java.util.concurrent.Callable<com.urbanairship.preferencecenter.PreferenceCenter>);
+				public perform(param0: com.urbanairship.actions.ActionArguments): com.urbanairship.actions.ActionResult;
+				public shouldRunOnMainThread(): boolean;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class PreferenceCenter {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenter>;
+				public static PAYLOAD_TYPE: string;
+				public static KEY_PREFERENCE_FORMS: string;
+				public static DEEP_LINK_HOST: string;
+				public static Companion: com.urbanairship.preferencecenter.PreferenceCenter.Companion;
+				public getComponentGroup(): number;
+				public getOpenListener(): com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener;
+				public onAirshipDeepLink(param0: globalAndroid.net.Uri): boolean;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData, param4: globalAndroid.os.Looper);
+				public getConfig(param0: string): com.urbanairship.PendingResult<com.urbanairship.preferencecenter.data.PreferenceCenterConfig>;
+				public setOpenListener(param0: com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener): void;
+				public open(param0: string): void;
+				public static shared(): com.urbanairship.preferencecenter.PreferenceCenter;
+			}
+			export module PreferenceCenter {
+				export class Companion {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenter.Companion>;
+					public shared(): com.urbanairship.preferencecenter.PreferenceCenter;
+				}
+				export class OnOpenListener {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener>;
+					/**
+					 * Constructs a new instance of the com.urbanairship.preferencecenter.PreferenceCenter$OnOpenListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+					 */
+					public constructor(implementation: {
+						onOpenPreferenceCenter(param0: string): boolean;
+					});
+					public constructor();
+					public onOpenPreferenceCenter(param0: string): boolean;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class PreferenceCenterModuleFactoryImpl {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenterModuleFactoryImpl>;
+				public getPackageVersion(): string;
+				public getAirshipVersion(): string;
+				public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData): com.urbanairship.modules.Module;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export class CommonDisplay {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.CommonDisplay>;
+					public static Companion: com.urbanairship.preferencecenter.data.CommonDisplay.Companion;
+					public constructor(param0: string, param1: string);
+					public equals(param0: any): boolean;
+					public toString(): string;
+					public component1(): string;
+					public component2(): string;
+					public getName(): string;
+					public constructor();
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public getDescription(): string;
+					public copy(param0: string, param1: string): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public hashCode(): number;
+					public static getEMPTY(): com.urbanairship.preferencecenter.data.CommonDisplay;
+				}
+				export module CommonDisplay {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.CommonDisplay.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public getEMPTY(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonValue): com.urbanairship.preferencecenter.data.CommonDisplay;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export abstract class Item {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item>;
+					public static Companion: com.urbanairship.preferencecenter.data.Item.Companion;
+					public getId(): string;
+					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public jsonMapBuilder(): com.urbanairship.json.JsonMap.Builder;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+				}
+				export module Item {
+					export class ChannelSubscription extends com.urbanairship.preferencecenter.data.Item {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.ChannelSubscription>;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public copy(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						public constructor(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
+						public component2(): string;
+						public getSubscriptionId(): string;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getId(): string;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public toString(): string;
+					}
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Item;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export class PreferenceCenterConfig {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterConfig>;
+					public static Companion: com.urbanairship.preferencecenter.data.PreferenceCenterConfig.Companion;
+					public equals(param0: any): boolean;
+					public copy(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					public toString(): string;
+					public getId(): string;
+					public component1(): string;
+					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
+					public component2(): java.util.List<com.urbanairship.preferencecenter.data.Section>;
+					public getSections(): java.util.List<com.urbanairship.preferencecenter.data.Section>;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public hashCode(): number;
+				}
+				export module PreferenceCenterConfig {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterConfig.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export class PreferenceCenterPayload {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterPayload>;
+					public static Companion: com.urbanairship.preferencecenter.data.PreferenceCenterPayload.Companion;
+					public equals(param0: any): boolean;
+					public toString(): string;
+					public constructor(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig);
+					public component1(): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					public getConfig(): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public copy(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig): com.urbanairship.preferencecenter.data.PreferenceCenterPayload;
+					public hashCode(): number;
+				}
+				export module PreferenceCenterPayload {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterPayload.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.PreferenceCenterPayload;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export abstract class Section {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section>;
+					public static Companion: com.urbanairship.preferencecenter.data.Section.Companion;
+					public getId(): string;
+					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public jsonMapBuilder(): com.urbanairship.json.JsonMap.Builder;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public getItems(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+				}
+				export module Section {
+					export class Common extends com.urbanairship.preferencecenter.data.Section {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section.Common>;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public getItems(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+						public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getId(): string;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public copy(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.Section.Common;
+						public component2(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+						public toString(): string;
+					}
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Section;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module testing {
+				export class OpenForTesting {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.testing.OpenForTesting>;
+					/**
+					 * Constructs a new instance of the com.urbanairship.preferencecenter.testing.OpenForTesting interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+					 */
+					public constructor(implementation: {
+					});
+					public constructor();
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export abstract class PrefCenterItem {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+					public static TYPE_DESCRIPTION: number;
+					public static TYPE_SECTION: number;
+					public static TYPE_PREF_CHANNEL_SUBSCRIPTION: number;
+					public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.Companion;
+					public getType(): number;
+					public getId(): string;
+					public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+					public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+				}
+				export module PrefCenterItem {
+					export class ChannelSubscriptionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem>;
+						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.Companion;
+						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public copy(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription): com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem;
+						public getSubscriptionId(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getItem(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						public constructor(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription);
+						public toString(): string;
+						public getTitle(): string;
+						public component1(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public getId(): string;
+						public getSubtitle(): string;
+					}
+					export module ChannelSubscriptionItem {
+						export class Companion {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.Companion>;
+							public getWIDGET(): number;
+							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater, param2: kotlin.jvm.functions.Function1<any,java.lang.Boolean>, param3: kotlin.jvm.functions.Function2<any,any,kotlin.Unit>): com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.ViewHolder;
+							public getLAYOUT(): number;
+						}
+						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem> {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.ViewHolder>;
+							public bind(param0: any): void;
+							public constructor(param0: globalAndroid.view.View, param1: kotlin.jvm.functions.Function1<any,java.lang.Boolean>, param2: kotlin.jvm.functions.Function2<any,any,kotlin.Unit>);
+							public constructor(param0: globalAndroid.view.View);
+							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem): void;
+						}
+					}
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.Companion>;
+					}
+					export class DescriptionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem>;
+						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.Companion;
+						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public component2(): string;
+						public copy(param0: string, param1: string): com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getId(): string;
+						public constructor(param0: string, param1: string);
+						public getDescription(): string;
+						public toString(): string;
+						public getTitle(): string;
+					}
+					export module DescriptionItem {
+						export class Companion {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.Companion>;
+							public getLAYOUT(): number;
+							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater): com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.ViewHolder;
+						}
+						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem> {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.ViewHolder>;
+							public bind(param0: any): void;
+							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem): void;
+							public constructor(param0: globalAndroid.view.View);
+						}
+					}
+					export class SectionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem>;
+						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.Companion;
+						public constructor(param0: com.urbanairship.preferencecenter.data.Section);
+						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public getSection(): com.urbanairship.preferencecenter.data.Section;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public copy(param0: com.urbanairship.preferencecenter.data.Section): com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem;
+						public getId(): string;
+						public component1(): com.urbanairship.preferencecenter.data.Section;
+						public toString(): string;
+						public getTitle(): string;
+						public getSubtitle(): string;
+					}
+					export module SectionItem {
+						export class Companion {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.Companion>;
+							public getLAYOUT(): number;
+							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater): com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.ViewHolder;
+						}
+						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem> {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.ViewHolder>;
+							public bind(param0: any): void;
+							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem): void;
+							public constructor(param0: globalAndroid.view.View);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export abstract class PrefCenterViewHolder<T>  extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>>;
+					public bindItem(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): void;
+					public getDescriptionView(): globalAndroid.widget.TextView;
+					public constructor(param0: globalAndroid.view.View);
+					public getTitleView(): globalAndroid.widget.TextView;
+					public bind(param0: any): void;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterActivity {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterActivity>;
+					public static EXTRA_ID: string;
+					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterActivity.Companion;
+					public onCreate(param0: globalAndroid.os.Bundle): void;
+					public constructor();
+					public onOptionsItemSelected(param0: globalAndroid.view.MenuItem): boolean;
+				}
+				export module PreferenceCenterActivity {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterActivity.Companion>;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterAdapter extends androidx.recyclerview.widget.ListAdapter<com.urbanairship.preferencecenter.ui.PrefCenterItem,com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>> {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter>;
+					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.Companion;
+					public onCreateViewHolder(param0: globalAndroid.view.ViewGroup, param1: number): com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>;
+					public getItemEvents(): kotlinx.coroutines.flow.SharedFlow<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent>;
+					public constructor(param0: kotlin.jvm.functions.Function0<any>);
+					public submit(param0: java.util.List<any>, param1: java.util.Set<string>): void;
+					public getItemViewType(param0: number): number;
+					public onBindViewHolder(param0: com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>, param1: number): void;
+					public getItemId(param0: number): number;
+					public setHeaderItem$urbanairship_preference_center_release(param0: string, param1: string): void;
+				}
+				export module PreferenceCenterAdapter {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.Companion>;
+					}
+					export abstract class ItemEvent {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent>;
+					}
+					export module ItemEvent {
+						export class ChannelSubscriptionChange extends com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent.ChannelSubscriptionChange>;
+							public copy(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent.ChannelSubscriptionChange;
+							public hashCode(): number;
+							public component2(): boolean;
+							public getItem(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+							public isChecked(): boolean;
+							public constructor(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription, param1: boolean);
+							public toString(): string;
+							public equals(param0: any): boolean;
+							public component1(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterFragment {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment>;
+					public static ARG_ID: string;
+					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Companion;
+					public getViewModelScopeProvider(): kotlin.jvm.functions.Function0<kotlinx.coroutines.CoroutineScope>;
+					public onCreateView(param0: globalAndroid.view.LayoutInflater, param1: globalAndroid.view.ViewGroup, param2: globalAndroid.os.Bundle): globalAndroid.view.View;
+					public showHeaderItem(param0: string, param1: string): void;
+					public constructor();
+					public setOnDisplayPreferenceCenterListener(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.OnDisplayPreferenceCenterListener): void;
+					public static create(param0: string): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment;
+					public getViewModelFactory(): androidx.lifecycle.ViewModelProvider.Factory;
+					public onResume(): void;
+					public onViewCreated(param0: globalAndroid.view.View, param1: globalAndroid.os.Bundle): void;
+				}
+				export module PreferenceCenterFragment {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Companion>;
+						public create(param0: string): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment;
+					}
+					export class OnDisplayPreferenceCenterListener {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.OnDisplayPreferenceCenterListener>;
+						/**
+						 * Constructs a new instance of the com.urbanairship.preferencecenter.ui.PreferenceCenterFragment$OnDisplayPreferenceCenterListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+						 */
+						public constructor(implementation: {
+							onDisplayPreferenceCenter(param0: string, param1: string): boolean;
+						});
+						public constructor();
+						public onDisplayPreferenceCenter(param0: string, param1: string): boolean;
+					}
+					export class Views {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Views>;
+						public copy(param0: globalAndroid.view.View, param1: androidx.recyclerview.widget.RecyclerView, param2: globalAndroid.view.ViewGroup, param3: globalAndroid.view.ViewGroup, param4: globalAndroid.widget.TextView, param5: globalAndroid.widget.Button): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Views;
+						public component4(): globalAndroid.view.ViewGroup;
+						public component1(): globalAndroid.view.View;
+						public getList(): androidx.recyclerview.widget.RecyclerView;
+						public component2(): androidx.recyclerview.widget.RecyclerView;
+						public component3(): globalAndroid.view.ViewGroup;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public showError(): void;
+						public toString(): string;
+						public showContent(): void;
+						public getLoading(): globalAndroid.view.ViewGroup;
+						public getError(): globalAndroid.view.ViewGroup;
+						public component6(): globalAndroid.widget.Button;
+						public getErrorRetryButton(): globalAndroid.widget.Button;
+						public showLoading(): void;
+						public getView(): globalAndroid.view.View;
+						public component5(): globalAndroid.widget.TextView;
+						public constructor(param0: globalAndroid.view.View, param1: androidx.recyclerview.widget.RecyclerView, param2: globalAndroid.view.ViewGroup, param3: globalAndroid.view.ViewGroup, param4: globalAndroid.widget.TextView, param5: globalAndroid.widget.Button);
+						public getErrorMessage(): globalAndroid.widget.TextView;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterViewModel {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel>;
+					public getStates(): kotlinx.coroutines.flow.StateFlow<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State>;
+					public constructor(param0: string);
+					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter);
+					public updatePreference(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean): kotlinx.coroutines.flow.Flow<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change>;
+					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter, param2: com.urbanairship.channel.AirshipChannel, param3: kotlinx.coroutines.CoroutineDispatcher);
+					public handle(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action): void;
+					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter, param2: com.urbanairship.channel.AirshipChannel);
+				}
+				export module PreferenceCenterViewModel {
+					export abstract class Action {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action>;
+					}
+					export module Action {
+						export class PreferenceItemChanged extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.PreferenceItemChanged>;
+							public copy(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.PreferenceItemChanged;
+							public hashCode(): number;
+							public isEnabled(): boolean;
+							public component2(): boolean;
+							public component1(): com.urbanairship.preferencecenter.data.Item;
+							public getItem(): com.urbanairship.preferencecenter.data.Item;
+							public toString(): string;
+							public equals(param0: any): boolean;
+							public constructor(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean);
+						}
+						export class Refresh extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.Refresh>;
+							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.Refresh;
+						}
+					}
+					export abstract class Change {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change>;
+					}
+					export module Change {
+						export class ShowContent extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowContent>;
+							public constructor(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content);
+							public hashCode(): number;
+							public getState(): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
+							public toString(): string;
+							public copy(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowContent;
+							public equals(param0: any): boolean;
+							public component1(): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
+						}
+						export class ShowError extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowError>;
+							public constructor();
+							public getError(): java.lang.Throwable;
+							public hashCode(): number;
+							public toString(): string;
+							public copy(param0: string, param1: java.lang.Throwable): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowError;
+							public constructor(param0: string, param1: java.lang.Throwable);
+							public equals(param0: any): boolean;
+							public getMessage(): string;
+							public component1(): string;
+							public component2(): java.lang.Throwable;
+						}
+						export class ShowLoading extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowLoading>;
+							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowLoading;
+						}
+						export class UpdateSubscriptions extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.UpdateSubscriptions>;
+							public constructor(param0: string, param1: boolean);
+							public hashCode(): number;
+							public isSubscribed(): boolean;
+							public component2(): boolean;
+							public copy(param0: string, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.UpdateSubscriptions;
+							public getSubscriptionId(): string;
+							public toString(): string;
+							public equals(param0: any): boolean;
+							public component1(): string;
+						}
+					}
+					export class PreferenceCenterViewModelFactory {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.PreferenceCenterViewModelFactory>;
+						public create(param0: java.lang.Class): androidx.lifecycle.ViewModel;
+						public constructor(param0: string);
+					}
+					export abstract class State {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State>;
+					}
+					export module State {
+						export class Content extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content>;
+							public component2(): string;
+							public hashCode(): number;
+							public getTitle(): string;
+							public component4(): java.util.Set<string>;
+							public toString(): string;
+							public component1(): string;
+							public component3(): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+							public getSubtitle(): string;
+							public copy(param0: string, param1: string, param2: java.util.List<any>, param3: java.util.Set<string>): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
+							public constructor(param0: string, param1: string, param2: java.util.List<any>, param3: java.util.Set<string>);
+							public equals(param0: any): boolean;
+							public getListItems(): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+							public getSubscriptions(): java.util.Set<string>;
+						}
+						export class Error extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Error>;
+							public constructor();
+							public getError(): java.lang.Throwable;
+							public hashCode(): number;
+							public copy(param0: string, param1: java.lang.Throwable): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Error;
+							public toString(): string;
+							public constructor(param0: string, param1: java.lang.Throwable);
+							public equals(param0: any): boolean;
+							public getMessage(): string;
+							public component1(): string;
+							public component2(): java.lang.Throwable;
+						}
+						export class Loading extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Loading>;
+							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Loading;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterViewModelKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModelKt>;
+					public static asPrefCenterItems(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class SectionDividerDecoration {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.SectionDividerDecoration>;
+					public constructor(param0: globalAndroid.content.Context);
+					public onDrawOver(param0: globalAndroid.graphics.Canvas, param1: androidx.recyclerview.widget.RecyclerView, param2: androidx.recyclerview.widget.RecyclerView.State): void;
+					public getItemOffsets(param0: globalAndroid.graphics.Rect, param1: globalAndroid.view.View, param2: androidx.recyclerview.widget.RecyclerView, param3: androidx.recyclerview.widget.RecyclerView.State): void;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module util {
+				export class FlowExtensionsKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.FlowExtensionsKt>;
+					public static scanConcat(param0: kotlinx.coroutines.flow.Flow, param1: any, param2: kotlin.jvm.functions.Function3): kotlinx.coroutines.flow.Flow;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module util {
+				export class JsonExtensionsKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.JsonExtensionsKt>;
+					public static jsonListOf(param0: androidNative.Array<any>): com.urbanairship.json.JsonList;
+					public static jsonMapOf(param0: androidNative.Array<kotlin.Pair<string,any>>): com.urbanairship.json.JsonMap;
+					public static toJsonList(param0: java.util.List<any>): com.urbanairship.json.JsonList;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module util {
+				export class ViewExtensionsKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.ViewExtensionsKt>;
+					public static setTextOrHide(param0: globalAndroid.widget.TextView, param1: string): void;
+				}
+			}
+		}
+	}
+}
+
+//Generics information:
+//com.urbanairship.preferencecenter.ui.PrefCenterViewHolder:1
+
