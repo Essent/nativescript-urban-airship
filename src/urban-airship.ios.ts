@@ -106,4 +106,8 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         }
         return true;
     }
+
+    openPreferenceCenter(id: string): void {
+        throw new Error('Method not implemented.');
+    }
 }

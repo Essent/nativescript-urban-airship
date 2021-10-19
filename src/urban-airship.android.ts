@@ -1,7 +1,8 @@
 import { UrbanAirshipSettings, CommonUrbanAirship } from './urban-airship.common';
 import UAirship = com.urbanairship.UAirship;
 import AirshipConfigOptions = com.urbanairship.AirshipConfigOptions;
-
+import PrivacyManager = com.urbanairship.PrivacyManager;
+import PreferenceCenterModule = com.urbanairship.preferencecenter;
 export class NsUrbanAirship implements CommonUrbanAirship {
 
     private static instance: NsUrbanAirship = new NsUrbanAirship();
@@ -12,30 +13,30 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         }
         NsUrbanAirship.instance = this;
     }
-
+ 
     static getInstance() {
         return NsUrbanAirship.instance;
     }
 
     public startUp(urbanAirshipSettings: UrbanAirshipSettings, application: any): void {
+        UAirship.shared().getPrivacyManager().enable([PrivacyManager.FEATURE_CONTACTS]);
         const options = new AirshipConfigOptions.Builder()
             .setDevelopmentAppKey(urbanAirshipSettings.developmentAppKey)
             .setDevelopmentAppSecret(urbanAirshipSettings.developmentAppSecret)
             .setProductionAppKey(urbanAirshipSettings.productionAppKey)
             .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
             .setInProduction(urbanAirshipSettings.inProduction)
-            .setFcmSenderId(urbanAirshipSettings.fcmSender)
             .build();
 
         UAirship.takeOff(application, options);
     }
 
     public registerUser(userId: string): void {
-        UAirship.shared().getNamedUser().setId(userId);
+        UAirship.shared().getContact().identify(userId);
     }
 
     public unRegisterUser(): void {
-        UAirship.shared().getNamedUser().setId(null);
+        UAirship.shared().getContact().reset();
     }
 
     public notificationOptIn(): Promise<boolean> {
@@ -54,7 +55,7 @@ export class NsUrbanAirship implements CommonUrbanAirship {
     }
 
     public isOptIn(): boolean {
-        return UAirship.shared().getPushManager().isPushEnabled();
+        return UAirship.shared().getPrivacyManager().isEnabled([PrivacyManager.FEATURE_PUSH]);
     }
 
     public getChannelID(): string {
@@ -62,7 +63,11 @@ export class NsUrbanAirship implements CommonUrbanAirship {
     }
 
     public getRegistrationToken(): string {
-        return UAirship.shared().getPushManager().getPushToken();
+       return UAirship.shared().getPushManager().getPushToken();
+    }
+
+    public openPreferenceCenter(id: string): void {
+        PreferenceCenterModule.PreferenceCenter.shared().open(id);
     }
 
     // support only for ios
