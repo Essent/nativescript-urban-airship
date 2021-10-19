@@ -14,6 +14,7 @@ repositories {
 }
 dependencies {
     def airshipVersion = "15.0.0"
+    compile "com.urbanairship.android:urbanairship-automation:14.4.0"
 
     implementation "com.urbanairship.android:urbanairship-fcm:$airshipVersion"
     implementation "com.urbanairship.android:urbanairship-preference-center:$airshipVersion"
