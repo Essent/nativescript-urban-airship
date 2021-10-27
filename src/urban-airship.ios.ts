@@ -3,6 +3,7 @@ import { UrbanAirshipSettings, CommonUrbanAirship } from './urban-airship.common
 export class NsUrbanAirship implements CommonUrbanAirship {
 
     private static instance: NsUrbanAirship = new NsUrbanAirship();
+    private static prefCenter: UAPreferenceCenter = new UAPreferenceCenter();
 
     constructor() {
         if (NsUrbanAirship.instance) {
@@ -108,6 +109,6 @@ export class NsUrbanAirship implements CommonUrbanAirship {
     }
 
     public openPreferenceCenter(id: string): void {
-        NsUrbanAirship.instance.openPreferenceCenter(id);
+        NsUrbanAirship.prefCenter.openPreferenceCenter(id);
     }
 }
