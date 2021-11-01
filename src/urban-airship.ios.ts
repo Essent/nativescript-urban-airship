@@ -23,26 +23,26 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         config.productionAppKey = urbanAirshipSettings.productionAppKey;
         config.productionAppSecret = urbanAirshipSettings.productionAppSecret;
         config.inProduction = urbanAirshipSettings.inProduction;
-        UAirship.takeOff(config);
-
+        
+        UAirship.takeOffLaunchOptions(config, null);
         if (!this.pushIsValid()) {
             return;
         }
-        UAirship.push().notificationOptions = (UANotificationOptions.Alert | UANotificationOptions.Badge | UANotificationOptions.Sound);
+        UAirship.push.notificationOptions = (UANotificationOptions.Alert | UANotificationOptions.Badge | UANotificationOptions.Sound);
     }
 
     public registerUser(userId: string): void {
         if (!this.pushIsValid()) {
             return;
         }
-        UAirship.namedUser().identifier = userId;
+        UAirship.contact.identify(userId);
     }
 
     public unRegisterUser(): void {
         if (!this.pushIsValid()) {
             return;
         }
-        UAirship.namedUser().identifier = null;
+        UAirship.contact.reset();
     }
 
     public notificationOptIn(): Promise<boolean> {
@@ -58,23 +58,23 @@ export class NsUrbanAirship implements CommonUrbanAirship {
             if (!this.pushIsValid()) {
                 return;
             }
-            UAirship.push().userPushNotificationsEnabled = optIn;
+            UAirship.push.userPushNotificationsEnabled = optIn;
             resolve(this.isOptIn());
         });
     }
-
+    
     public isOptIn(): boolean {
         if (!this.pushIsValid()) {
             return false;
         }
-        return UAirship.push().userPushNotificationsEnabled;
+        return UAirship.push.userPushNotificationsEnabled;
     }
 
     public getChannelID(): string {
         if (!this.pushIsValid()) {
             return undefined;
         }
-        return UAirship.channel().identifier;
+        return UAirship.channel.identifier;
     }
 
     // delegate is type of UAPushNotificationDelegate
@@ -82,32 +82,32 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         if (!this.pushIsValid()) {
             return;
         }
-        UAirship.push().pushNotificationDelegate = delegate;
+        UAirship.push.pushNotificationDelegate = delegate;
     }
 
     public getRegistrationToken(): string {
         if (!this.pushIsValid()) {
             return undefined;
         }
-        return UAirship.push().deviceToken;
+        return UAirship.push.deviceToken;
     }
 
     public resetBadgeCount(): void {
         if (!this.pushIsValid()) {
             return;
         }
-        UAirship.push().resetBadge();
+        UAirship.push.resetBadge();
     }
 
     private pushIsValid(): boolean {
-        if (UAirship.push() === null) {
+        if (UAirship.push === null) {
             console.error('pushIsValid - UAirship.push() is null please check credentials');
             return false;
         }
         return true;
     }
 
-    openPreferenceCenter(id: string): void {
-        throw new Error('Method not implemented.');
+    public openPreferenceCenter(id: string): void {
+        UAPreferenceCenter.shared.openPreferenceCenter(id);
     }
 }
