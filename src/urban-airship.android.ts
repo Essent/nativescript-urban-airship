@@ -49,18 +49,13 @@ export class NsUrbanAirship implements CommonUrbanAirship {
 
     private setOptIn(optIn: boolean): Promise<boolean> {
         return new Promise((resolve) => {
-            if (optIn) {
-                UAirship.shared().getPrivacyManager().enable([PrivacyManager.FEATURE_PUSH]);
-            } else {
-                UAirship.shared().getPrivacyManager().disable([PrivacyManager.FEATURE_PUSH]);
-            }
             UAirship.shared().getPushManager().setUserNotificationsEnabled(optIn);
             resolve(this.isOptIn());
         });
     }
 
     public isOptIn(): boolean {
-        return UAirship.shared().getPrivacyManager().isEnabled([PrivacyManager.FEATURE_PUSH]);
+        return UAirship.shared().getPushManager().getUserNotificationsEnabled();
     }
 
     public getChannelID(): string {
