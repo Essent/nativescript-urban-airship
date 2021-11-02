@@ -1,7 +1,7 @@
 # NativeScript plugin for Urban Airship
 [![npm version](https://badge.fury.io/js/nativescript-urban-airship.svg)](https://www.npmjs.com/package/nativescript-urban-airship)
 
-This is a plugin to use the [Urban Airship](https://www.urbanairship.com/) SDK (Android v14.4.0, iOS v14.4.1) with NativeScript.  
+This is a plugin to use the [Urban Airship](https://www.urbanairship.com/) SDK (Android v15.0.0, iOS v15.0.1) with NativeScript.  
 For iOS this plugin uses APNS and for Android it uses FCM.
 
 ## Requirements
@@ -124,4 +124,11 @@ To reset the badge count call `resetBadgeCount()`.
 
 ```ts
 NsUrbanairship.getInstance().resetBadgeCount();
+```
+
+#### Opening Preference Center
+To open the preference center call `openPreferenceCenter()`.
+
+```ts
+NsUrbanairship.getInstance().openPreferenceCenter('PREFERENCE_CENTER_ID');
 ```
