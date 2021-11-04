@@ -14,4 +14,5 @@ export declare class NsUrbanAirship implements CommonUrbanAirship {
     getRegistrationToken(): string;
     resetBadgeCount(): void;
     setNotificationDelegate(delegate: any): void;
+    openPreferenceCenter(id: string): void;
 }

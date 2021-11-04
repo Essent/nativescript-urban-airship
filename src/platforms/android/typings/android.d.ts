@@ -8,16 +8,15 @@ declare module com {
 			public getComponentGroup(): number;
 			public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
 			public init(): void;
-			public isDataCollectionEnabled(): boolean;
 			public onNewConfig(param0: com.urbanairship.json.JsonMap): void;
 			public setComponentEnabled(param0: boolean): void;
+			public onAirshipDeepLink(param0: globalAndroid.net.Uri): boolean;
 			public tearDown(): void;
 			public getDataStore(): com.urbanairship.PreferenceDataStore;
 			public getContext(): globalAndroid.content.Context;
 			public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
 			public getJobExecutor(param0: com.urbanairship.job.JobInfo): java.util.concurrent.Executor;
 			public isComponentEnabled(): boolean;
-			public onDataCollectionEnabledChanged(param0: boolean): void;
 			public onAirshipReady(param0: com.urbanairship.UAirship): void;
 			public onUrlConfigUpdated(): void;
 		}
@@ -35,11 +34,13 @@ declare module com {
 			});
 			public constructor();
 			public static ANALYTICS: number;
+			public static PREFERENCE_CENTER: number;
 			public static NONE: number;
 			public static PUSH: number;
 			public static IN_APP: number;
 			public static MESSAGE_CENTER: number;
 			public static LOCATION: number;
+			public static CONTACT: number;
 			public static NAMED_USER: number;
 			public static CHANNEL: number;
 			public static ACTION_AUTOMATION: number;
@@ -63,6 +64,16 @@ declare module com {
 	export module urbanairship {
 		export class AirshipConfigOptions {
 			public static class: java.lang.Class<com.urbanairship.AirshipConfigOptions>;
+			public static FEATURE_IN_APP_AUTOMATION: string;
+			public static FEATURE_TAGS_AND_ATTRIBUTES: string;
+			public static FEATURE_MESSAGE_CENTER: string;
+			public static FEATURE_ANALYTICS: string;
+			public static FEATURE_PUSH: string;
+			public static FEATURE_CHAT: string;
+			public static FEATURE_CONTACTS: string;
+			public static FEATURE_LOCATION: string;
+			public static FEATURE_NONE: string;
+			public static FEATURE_ALL: string;
 			public static SITE_US: string;
 			public static SITE_EU: string;
 			public static ADM_TRANSPORT: string;
@@ -77,7 +88,6 @@ declare module com {
 			public chatUrl: string;
 			public chatSocketUrl: string;
 			public appStoreUri: globalAndroid.net.Uri;
-			public fcmSenderId: string;
 			public allowedTransports: java.util.List<string>;
 			public customPushProvider: com.urbanairship.push.PushProvider;
 			public urlAllowList: java.util.List<string>;
@@ -90,6 +100,7 @@ declare module com {
 			public channelCreationDelayEnabled: boolean;
 			public channelCaptureEnabled: boolean;
 			public dataCollectionOptInEnabled: boolean;
+			public enabledFeatures: number;
 			public extendedBroadcastsEnabled: boolean;
 			public notificationIcon: number;
 			public notificationLargeIcon: number;
@@ -103,32 +114,35 @@ declare module com {
 		export module AirshipConfigOptions {
 			export class Builder {
 				public static class: java.lang.Class<com.urbanairship.AirshipConfigOptions.Builder>;
+				public enabledFeatures: number;
+				public setEnabledFeatures(param0: androidNative.Array<number>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setSuppressAllowListError(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public setAnalyticsEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public applyProperties(param0: globalAndroid.content.Context, param1: java.util.Properties): com.urbanairship.AirshipConfigOptions.Builder;
-				public setDevelopmentFcmSenderId(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setInProduction(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public setSite(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setAppSecret(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setDevelopmentAppSecret(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setChatSocketUrl(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
+				public setUrlAllowListScopeJavaScriptInterface(param0: androidNative.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setNotificationIcon(param0: number): com.urbanairship.AirshipConfigOptions.Builder;
-				public setProductionFcmSenderId(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public constructor();
-				public setAllowedTransports(param0: native.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setCustomPushProvider(param0: com.urbanairship.push.PushProvider): com.urbanairship.AirshipConfigOptions.Builder;
 				public applyDefaultProperties(param0: globalAndroid.content.Context): com.urbanairship.AirshipConfigOptions.Builder;
 				public setRequireInitialRemoteConfigEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
+				public setUrlAllowList(param0: androidNative.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setBackgroundReportingIntervalMS(param0: number): com.urbanairship.AirshipConfigOptions.Builder;
 				public setExtendedBroadcastsEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public setProductionAppSecret(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setRemoteDataUrl(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
+				public setUrlAllowListScopeOpenUrl(param0: androidNative.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setAutoLaunchApplication(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public setAnalyticsUrl(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setProductionLogLevel(param0: number): com.urbanairship.AirshipConfigOptions.Builder;
 				public setLogLevel(param0: number): com.urbanairship.AirshipConfigOptions.Builder;
 				public setWalletUrl(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
-				public setUrlAllowListScopeOpenUrl(param0: native.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
+				/** @deprecated */
+				public setDataCollectionOptInEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public setNotificationLargeIcon(param0: number): com.urbanairship.AirshipConfigOptions.Builder;
 				public setChatUrl(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public build(): com.urbanairship.AirshipConfigOptions;
@@ -136,7 +150,6 @@ declare module com {
 				public setAppStoreUri(param0: globalAndroid.net.Uri): com.urbanairship.AirshipConfigOptions.Builder;
 				public applyProperties(param0: globalAndroid.content.Context, param1: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setAppKey(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
-				public setUrlAllowListScopeJavaScriptInterface(param0: native.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setNotificationChannel(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public detectProvisioningMode(param0: globalAndroid.content.Context): com.urbanairship.AirshipConfigOptions.Builder;
 				public setDeviceUrl(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
@@ -144,10 +157,8 @@ declare module com {
 				public setChannelCaptureEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public setChannelCreationDelayEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public applyConfig(param0: globalAndroid.content.Context, param1: number): com.urbanairship.AirshipConfigOptions.Builder;
-				public setFcmSenderId(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
-				public setDataCollectionOptInEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public setProductionAppKey(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
-				public setUrlAllowList(param0: native.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
+				public setAllowedTransports(param0: androidNative.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setDevelopmentAppKey(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 			}
 			export class Site {
@@ -208,6 +219,7 @@ declare module com {
 			public static class: java.lang.Class<com.urbanairship.ApplicationMetrics>;
 			public getAppVersionUpdated(): boolean;
 			public tearDown(): void;
+			/** @deprecated */
 			public getLastOpenTimeMillis(): number;
 			public init(): void;
 			public getCurrentAppVersion(): number;
@@ -301,6 +313,16 @@ declare module com {
 
 declare module com {
 	export module urbanairship {
+		export class DeferredPlatformProvider extends com.urbanairship.config.PlatformProvider {
+			public static class: java.lang.Class<com.urbanairship.DeferredPlatformProvider>;
+			public getPlatform(): number;
+			public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.base.Supplier<com.urbanairship.PushProviders>);
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
 		export class Fonts {
 			public static class: java.lang.Class<com.urbanairship.Fonts>;
 			public addFontFamily(param0: string, param1: globalAndroid.graphics.Typeface): void;
@@ -316,20 +338,20 @@ declare module com {
 			public static class: java.lang.Class<com.urbanairship.Logger>;
 			public static getLogLevel(): number;
 			public static verbose(param0: java.lang.Throwable): void;
-			public static debug(param0: java.lang.Throwable, param1: string, param2: native.Array<any>): void;
 			public static warn(param0: java.lang.Throwable): void;
-			public static verbose(param0: string, param1: native.Array<any>): void;
 			public static addListener(param0: com.urbanairship.LoggerListener): void;
-			public static debug(param0: string, param1: native.Array<any>): void;
-			public static info(param0: string, param1: native.Array<any>): void;
-			public static info(param0: java.lang.Throwable, param1: string, param2: native.Array<any>): void;
-			public static warn(param0: string, param1: native.Array<any>): void;
-			public static error(param0: string, param1: native.Array<any>): void;
-			public static warn(param0: java.lang.Throwable, param1: string, param2: native.Array<any>): void;
+			public static verbose(param0: string, param1: androidNative.Array<any>): void;
+			public static debug(param0: string, param1: androidNative.Array<any>): void;
+			public static warn(param0: string, param1: androidNative.Array<any>): void;
+			public static warn(param0: java.lang.Throwable, param1: string, param2: androidNative.Array<any>): void;
+			public static error(param0: string, param1: androidNative.Array<any>): void;
+			public static info(param0: java.lang.Throwable, param1: string, param2: androidNative.Array<any>): void;
 			public static error(param0: java.lang.Throwable): void;
 			public static disableDefaultLogger(): void;
+			public static info(param0: string, param1: androidNative.Array<any>): void;
 			public static removeListener(param0: com.urbanairship.LoggerListener): void;
-			public static error(param0: java.lang.Throwable, param1: string, param2: native.Array<any>): void;
+			public static debug(param0: java.lang.Throwable, param1: string, param2: androidNative.Array<any>): void;
+			public static error(param0: java.lang.Throwable, param1: string, param2: androidNative.Array<any>): void;
 			public static setLogLevel(param0: number): void;
 			public static setTag(param0: string): void;
 		}
@@ -361,9 +383,9 @@ declare module com {
 			public addListener(param0: com.urbanairship.LoggerListener): void;
 			public getLogLevel(): number;
 			public constructor(param0: number, param1: string);
-			public log(param0: number, param1: java.lang.Throwable, param2: string, param3: native.Array<any>): void;
 			public removeListener(param0: com.urbanairship.LoggerListener): void;
 			public setLogLevel(param0: number): void;
+			public log(param0: number, param1: java.lang.Throwable, param2: string, param3: androidNative.Array<any>): void;
 		}
 	}
 }
@@ -444,6 +466,78 @@ declare module com {
 
 declare module com {
 	export module urbanairship {
+		export class PreferenceData {
+			public static class: java.lang.Class<com.urbanairship.PreferenceData>;
+			public _id: string;
+			public value: string;
+			public constructor(param0: string, param1: string);
+			public getKey(): string;
+			public getValue(): string;
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export abstract class PreferenceDataDao {
+			public static class: java.lang.Class<com.urbanairship.PreferenceDataDao>;
+			public getPreferences(): java.util.List<com.urbanairship.PreferenceData>;
+			public upsert(param0: com.urbanairship.PreferenceData): void;
+			public deleteAll(): void;
+			public queryKeys(): java.util.List<string>;
+			public queryValue(param0: string): com.urbanairship.PreferenceData;
+			public constructor();
+			public delete(param0: string): void;
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export class PreferenceDataDao_Impl extends com.urbanairship.PreferenceDataDao {
+			public static class: java.lang.Class<com.urbanairship.PreferenceDataDao_Impl>;
+			public static getRequiredConverters(): java.util.List<java.lang.Class<any>>;
+			public getPreferences(): java.util.List<com.urbanairship.PreferenceData>;
+			public upsert(param0: com.urbanairship.PreferenceData): void;
+			public deleteAll(): void;
+			public constructor(param0: androidx.room.RoomDatabase);
+			public queryKeys(): java.util.List<string>;
+			public queryValue(param0: string): com.urbanairship.PreferenceData;
+			public constructor();
+			public delete(param0: string): void;
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export abstract class PreferenceDataDatabase {
+			public static class: java.lang.Class<com.urbanairship.PreferenceDataDatabase>;
+			public static createDatabase(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions): com.urbanairship.PreferenceDataDatabase;
+			public getDao(): com.urbanairship.PreferenceDataDao;
+			public static createInMemoryDatabase(param0: globalAndroid.content.Context): com.urbanairship.PreferenceDataDatabase;
+			public constructor();
+			public exists(param0: globalAndroid.content.Context): boolean;
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export class PreferenceDataDatabase_Impl extends com.urbanairship.PreferenceDataDatabase {
+			public static class: java.lang.Class<com.urbanairship.PreferenceDataDatabase_Impl>;
+			public getRequiredTypeConverters(): java.util.Map<java.lang.Class<any>,java.util.List<java.lang.Class<any>>>;
+			public getDao(): com.urbanairship.PreferenceDataDao;
+			public createOpenHelper(param0: androidx.room.DatabaseConfiguration): androidx.sqlite.db.SupportSQLiteOpenHelper;
+			public createInvalidationTracker(): androidx.room.InvalidationTracker;
+			public constructor();
+			public clearAllTables(): void;
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
 		export class PreferenceDataStore {
 			public static class: java.lang.Class<com.urbanairship.PreferenceDataStore>;
 			public getInt(param0: string, param1: number): number;
@@ -452,15 +546,15 @@ declare module com {
 			public getLong(param0: string, param1: number): number;
 			public put(param0: string, param1: number): void;
 			public put(param0: string, param1: boolean): void;
-			public init(): void;
 			public removeListener(param0: com.urbanairship.PreferenceDataStore.PreferenceChangeListener): void;
 			public addListener(param0: com.urbanairship.PreferenceDataStore.PreferenceChangeListener): void;
+			public static loadDataStore(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions): com.urbanairship.PreferenceDataStore;
 			public tearDown(): void;
 			public remove(param0: string): void;
 			public putSync(param0: string, param1: string): boolean;
+			public static inMemoryStore(param0: globalAndroid.content.Context): com.urbanairship.PreferenceDataStore;
 			public getBoolean(param0: string, param1: boolean): boolean;
 			public getString(param0: string, param1: string): string;
-			public constructor(param0: globalAndroid.content.Context);
 			public put(param0: string, param1: com.urbanairship.json.JsonSerializable): void;
 			public isSet(param0: string): boolean;
 			public put(param0: string, param1: string): void;
@@ -486,12 +580,50 @@ declare module com {
 
 declare module com {
 	export module urbanairship {
-		export class PreferencesDataManager extends com.urbanairship.util.DataManager {
-			public static class: java.lang.Class<com.urbanairship.PreferencesDataManager>;
-			public onDowngrade(param0: globalAndroid.database.sqlite.SQLiteDatabase, param1: number, param2: number): void;
-			public constructor(param0: globalAndroid.content.Context, param1: string);
-			public onCreate(param0: globalAndroid.database.sqlite.SQLiteDatabase): void;
-			public constructor(param0: globalAndroid.content.Context, param1: string, param2: string, param3: number);
+		export class PrivacyManager {
+			public static class: java.lang.Class<com.urbanairship.PrivacyManager>;
+			public static FEATURE_IN_APP_AUTOMATION: number;
+			public static FEATURE_MESSAGE_CENTER: number;
+			public static FEATURE_PUSH: number;
+			public static FEATURE_CHAT: number;
+			public static FEATURE_ANALYTICS: number;
+			public static FEATURE_TAGS_AND_ATTRIBUTES: number;
+			public static FEATURE_CONTACTS: number;
+			public static FEATURE_LOCATION: number;
+			public static FEATURE_NONE: number;
+			public static FEATURE_ALL: number;
+			public isAnyEnabled(param0: androidNative.Array<number>): boolean;
+			public enable(param0: androidNative.Array<number>): void;
+			public isAnyFeatureEnabled(): boolean;
+			public setEnabledFeatures(param0: androidNative.Array<number>): void;
+			public addListener(param0: com.urbanairship.PrivacyManager.Listener): void;
+			public removeListener(param0: com.urbanairship.PrivacyManager.Listener): void;
+			public isEnabled(param0: androidNative.Array<number>): boolean;
+			public getEnabledFeatures(): number;
+			public disable(param0: androidNative.Array<number>): void;
+			public constructor(param0: com.urbanairship.PreferenceDataStore, param1: number);
+		}
+		export module PrivacyManager {
+			export class Feature {
+				public static class: java.lang.Class<com.urbanairship.PrivacyManager.Feature>;
+				/**
+				 * Constructs a new instance of the com.urbanairship.PrivacyManager$Feature interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+				 */
+				public constructor(implementation: {
+				});
+				public constructor();
+			}
+			export class Listener {
+				public static class: java.lang.Class<com.urbanairship.PrivacyManager.Listener>;
+				/**
+				 * Constructs a new instance of the com.urbanairship.PrivacyManager$Listener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+				 */
+				public constructor(implementation: {
+					onEnabledFeaturesChanged(): void;
+				});
+				public constructor();
+				public onEnabledFeaturesChanged(): void;
+			}
 		}
 	}
 }
@@ -501,6 +633,17 @@ declare module com {
 		export class PushProviders {
 			public static class: java.lang.Class<com.urbanairship.PushProviders>;
 			public getAvailableProviders(): java.util.List<com.urbanairship.push.PushProvider>;
+			public constructor(param0: com.urbanairship.AirshipConfigOptions);
+			public getProvider(param0: number, param1: string): com.urbanairship.push.PushProvider;
+			public getBestProvider(param0: number): com.urbanairship.push.PushProvider;
+		}
+		export module PushProviders {
+			export class LazyLoader extends com.urbanairship.base.Supplier<com.urbanairship.PushProviders> {
+				public static class: java.lang.Class<com.urbanairship.PushProviders.LazyLoader>;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions);
+				public get(): any;
+				public get(): com.urbanairship.PushProviders;
+			}
 		}
 	}
 }
@@ -529,56 +672,62 @@ declare module com {
 			public static EXTRA_CHANNEL_ID_KEY: string;
 			public static EXTRA_PAYLOAD_VERSION_KEY: string;
 			public static EXTRA_APP_KEY_KEY: string;
+			public static EXTRA_AIRSHIP_DEEP_LINK_SCHEME: string;
 			public static AMAZON_PLATFORM: number;
 			public static ANDROID_PLATFORM: number;
+			public static UNKNOWN_PLATFORM: number;
 			public static LOG_TAKE_OFF_STACKTRACE: boolean;
-			public static DATA_COLLECTION_ENABLED_KEY: string;
-			public static getPackageInfo(): globalAndroid.content.pm.PackageInfo;
-			public getUrlAllowList(): com.urbanairship.js.UrlAllowList;
 			public setLocaleOverride(param0: java.util.Locale): void;
-			public static shared(): com.urbanairship.UAirship;
 			public static getPackageName(): string;
-			public getLocationClient(): com.urbanairship.modules.location.AirshipLocationClient;
 			public getComponents(): java.util.List<com.urbanairship.AirshipComponent>;
 			public getPushManager(): com.urbanairship.push.PushManager;
-			public getApplicationMetrics(): com.urbanairship.ApplicationMetrics;
 			public static shared(param0: com.urbanairship.UAirship.OnReadyCallback): com.urbanairship.Cancelable;
-			public getPushProviders(): com.urbanairship.PushProviders;
-			public setDataCollectionEnabled(param0: boolean): void;
 			public static getVersion(): string;
-			public static takeOff(param0: globalAndroid.app.Application, param1: com.urbanairship.AirshipConfigOptions): void;
 			public getChannel(): com.urbanairship.channel.AirshipChannel;
 			public getComponent(param0: java.lang.Class): com.urbanairship.AirshipComponent;
 			public static takeOff(param0: globalAndroid.app.Application, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.UAirship.OnReadyCallback): void;
+			public getRuntimeConfig(): com.urbanairship.config.AirshipRuntimeConfig;
+			public static land(): void;
+			public setImageLoader(param0: com.urbanairship.images.ImageLoader): void;
+			public getLocaleManager(): com.urbanairship.locale.LocaleManager;
+			public getActionRegistry(): com.urbanairship.actions.ActionRegistry;
+			public static getAppName(): string;
+			public getRemoteData(): com.urbanairship.remotedata.RemoteData;
+			public deepLink(param0: string): boolean;
+			public static shared(param0: globalAndroid.os.Looper, param1: com.urbanairship.UAirship.OnReadyCallback): com.urbanairship.Cancelable;
+			public static getPackageInfo(): globalAndroid.content.pm.PackageInfo;
+			public getUrlAllowList(): com.urbanairship.js.UrlAllowList;
+			public getContact(): com.urbanairship.contacts.Contact;
+			public static shared(): com.urbanairship.UAirship;
+			public getLocationClient(): com.urbanairship.modules.location.AirshipLocationClient;
+			public getApplicationMetrics(): com.urbanairship.ApplicationMetrics;
+			public static takeOff(param0: globalAndroid.app.Application, param1: com.urbanairship.AirshipConfigOptions): void;
 			public getImageLoader(): com.urbanairship.images.ImageLoader;
 			public static getPackageManager(): globalAndroid.content.pm.PackageManager;
 			public static waitForTakeOff(param0: number): com.urbanairship.UAirship;
-			public getRuntimeConfig(): com.urbanairship.config.AirshipRuntimeConfig;
 			public getAirshipConfigOptions(): com.urbanairship.AirshipConfigOptions;
-			public static land(): void;
+			/** @deprecated */
+			public getNamedUser(): com.urbanairship.channel.NamedUser;
 			public static isMainProcess(): boolean;
 			public static isFlying(): boolean;
 			public getLocale(): java.util.Locale;
-			public setImageLoader(param0: com.urbanairship.images.ImageLoader): void;
 			public getChannelCapture(): com.urbanairship.ChannelCapture;
 			public setDeepLinkListener(param0: com.urbanairship.actions.DeepLinkListener): void;
+			public getPrivacyManager(): com.urbanairship.PrivacyManager;
 			public static getApplicationContext(): globalAndroid.content.Context;
 			public static getAppInfo(): globalAndroid.content.pm.ApplicationInfo;
 			public getAccengageNotificationHandler(): com.urbanairship.modules.accengage.AccengageNotificationHandler;
 			public static takeOff(param0: globalAndroid.app.Application, param1: com.urbanairship.UAirship.OnReadyCallback): void;
-			public isDataCollectionEnabled(): boolean;
-			public getLocaleManager(): com.urbanairship.locale.LocaleManager;
 			public static isTakingOff(): boolean;
-			public getNamedUser(): com.urbanairship.channel.NamedUser;
-			public getActionRegistry(): com.urbanairship.actions.ActionRegistry;
 			public getDeepLinkListener(): com.urbanairship.actions.DeepLinkListener;
-			public static getAppName(): string;
 			public static takeOff(param0: globalAndroid.app.Application): void;
-			public getRemoteData(): com.urbanairship.remotedata.RemoteData;
-			public static shared(param0: globalAndroid.os.Looper, param1: com.urbanairship.UAirship.OnReadyCallback): com.urbanairship.Cancelable;
 			public getAnalytics(): com.urbanairship.analytics.Analytics;
 			public requireComponent(param0: java.lang.Class): com.urbanairship.AirshipComponent;
+			/** @deprecated */
+			public isDataCollectionEnabled(): boolean;
 			public getPlatformType(): number;
+			/** @deprecated */
+			public setDataCollectionEnabled(param0: boolean): void;
 			public static getAppIcon(): number;
 			public static getAppVersion(): number;
 		}
@@ -612,19 +761,18 @@ declare module com {
 		export class UrbanAirshipProvider {
 			public static class: java.lang.Class<com.urbanairship.UrbanAirshipProvider>;
 			public static QUERY_PARAMETER_LIMIT: string;
-			public update(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues, param2: string, param3: native.Array<string>): number;
-			public static getEventsContentUri(param0: globalAndroid.content.Context): globalAndroid.net.Uri;
+			public onCreate(): boolean;
+			public bulkInsert(param0: globalAndroid.net.Uri, param1: androidNative.Array<globalAndroid.content.ContentValues>): number;
+			public update(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues, param2: string, param3: androidNative.Array<string>): number;
 			public static getRichPushContentUri(param0: globalAndroid.content.Context): globalAndroid.net.Uri;
 			public constructor();
-			public query(param0: globalAndroid.net.Uri, param1: native.Array<string>, param2: string, param3: native.Array<string>, param4: string): globalAndroid.database.Cursor;
-			public insert(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues): globalAndroid.net.Uri;
-			public getType(param0: globalAndroid.net.Uri): string;
-			public bulkInsert(param0: globalAndroid.net.Uri, param1: native.Array<globalAndroid.content.ContentValues>): number;
-			public static getAuthorityString(param0: globalAndroid.content.Context): string;
-			public onCreate(): boolean;
-			public delete(param0: globalAndroid.net.Uri, param1: string, param2: native.Array<string>): number;
+			public delete(param0: globalAndroid.net.Uri, param1: string, param2: androidNative.Array<string>): number;
 			public shutdown(): void;
+			public insert(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues): globalAndroid.net.Uri;
 			public static getPreferencesContentUri(param0: globalAndroid.content.Context): globalAndroid.net.Uri;
+			public getType(param0: globalAndroid.net.Uri): string;
+			public query(param0: globalAndroid.net.Uri, param1: androidNative.Array<string>, param2: string, param3: androidNative.Array<string>, param4: string): globalAndroid.database.Cursor;
+			public static getAuthorityString(param0: globalAndroid.content.Context): string;
 		}
 		export module UrbanAirshipProvider {
 			export class DatabaseModel {
@@ -638,14 +786,14 @@ declare module com {
 	export module urbanairship {
 		export class UrbanAirshipResolver {
 			public static class: java.lang.Class<com.urbanairship.UrbanAirshipResolver>;
-			public update(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues, param2: string, param3: native.Array<string>): number;
-			public delete(param0: globalAndroid.net.Uri, param1: string, param2: native.Array<string>): number;
+			public bulkInsert(param0: globalAndroid.net.Uri, param1: androidNative.Array<globalAndroid.content.ContentValues>): number;
+			public update(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues, param2: string, param3: androidNative.Array<string>): number;
 			public unregisterContentObserver(param0: globalAndroid.database.ContentObserver): void;
-			public query(param0: globalAndroid.net.Uri, param1: native.Array<string>, param2: string, param3: native.Array<string>, param4: string): globalAndroid.database.Cursor;
+			public delete(param0: globalAndroid.net.Uri, param1: string, param2: androidNative.Array<string>): number;
 			public insert(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues): globalAndroid.net.Uri;
 			public registerContentObserver(param0: globalAndroid.net.Uri, param1: boolean, param2: globalAndroid.database.ContentObserver): void;
 			public constructor(param0: globalAndroid.content.Context);
-			public bulkInsert(param0: globalAndroid.net.Uri, param1: native.Array<globalAndroid.content.ContentValues>): number;
+			public query(param0: globalAndroid.net.Uri, param1: androidNative.Array<string>, param2: string, param3: androidNative.Array<string>, param4: string): globalAndroid.database.Cursor;
 			public notifyChange(param0: globalAndroid.net.Uri, param1: globalAndroid.database.ContentObserver): void;
 		}
 	}
@@ -740,10 +888,10 @@ declare module com {
 			export class ActionRegistry {
 				public static class: java.lang.Class<com.urbanairship.actions.ActionRegistry>;
 				public registerDefaultActions(param0: globalAndroid.content.Context): void;
-				public registerAction(param0: java.lang.Class<any>, param1: native.Array<string>): com.urbanairship.actions.ActionRegistry.Entry;
 				public unregisterAction(param0: string): void;
+				public registerAction(param0: java.lang.Class<any>, param1: androidNative.Array<string>): com.urbanairship.actions.ActionRegistry.Entry;
 				public registerActions(param0: globalAndroid.content.Context, param1: number): void;
-				public registerAction(param0: com.urbanairship.actions.Action, param1: native.Array<string>): com.urbanairship.actions.ActionRegistry.Entry;
+				public registerAction(param0: com.urbanairship.actions.Action, param1: androidNative.Array<string>): com.urbanairship.actions.ActionRegistry.Entry;
 				public getEntry(param0: string): com.urbanairship.actions.ActionRegistry.Entry;
 				public getEntries(): java.util.Set<com.urbanairship.actions.ActionRegistry.Entry>;
 				public constructor();
@@ -994,9 +1142,9 @@ declare module com {
 				public static FEATURE_USER_NOTIFICATIONS: string;
 				public static FEATURE_LOCATION: string;
 				public static FEATURE_BACKGROUND_LOCATION: string;
-				public constructor(param0: com.urbanairship.util.PermissionsRequester);
 				public acceptsArguments(param0: com.urbanairship.actions.ActionArguments): boolean;
 				public perform(param0: com.urbanairship.actions.ActionArguments): com.urbanairship.actions.ActionResult;
+				public constructor(param0: com.urbanairship.util.PermissionsRequester, param1: com.urbanairship.base.Supplier<com.urbanairship.UAirship>);
 				public constructor();
 			}
 		}
@@ -1303,23 +1451,23 @@ declare module com {
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
 				public getComponentGroup(): number;
 				public trackScreen(param0: string): void;
-				public onDataCollectionEnabledChanged(param0: boolean): void;
-				public addHeaderDelegate(param0: com.urbanairship.analytics.Analytics.AnalyticsHeaderDelegate): void;
+				public registerSDKExtension(param0: string, param1: string): void;
+				/** @deprecated */
 				public setEnabled(param0: boolean): void;
+				public uploadEvents(): void;
+				public addHeaderDelegate(param0: com.urbanairship.analytics.Analytics.AnalyticsHeaderDelegate): void;
+				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
+				public getAssociatedIdentifiers(): com.urbanairship.analytics.AssociatedIdentifiers;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.locale.LocaleManager);
 				public addEventListener(param0: com.urbanairship.analytics.Analytics.EventListener): void;
 				public init(): void;
 				public isAppInForeground(): boolean;
-				public setConversionMetadata(param0: string): void;
-				public getConversionMetadata(): string;
-				public registerSDKExtension(param0: string, param1: string): void;
-				public uploadEvents(): void;
-				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
-				public getAssociatedIdentifiers(): com.urbanairship.analytics.AssociatedIdentifiers;
 				public tearDown(): void;
 				public addEvent(param0: com.urbanairship.analytics.Event): void;
-				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.locale.LocaleManager);
+				public setConversionMetadata(param0: string): void;
 				public removeAnalyticsListener(param0: com.urbanairship.analytics.AnalyticsListener): void;
 				public getConversionSendId(): string;
+				public getConversionMetadata(): string;
 				public isEnabled(): boolean;
 				public addAnalyticsListener(param0: com.urbanairship.analytics.AnalyticsListener): void;
 				public editAssociatedIdentifiers(): com.urbanairship.analytics.AssociatedIdentifiers.Editor;
@@ -1705,9 +1853,123 @@ declare module com {
 	export module urbanairship {
 		export module analytics {
 			export module data {
+				export abstract class AnalyticsDatabase {
+					public static class: java.lang.Class<com.urbanairship.analytics.data.AnalyticsDatabase>;
+					public static createDatabase(param0: globalAndroid.content.Context, param1: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.analytics.data.AnalyticsDatabase;
+					public exists(param0: globalAndroid.content.Context): boolean;
+					public constructor();
+					public static createInMemoryDatabase(param0: globalAndroid.content.Context): com.urbanairship.analytics.data.AnalyticsDatabase;
+					public getEventDao(): com.urbanairship.analytics.data.EventDao;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module analytics {
+			export module data {
+				export class AnalyticsDatabase_Impl extends com.urbanairship.analytics.data.AnalyticsDatabase {
+					public static class: java.lang.Class<com.urbanairship.analytics.data.AnalyticsDatabase_Impl>;
+					public createOpenHelper(param0: androidx.room.DatabaseConfiguration): androidx.sqlite.db.SupportSQLiteOpenHelper;
+					public createInvalidationTracker(): androidx.room.InvalidationTracker;
+					public constructor();
+					public getRequiredTypeConverters(): java.util.Map<java.lang.Class<any>,java.util.List<java.lang.Class<any>>>;
+					public clearAllTables(): void;
+					public getEventDao(): com.urbanairship.analytics.data.EventDao;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module analytics {
+			export module data {
 				export class EventApiClient {
 					public static class: java.lang.Class<com.urbanairship.analytics.data.EventApiClient>;
 					public constructor(param0: com.urbanairship.config.AirshipRuntimeConfig);
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module analytics {
+			export module data {
+				export abstract class EventDao {
+					public static class: java.lang.Class<com.urbanairship.analytics.data.EventDao>;
+					public insert(param0: com.urbanairship.analytics.data.EventEntity): void;
+					public constructor();
+					public getBatch(param0: number): java.util.List<com.urbanairship.analytics.data.EventEntity.EventIdAndData>;
+					public delete(param0: androidNative.Array<com.urbanairship.analytics.data.EventEntity>): void;
+					public deleteAll(): void;
+					public count(): number;
+					public deleteBatch(param0: java.util.List<com.urbanairship.analytics.data.EventEntity.EventIdAndData>): void;
+					public trimDatabase(param0: number): void;
+					public databaseSize(): number;
+					public get(): java.util.List<com.urbanairship.analytics.data.EventEntity>;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module analytics {
+			export module data {
+				export class EventDao_Impl extends com.urbanairship.analytics.data.EventDao {
+					public static class: java.lang.Class<com.urbanairship.analytics.data.EventDao_Impl>;
+					public insert(param0: com.urbanairship.analytics.data.EventEntity): void;
+					public constructor();
+					public delete(param0: androidNative.Array<com.urbanairship.analytics.data.EventEntity>): void;
+					public deleteAll(): void;
+					public getBatch(param0: number): java.util.List<com.urbanairship.analytics.data.EventEntity.EventIdAndData>;
+					public static getRequiredConverters(): java.util.List<java.lang.Class<any>>;
+					public count(): number;
+					public deleteBatch(param0: java.util.List<com.urbanairship.analytics.data.EventEntity.EventIdAndData>): void;
+					public trimDatabase(param0: number): void;
+					public databaseSize(): number;
+					public constructor(param0: androidx.room.RoomDatabase);
+					public get(): java.util.List<com.urbanairship.analytics.data.EventEntity>;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module analytics {
+			export module data {
+				export class EventEntity {
+					public static class: java.lang.Class<com.urbanairship.analytics.data.EventEntity>;
+					public id: number;
+					public type: string;
+					public eventId: string;
+					public time: string;
+					public data: com.urbanairship.json.JsonValue;
+					public sessionId: string;
+					public eventSize: number;
+					public equals(param0: any): boolean;
+					public contentEquals(param0: any): boolean;
+					public toString(): string;
+					public static create(param0: com.urbanairship.analytics.Event, param1: string): com.urbanairship.analytics.data.EventEntity;
+					public hashCode(): number;
+				}
+				export module EventEntity {
+					export class EventIdAndData {
+						public static class: java.lang.Class<com.urbanairship.analytics.data.EventEntity.EventIdAndData>;
+						public id: number;
+						public eventId: string;
+						public data: com.urbanairship.json.JsonValue;
+						public constructor(param0: number, param1: string, param2: com.urbanairship.json.JsonValue);
+					}
 				}
 			}
 		}
@@ -1736,58 +1998,9 @@ declare module com {
 	export module urbanairship {
 		export module analytics {
 			export module data {
-				export class EventResolver extends com.urbanairship.UrbanAirshipResolver {
-					public static class: java.lang.Class<com.urbanairship.analytics.data.EventResolver>;
-					public static ASCENDING_SORT_ORDER: string;
-					public constructor(param0: globalAndroid.content.Context);
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module analytics {
-			export module data {
 				export class EventResponse {
 					public static class: java.lang.Class<com.urbanairship.analytics.data.EventResponse>;
 					public constructor(param0: java.util.Map<string,java.util.List<string>>);
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module analytics {
-			export module data {
-				export class EventsStorage extends com.urbanairship.util.DataManager {
-					public static class: java.lang.Class<com.urbanairship.analytics.data.EventsStorage>;
-					public constructor(param0: globalAndroid.content.Context, param1: string, param2: string, param3: number);
-					public onUpgrade(param0: globalAndroid.database.sqlite.SQLiteDatabase, param1: number, param2: number): void;
-					public constructor(param0: globalAndroid.content.Context, param1: string);
-					public onDowngrade(param0: globalAndroid.database.sqlite.SQLiteDatabase, param1: number, param2: number): void;
-					public onCreate(param0: globalAndroid.database.sqlite.SQLiteDatabase): void;
-				}
-				export module EventsStorage {
-					export class Events {
-						public static class: java.lang.Class<com.urbanairship.analytics.data.EventsStorage.Events>;
-						/**
-						 * Constructs a new instance of the com.urbanairship.analytics.data.EventsStorage$Events interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-						 */
-						public constructor(implementation: {
-						});
-						public constructor();
-						public static COLUMN_NAME_EVENT_SIZE: string;
-						public static COLUMN_NAME_EVENT_ID: string;
-						public static TABLE_NAME: string;
-						public static COLUMN_NAME_TYPE: string;
-						public static COLUMN_NAME_TIME: string;
-						public static COLUMN_NAME_DATA: string;
-						public static COLUMN_NAME_SESSION_ID: string;
-					}
 				}
 			}
 		}
@@ -2112,17 +2325,21 @@ declare module com {
 				public onComponentEnableChange(param0: boolean): void;
 				public addAttributeListener(param0: com.urbanairship.channel.AttributeListener): void;
 				public getId(): string;
-				public onDataCollectionEnabledChanged(param0: boolean): void;
 				public onAirshipReady(param0: com.urbanairship.UAirship): void;
 				public setTags(param0: java.util.Set<string>): void;
+				public editSubscriptionLists(): com.urbanairship.channel.SubscriptionListEditor;
 				public editTagGroups(): com.urbanairship.channel.TagGroupsEditor;
+				public removeChannelRegistrationPayloadExtender(param0: com.urbanairship.channel.AirshipChannel.ChannelRegistrationPayloadExtender): void;
 				public getChannelId(): com.urbanairship.PendingResult<string>;
 				public updateRegistration(): void;
 				public getTags(): java.util.Set<string>;
 				public init(): void;
 				public getChannelTagRegistrationEnabled(): boolean;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.locale.LocaleManager);
 				public getPendingTagUpdates(): java.util.List<com.urbanairship.channel.TagGroupsMutation>;
+				public addSubscriptionListListener(param0: com.urbanairship.channel.SubscriptionListListener): void;
 				public addChannelRegistrationPayloadExtender(param0: com.urbanairship.channel.AirshipChannel.ChannelRegistrationPayloadExtender): void;
+				public getPendingSubscriptionListUpdates(): java.util.List<com.urbanairship.channel.SubscriptionListMutation>;
 				public setChannelTagRegistrationEnabled(param0: boolean): void;
 				public removeChannelListener(param0: com.urbanairship.channel.AirshipChannelListener): void;
 				public editTags(): com.urbanairship.channel.TagEditor;
@@ -2130,8 +2347,9 @@ declare module com {
 				public addChannelListener(param0: com.urbanairship.channel.AirshipChannelListener): void;
 				public editAttributes(): com.urbanairship.channel.AttributeEditor;
 				public getPendingAttributeUpdates(): java.util.List<com.urbanairship.channel.AttributeMutation>;
+				public removeSubscriptionListListener(param0: com.urbanairship.channel.SubscriptionListListener): void;
+				public getSubscriptionLists(param0: boolean): com.urbanairship.PendingResult<java.util.Set<string>>;
 				public enableChannelCreation(): void;
-				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.locale.LocaleManager);
 				public onUrlConfigUpdated(): void;
 			}
 			export module AirshipChannel {
@@ -2178,6 +2396,7 @@ declare module com {
 				public static class: java.lang.Class<com.urbanairship.channel.AttributeApiClient>;
 				public static namedUserClient(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.channel.AttributeApiClient;
 				public static channelClient(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.channel.AttributeApiClient;
+				public static contactClient(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.channel.AttributeApiClient;
 			}
 			export module AttributeApiClient {
 				export class UrlFactory {
@@ -2227,10 +2446,10 @@ declare module com {
 				 * Constructs a new instance of the com.urbanairship.channel.AttributeListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 				 */
 				public constructor(implementation: {
-					onAttributeMutationsUploaded(param0: string, param1: java.util.List<com.urbanairship.channel.AttributeMutation>): void;
+					onAttributeMutationsUploaded(param0: java.util.List<com.urbanairship.channel.AttributeMutation>): void;
 				});
 				public constructor();
-				public onAttributeMutationsUploaded(param0: string, param1: java.util.List<com.urbanairship.channel.AttributeMutation>): void;
+				public onAttributeMutationsUploaded(param0: java.util.List<com.urbanairship.channel.AttributeMutation>): void;
 			}
 		}
 	}
@@ -2241,12 +2460,19 @@ declare module com {
 		export module channel {
 			export class AttributeMutation extends com.urbanairship.json.JsonSerializable {
 				public static class: java.lang.Class<com.urbanairship.channel.AttributeMutation>;
+				public static ATTRIBUTE_ACTION_REMOVE: string;
+				public static ATTRIBUTE_ACTION_SET: string;
+				public action: string;
+				public name: string;
+				public value: com.urbanairship.json.JsonValue;
+				public timestamp: string;
 				public toJsonValue(): com.urbanairship.json.JsonValue;
 				public static collapseMutations(param0: java.util.List<com.urbanairship.channel.AttributeMutation>): java.util.List<com.urbanairship.channel.AttributeMutation>;
 				public hashCode(): number;
 				public static newRemoveAttributeMutation(param0: string, param1: number): com.urbanairship.channel.AttributeMutation;
 				public equals(param0: any): boolean;
 				public toString(): string;
+				public static fromJsonList(param0: com.urbanairship.json.JsonList): java.util.List<com.urbanairship.channel.AttributeMutation>;
 				public static newSetAttributeMutation(param0: string, param1: com.urbanairship.json.JsonValue, param2: number): com.urbanairship.channel.AttributeMutation;
 			}
 		}
@@ -2286,8 +2512,8 @@ declare module com {
 				public pushAddress: string;
 				public setTags: boolean;
 				public tags: java.util.Set<string>;
+				public tagChanges: com.urbanairship.json.JsonMap;
 				public userId: string;
-				public apid: string;
 				public timezone: string;
 				public language: string;
 				public country: string;
@@ -2299,7 +2525,7 @@ declare module com {
 				public carrier: string;
 				public accengageDeviceId: string;
 				public deliveryType: string;
-				public namedUserId: string;
+				public contactId: string;
 				public toJsonValue(): com.urbanairship.json.JsonValue;
 				public hashCode(): number;
 				public equals(param0: any): boolean;
@@ -2311,8 +2537,6 @@ declare module com {
 					public static class: java.lang.Class<com.urbanairship.channel.ChannelRegistrationPayload.Builder>;
 					public setCountry(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public setDeviceType(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
-					public setNamedUserId(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
-					public setApid(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public setBackgroundEnabled(param0: boolean): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public setOptIn(param0: boolean): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public setTimezone(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
@@ -2320,6 +2544,7 @@ declare module com {
 					public setDeviceModel(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public setApiVersion(param0: java.lang.Integer): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public setDeliveryType(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
+					public setContactId(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public setTags(param0: boolean, param1: java.util.Set<string>): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
 					public constructor(param0: com.urbanairship.channel.ChannelRegistrationPayload);
 					public setPushAddress(param0: string): com.urbanairship.channel.ChannelRegistrationPayload.Builder;
@@ -2353,50 +2578,17 @@ declare module com {
 				public static class: java.lang.Class<com.urbanairship.channel.NamedUser>;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
 				public getComponentGroup(): number;
-				public addTagGroupListener(param0: com.urbanairship.channel.TagGroupListener): void;
-				public addAttributeListener(param0: com.urbanairship.channel.AttributeListener): void;
-				public removeNamedUserListener(param0: com.urbanairship.channel.NamedUserListener): void;
-				public getId(): string;
-				public onDataCollectionEnabledChanged(param0: boolean): void;
+				/** @deprecated */
 				public forceUpdate(): void;
-				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
-				public editTagGroups(): com.urbanairship.channel.TagGroupsEditor;
-				public init(): void;
+				/** @deprecated */
 				public editAttributes(): com.urbanairship.channel.AttributeEditor;
-				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel);
-				public getPendingAttributeUpdates(): java.util.List<com.urbanairship.channel.AttributeMutation>;
-				public getPendingTagUpdates(): java.util.List<com.urbanairship.channel.TagGroupsMutation>;
+				/** @deprecated */
+				public editTagGroups(): com.urbanairship.channel.TagGroupsEditor;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.contacts.Contact);
+				/** @deprecated */
 				public setId(param0: string): void;
-				public addNamedUserListener(param0: com.urbanairship.channel.NamedUserListener): void;
-				public onUrlConfigUpdated(): void;
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module channel {
-			export class NamedUserApiClient {
-				public static class: java.lang.Class<com.urbanairship.channel.NamedUserApiClient>;
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module channel {
-			export class NamedUserListener {
-				public static class: java.lang.Class<com.urbanairship.channel.NamedUserListener>;
-				/**
-				 * Constructs a new instance of the com.urbanairship.channel.NamedUserListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-				 */
-				public constructor(implementation: {
-					onNamedUserIdChanged(param0: string): void;
-				});
-				public constructor();
-				public onNamedUserIdChanged(param0: string): void;
+				/** @deprecated */
+				public getId(): string;
 			}
 		}
 	}
@@ -2415,8 +2607,95 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module channel {
+			export class PendingSubscriptionListMutationStore extends com.urbanairship.util.JsonDataStoreQueue<java.util.List<com.urbanairship.channel.SubscriptionListMutation>> {
+				public static class: java.lang.Class<com.urbanairship.channel.PendingSubscriptionListMutationStore>;
+				public constructor(param0: com.urbanairship.PreferenceDataStore, param1: string, param2: androidx.arch.core.util.Function<any,any>, param3: androidx.arch.core.util.Function<com.urbanairship.json.JsonValue,any>);
+				public collapseAndSaveMutations(): void;
+				public constructor(param0: com.urbanairship.PreferenceDataStore, param1: string);
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module channel {
 			export class PendingTagGroupMutationStore extends com.urbanairship.util.JsonDataStoreQueue<com.urbanairship.channel.TagGroupsMutation> {
 				public static class: java.lang.Class<com.urbanairship.channel.PendingTagGroupMutationStore>;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module channel {
+			export class SubscriptionListApiClient {
+				public static class: java.lang.Class<com.urbanairship.channel.SubscriptionListApiClient>;
+				public static channelClient(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.channel.SubscriptionListApiClient;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module channel {
+			export abstract class SubscriptionListEditor {
+				public static class: java.lang.Class<com.urbanairship.channel.SubscriptionListEditor>;
+				public apply(): void;
+				public subscribe(param0: string): com.urbanairship.channel.SubscriptionListEditor;
+				public subscribe(param0: java.util.Set<string>): com.urbanairship.channel.SubscriptionListEditor;
+				public mutate(param0: string, param1: boolean): com.urbanairship.channel.SubscriptionListEditor;
+				public constructor(param0: com.urbanairship.util.Clock);
+				public unsubscribe(param0: string): com.urbanairship.channel.SubscriptionListEditor;
+				public unsubscribe(param0: java.util.Set<string>): com.urbanairship.channel.SubscriptionListEditor;
+				public onApply(param0: java.util.List<com.urbanairship.channel.SubscriptionListMutation>): void;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module channel {
+			export abstract class SubscriptionListListener {
+				public static class: java.lang.Class<com.urbanairship.channel.SubscriptionListListener>;
+				public onSubscriptionListMutationUploaded(param0: string, param1: java.util.List<com.urbanairship.channel.SubscriptionListMutation>): void;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module channel {
+			export class SubscriptionListMutation extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.channel.SubscriptionListMutation>;
+				public static ACTION_SUBSCRIBE: string;
+				public static ACTION_UNSUBSCRIBE: string;
+				public static newSubscribeMutation(param0: string, param1: number): com.urbanairship.channel.SubscriptionListMutation;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public getTimestamp(): string;
+				public static newUnsubscribeMutation(param0: string, param1: number): com.urbanairship.channel.SubscriptionListMutation;
+				public static collapseMutations(param0: java.util.List<com.urbanairship.channel.SubscriptionListMutation>): java.util.List<com.urbanairship.channel.SubscriptionListMutation>;
+				public static fromJsonValue(param0: com.urbanairship.json.JsonValue): com.urbanairship.channel.SubscriptionListMutation;
+				public hashCode(): number;
+				public getAction(): string;
+				public equals(param0: any): boolean;
+				public getListId(): string;
+				public toString(): string;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module channel {
+			export class SubscriptionListRegistrar {
+				public static class: java.lang.Class<com.urbanairship.channel.SubscriptionListRegistrar>;
 			}
 		}
 	}
@@ -2446,6 +2725,7 @@ declare module com {
 			export class TagGroupApiClient {
 				public static class: java.lang.Class<com.urbanairship.channel.TagGroupApiClient>;
 				public static namedUserClient(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.channel.TagGroupApiClient;
+				public static contactClient(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.channel.TagGroupApiClient;
 				public static channelClient(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.channel.TagGroupApiClient;
 			}
 		}
@@ -2461,10 +2741,10 @@ declare module com {
 				 * Constructs a new instance of the com.urbanairship.channel.TagGroupListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 				 */
 				public constructor(implementation: {
-					onTagGroupsMutationUploaded(param0: string, param1: com.urbanairship.channel.TagGroupsMutation): void;
+					onTagGroupsMutationUploaded(param0: java.util.List<com.urbanairship.channel.TagGroupsMutation>): void;
 				});
 				public constructor();
-				public onTagGroupsMutationUploaded(param0: string, param1: com.urbanairship.channel.TagGroupsMutation): void;
+				public onTagGroupsMutationUploaded(param0: java.util.List<com.urbanairship.channel.TagGroupsMutation>): void;
 			}
 		}
 	}
@@ -2536,8 +2816,8 @@ declare module com {
 			export class AirshipRuntimeConfig {
 				public static class: java.lang.Class<com.urbanairship.config.AirshipRuntimeConfig>;
 				public getUrlConfig(): com.urbanairship.config.AirshipUrlConfig;
+				public constructor(param0: com.urbanairship.config.PlatformProvider, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.config.AirshipUrlConfigProvider);
 				public getPlatform(): number;
-				public constructor(param0: number, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.config.AirshipUrlConfigProvider);
 				public getConfigOptions(): com.urbanairship.AirshipConfigOptions;
 			}
 		}
@@ -2610,6 +2890,24 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module config {
+			export class PlatformProvider {
+				public static class: java.lang.Class<com.urbanairship.config.PlatformProvider>;
+				/**
+				 * Constructs a new instance of the com.urbanairship.config.PlatformProvider interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+				 */
+				public constructor(implementation: {
+					getPlatform(): number;
+				});
+				public constructor();
+				public getPlatform(): number;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module config {
 			export class RemoteAirshipUrlConfigProvider implements com.urbanairship.config.AirshipUrlConfigProvider, com.urbanairship.remoteconfig.RemoteAirshipConfigListener {
 				public static class: java.lang.Class<com.urbanairship.config.RemoteAirshipUrlConfigProvider>;
 				public disableFallbackUrls(): void;
@@ -2633,6 +2931,156 @@ declare module com {
 				public appendEncodedPath(param0: string): com.urbanairship.config.UrlBuilder;
 				public appendPath(param0: string): com.urbanairship.config.UrlBuilder;
 				public constructor(param0: string);
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class Contact extends com.urbanairship.AirshipComponent {
+				public static class: java.lang.Class<com.urbanairship.contacts.Contact>;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
+				public getComponentGroup(): number;
+				public addTagGroupListener(param0: com.urbanairship.channel.TagGroupListener): void;
+				public onComponentEnableChange(param0: boolean): void;
+				public addAttributeListener(param0: com.urbanairship.channel.AttributeListener): void;
+				public removeContactChangeListener(param0: com.urbanairship.contacts.ContactChangeListener): void;
+				public removeTagGroupListener(param0: com.urbanairship.channel.TagGroupListener): void;
+				public setContactConflictListener(param0: com.urbanairship.contacts.ContactConflictListener): void;
+				public removeAttributeListener(param0: com.urbanairship.channel.AttributeListener): void;
+				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
+				public editTagGroups(): com.urbanairship.channel.TagGroupsEditor;
+				public addContactChangeListener(param0: com.urbanairship.contacts.ContactChangeListener): void;
+				public getNamedUserId(): string;
+				public init(): void;
+				public editAttributes(): com.urbanairship.channel.AttributeEditor;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel);
+				public reset(): void;
+				public getPendingAttributeUpdates(): java.util.List<com.urbanairship.channel.AttributeMutation>;
+				public getPendingTagUpdates(): java.util.List<com.urbanairship.channel.TagGroupsMutation>;
+				public identify(param0: string): void;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ContactApiClient {
+				public static class: java.lang.Class<com.urbanairship.contacts.ContactApiClient>;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ContactChangeListener {
+				public static class: java.lang.Class<com.urbanairship.contacts.ContactChangeListener>;
+				/**
+				 * Constructs a new instance of the com.urbanairship.contacts.ContactChangeListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+				 */
+				public constructor(implementation: {
+					onContactChanged(): void;
+				});
+				public constructor();
+				public onContactChanged(): void;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ContactConflictListener {
+				public static class: java.lang.Class<com.urbanairship.contacts.ContactConflictListener>;
+				/**
+				 * Constructs a new instance of the com.urbanairship.contacts.ContactConflictListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+				 */
+				public constructor(implementation: {
+					onConflict(param0: com.urbanairship.contacts.ContactData, param1: string): void;
+				});
+				public constructor();
+				public onConflict(param0: com.urbanairship.contacts.ContactData, param1: string): void;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ContactData extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.ContactData>;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public hashCode(): number;
+				public getTagGroups(): java.util.Map<string,java.util.Set<string>>;
+				public equals(param0: any): boolean;
+				public getAttributes(): java.util.Map<string,com.urbanairship.json.JsonValue>;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ContactIdentity extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.ContactIdentity>;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public getContactId(): string;
+				public isAnonymous(): boolean;
+				public getNamedUserId(): string;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ContactOperation extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation>;
+				public getType(): string;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public getPayload(): com.urbanairship.contacts.ContactOperation.Payload;
+				public coercePayload(): com.urbanairship.contacts.ContactOperation.Payload;
+				public toString(): string;
+			}
+			export module ContactOperation {
+				export class IdentifyPayload extends com.urbanairship.contacts.ContactOperation.Payload {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.IdentifyPayload>;
+					public toString(): string;
+					public constructor(param0: string);
+					public getIdentifier(): string;
+					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ContactOperation.IdentifyPayload;
+					public toJsonValue(): com.urbanairship.json.JsonValue;
+				}
+				export class Payload extends com.urbanairship.json.JsonSerializable {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.Payload>;
+					/**
+					 * Constructs a new instance of the com.urbanairship.contacts.ContactOperation$Payload interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+					 */
+					public constructor(implementation: {
+						toJsonValue(): com.urbanairship.json.JsonValue;
+					});
+					public constructor();
+					public toJsonValue(): com.urbanairship.json.JsonValue;
+				}
+				export class UpdatePayload extends com.urbanairship.contacts.ContactOperation.Payload {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.UpdatePayload>;
+					public toString(): string;
+					public getTagGroupMutations(): java.util.List<com.urbanairship.channel.TagGroupsMutation>;
+					public getAttributeMutations(): java.util.List<com.urbanairship.channel.AttributeMutation>;
+					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ContactOperation.UpdatePayload;
+					public constructor(param0: java.util.List<com.urbanairship.channel.TagGroupsMutation>, param1: java.util.List<com.urbanairship.channel.AttributeMutation>);
+					public toJsonValue(): com.urbanairship.json.JsonValue;
+				}
 			}
 		}
 	}
@@ -2752,9 +3200,9 @@ declare module com {
 				public constructor(param0: string, param1: globalAndroid.net.Uri);
 				public constructor();
 				public execute(param0: com.urbanairship.http.ResponseParser<any>): com.urbanairship.http.Response<any>;
+				public setAirshipUserAgent(param0: com.urbanairship.config.AirshipRuntimeConfig): com.urbanairship.http.Request;
 				public setOperation(param0: string, param1: globalAndroid.net.Uri): com.urbanairship.http.Request;
 				public setRequestBody(param0: string, param1: string): com.urbanairship.http.Request;
-				public getUrbanAirshipUserAgent(): string;
 				public setAirshipJsonAcceptsHeader(): com.urbanairship.http.Request;
 				public execute(): com.urbanairship.http.Response<java.lang.Void>;
 				public setCredentials(param0: string, param1: string): com.urbanairship.http.Request;
@@ -3370,6 +3818,23 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module json {
+			export class JsonTypeConverters {
+				public static class: java.lang.Class<com.urbanairship.json.JsonTypeConverters>;
+				public jsonPredicateFromString(param0: string): com.urbanairship.json.JsonPredicate;
+				public jsonValueToString(param0: com.urbanairship.json.JsonValue): string;
+				public jsonValueFromString(param0: string): com.urbanairship.json.JsonValue;
+				public jsonMapToString(param0: com.urbanairship.json.JsonMap): string;
+				public jsonPredicateToString(param0: com.urbanairship.json.JsonPredicate): string;
+				public jsonMapFromString(param0: string): com.urbanairship.json.JsonMap;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module json {
 			export class JsonValue extends com.urbanairship.json.JsonSerializable {
 				public static class: java.lang.Class<com.urbanairship.json.JsonValue>;
 				public static NULL: com.urbanairship.json.JsonValue;
@@ -3395,6 +3860,7 @@ declare module com {
 				public getInt(param0: number): number;
 				public isBoolean(): boolean;
 				public optMap(): com.urbanairship.json.JsonMap;
+				public getBoolean(): java.lang.Boolean;
 				public writeToParcel(param0: globalAndroid.os.Parcel, param1: number): void;
 				public getString(): string;
 				public isJsonMap(): boolean;
@@ -3620,13 +4086,14 @@ declare module com {
 			export class Modules {
 				public static class: java.lang.Class<com.urbanairship.modules.Modules>;
 				public static debug(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore): com.urbanairship.modules.Module;
-				public static chat(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
-				public static location(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.channel.AirshipChannel, param3: com.urbanairship.analytics.Analytics): com.urbanairship.modules.location.LocationModule;
-				public static adId(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore): com.urbanairship.modules.Module;
-				public static accengage(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.PreferenceDataStore, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.analytics.Analytics): com.urbanairship.modules.accengage.AccengageModule;
-				public static automation(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.analytics.Analytics, param6: com.urbanairship.remotedata.RemoteData, param7: com.urbanairship.channel.NamedUser): com.urbanairship.modules.Module;
+				public static chat(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+				public static adId(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.analytics.Analytics): com.urbanairship.modules.Module;
+				public static preferenceCenter(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData): com.urbanairship.modules.Module;
+				public static location(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.analytics.Analytics): com.urbanairship.modules.location.LocationModule;
+				public static automation(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager, param6: com.urbanairship.analytics.Analytics, param7: com.urbanairship.remotedata.RemoteData, param8: com.urbanairship.contacts.Contact): com.urbanairship.modules.Module;
+				public static messageCenter(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+				public static accengage(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.PreferenceDataStore, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager): com.urbanairship.modules.accengage.AccengageModule;
 				public constructor();
-				public static messageCenter(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.channel.AirshipChannel, param3: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
 			}
 		}
 	}
@@ -3642,14 +4109,14 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.modules.aaid.AdIdModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore): com.urbanairship.modules.Module;
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.analytics.Analytics): com.urbanairship.modules.Module;
 						getAirshipVersion(): string;
 						getPackageVersion(): string;
 					});
 					public constructor();
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.analytics.Analytics): com.urbanairship.modules.Module;
 					public getPackageVersion(): string;
 					public getAirshipVersion(): string;
-					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore): com.urbanairship.modules.Module;
 				}
 			}
 		}
@@ -3682,12 +4149,12 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.modules.accengage.AccengageModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						build(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.PreferenceDataStore, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.analytics.Analytics): com.urbanairship.modules.accengage.AccengageModule;
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.PreferenceDataStore, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager): com.urbanairship.modules.accengage.AccengageModule;
 						getAirshipVersion(): string;
 						getPackageVersion(): string;
 					});
 					public constructor();
-					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.PreferenceDataStore, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.analytics.Analytics): com.urbanairship.modules.accengage.AccengageModule;
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.PreferenceDataStore, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager): com.urbanairship.modules.accengage.AccengageModule;
 					public getPackageVersion(): string;
 					public getAirshipVersion(): string;
 				}
@@ -3726,13 +4193,13 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.modules.automation.AutomationModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.analytics.Analytics, param6: com.urbanairship.remotedata.RemoteData, param7: com.urbanairship.channel.NamedUser): com.urbanairship.modules.Module;
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager, param6: com.urbanairship.analytics.Analytics, param7: com.urbanairship.remotedata.RemoteData, param8: com.urbanairship.contacts.Contact): com.urbanairship.modules.Module;
 						getAirshipVersion(): string;
 						getPackageVersion(): string;
 					});
 					public constructor();
-					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.analytics.Analytics, param6: com.urbanairship.remotedata.RemoteData, param7: com.urbanairship.channel.NamedUser): com.urbanairship.modules.Module;
 					public getPackageVersion(): string;
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager, param6: com.urbanairship.analytics.Analytics, param7: com.urbanairship.remotedata.RemoteData, param8: com.urbanairship.contacts.Contact): com.urbanairship.modules.Module;
 					public getAirshipVersion(): string;
 				}
 			}
@@ -3750,12 +4217,12 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.modules.chat.ChatModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
 						getAirshipVersion(): string;
 						getPackageVersion(): string;
 					});
 					public constructor();
-					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
 					public getPackageVersion(): string;
 					public getAirshipVersion(): string;
 				}
@@ -3842,12 +4309,12 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.modules.location.LocationModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.channel.AirshipChannel, param3: com.urbanairship.analytics.Analytics): com.urbanairship.modules.location.LocationModule;
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.analytics.Analytics): com.urbanairship.modules.location.LocationModule;
 						getAirshipVersion(): string;
 						getPackageVersion(): string;
 					});
 					public constructor();
-					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.channel.AirshipChannel, param3: com.urbanairship.analytics.Analytics): com.urbanairship.modules.location.LocationModule;
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.analytics.Analytics): com.urbanairship.modules.location.LocationModule;
 					public getPackageVersion(): string;
 					public getAirshipVersion(): string;
 				}
@@ -3866,12 +4333,36 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.modules.messagecenter.MessageCenterModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.channel.AirshipChannel, param3: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
 						getAirshipVersion(): string;
 						getPackageVersion(): string;
 					});
 					public constructor();
-					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.channel.AirshipChannel, param3: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+					public getPackageVersion(): string;
+					public getAirshipVersion(): string;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module modules {
+			export module preferencecenter {
+				export class PreferenceCenterModuleFactory extends com.urbanairship.AirshipVersionInfo {
+					public static class: java.lang.Class<com.urbanairship.modules.preferencecenter.PreferenceCenterModuleFactory>;
+					/**
+					 * Constructs a new instance of the com.urbanairship.modules.preferencecenter.PreferenceCenterModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+					 */
+					public constructor(implementation: {
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData): com.urbanairship.modules.Module;
+						getAirshipVersion(): string;
+						getPackageVersion(): string;
+					});
+					public constructor();
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData): com.urbanairship.modules.Module;
 					public getPackageVersion(): string;
 					public getAirshipVersion(): string;
 				}
@@ -4058,31 +4549,26 @@ declare module com {
 				public isInQuietTime(): boolean;
 				/** @deprecated */
 				public isQuietTimeEnabled(): boolean;
-				public onDataCollectionEnabledChanged(param0: boolean): void;
 				/** @deprecated */
 				public isVibrateEnabled(): boolean;
-				public setPushTokenRegistrationEnabled(param0: boolean): void;
 				public addNotificationActionButtonGroups(param0: globalAndroid.content.Context, param1: number): void;
-				public isPushTokenRegistrationEnabled(): boolean;
+				/** @deprecated */
+				public setPushEnabled(param0: boolean): void;
 				public init(): void;
 				/** @deprecated */
 				public setSoundEnabled(param0: boolean): void;
 				public addPushTokenListener(param0: com.urbanairship.push.PushTokenListener): void;
-				/** @deprecated */
-				public getQuietTimeInterval(): native.Array<java.util.Date>;
 				public setNotificationProvider(param0: com.urbanairship.push.notifications.NotificationProvider): void;
 				public isPushAvailable(): boolean;
 				/** @deprecated */
 				public setQuietTimeEnabled(param0: boolean): void;
-				public setPushEnabled(param0: boolean): void;
-				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.AirshipConfigOptions, param3: com.urbanairship.push.PushProvider, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.analytics.Analytics);
 				public removePushListener(param0: com.urbanairship.push.PushListener): void;
 				/** @deprecated */
 				public setVibrateEnabled(param0: boolean): void;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.base.Supplier<com.urbanairship.PushProviders>, param5: com.urbanairship.channel.AirshipChannel, param6: com.urbanairship.analytics.Analytics);
 				/** @deprecated */
 				public setQuietTimeInterval(param0: java.util.Date, param1: java.util.Date): void;
 				public setNotificationListener(param0: com.urbanairship.push.NotificationListener): void;
-				public isPushEnabled(): boolean;
 				public getUserNotificationsEnabled(): boolean;
 				public getNotificationChannelRegistry(): com.urbanairship.push.notifications.NotificationChannelRegistry;
 				public setUserNotificationsEnabled(param0: boolean): void;
@@ -4090,13 +4576,21 @@ declare module com {
 				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
 				public getLastReceivedMetadata(): string;
 				public removePushTokenListener(param0: com.urbanairship.push.PushTokenListener): void;
+				/** @deprecated */
+				public isPushTokenRegistrationEnabled(): boolean;
 				public addNotificationActionButtonGroup(param0: string, param1: com.urbanairship.push.notifications.NotificationActionButtonGroup): void;
+				/** @deprecated */
+				public getQuietTimeInterval(): androidNative.Array<java.util.Date>;
 				public isOptIn(): boolean;
+				/** @deprecated */
+				public setPushTokenRegistrationEnabled(param0: boolean): void;
 				/** @deprecated */
 				public isSoundEnabled(): boolean;
 				public getNotificationListener(): com.urbanairship.push.NotificationListener;
 				public areNotificationsOptedIn(): boolean;
 				public getPushToken(): string;
+				/** @deprecated */
+				public isPushEnabled(): boolean;
 				public getPushProvider(): com.urbanairship.push.PushProvider;
 				public getNotificationProvider(): com.urbanairship.push.notifications.NotificationProvider;
 				public addPushListener(param0: com.urbanairship.push.PushListener): void;
@@ -4241,8 +4735,10 @@ declare module com {
 		export module push {
 			export abstract class PushProviderBridge {
 				public static class: java.lang.Class<com.urbanairship.push.PushProviderBridge>;
-				public static processPush(param0: java.lang.Class<any>, param1: com.urbanairship.push.PushMessage): com.urbanairship.push.PushProviderBridge.ProcessPushRequest;
+				/** @deprecated */
 				public static requestRegistrationUpdate(param0: globalAndroid.content.Context): void;
+				public static processPush(param0: java.lang.Class<any>, param1: com.urbanairship.push.PushMessage): com.urbanairship.push.PushProviderBridge.ProcessPushRequest;
+				public static requestRegistrationUpdate(param0: globalAndroid.content.Context, param1: java.lang.Class<any>, param2: string): void;
 				public constructor();
 			}
 			export module PushProviderBridge {
@@ -4375,7 +4871,7 @@ declare module com {
 					public static class: java.lang.Class<com.urbanairship.push.notifications.LocalizableRemoteInput>;
 					public getAllowFreeFormInput(): boolean;
 					public getExtras(): globalAndroid.os.Bundle;
-					public getChoices(): native.Array<number>;
+					public getChoices(): androidNative.Array<number>;
 					public createRemoteInput(param0: globalAndroid.content.Context): androidx.core.app.RemoteInput;
 					public getResultKey(): string;
 					public getLabel(): number;
@@ -4490,7 +4986,6 @@ declare module com {
 					public setDescription(param0: string): void;
 					public getId(): string;
 					public getImportance(): number;
-					public setVibrationPattern(param0: native.Array<number>): void;
 					public getGroup(): string;
 					public shouldShowLights(): boolean;
 					public getSound(): globalAndroid.net.Uri;
@@ -4501,11 +4996,11 @@ declare module com {
 					public setShowBadge(param0: boolean): void;
 					public constructor(param0: string, param1: string, param2: number);
 					public getLockscreenVisibility(): number;
-					public getVibrationPattern(): native.Array<number>;
 					public getShowBadge(): boolean;
 					public hashCode(): number;
 					public getLightColor(): number;
 					public setGroup(param0: string): void;
+					public setVibrationPattern(param0: androidNative.Array<number>): void;
 					public getBypassDnd(): boolean;
 					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.push.notifications.NotificationChannelCompat;
 					public setImportance(param0: number): void;
@@ -4516,6 +5011,7 @@ declare module com {
 					public toJsonValue(): com.urbanairship.json.JsonValue;
 					public equals(param0: any): boolean;
 					public shouldVibrate(): boolean;
+					public getVibrationPattern(): androidNative.Array<number>;
 					public enableVibration(param0: boolean): void;
 					public getName(): string;
 					public getDescription(): string;
@@ -4533,7 +5029,6 @@ declare module com {
 				export class NotificationChannelRegistry {
 					public static class: java.lang.Class<com.urbanairship.push.notifications.NotificationChannelRegistry>;
 					public getNotificationChannel(param0: string): com.urbanairship.PendingResult<com.urbanairship.push.notifications.NotificationChannelCompat>;
-					public createDeferredNotificationChannels(param0: number): void;
 					public getNotificationChannelSync(param0: string): com.urbanairship.push.notifications.NotificationChannelCompat;
 					public createNotificationChannel(param0: com.urbanairship.push.notifications.NotificationChannelCompat): void;
 					public deleteNotificationChannel(param0: string): void;
@@ -4557,7 +5052,9 @@ declare module com {
 					public constructor(param0: globalAndroid.content.Context, param1: string, param2: string);
 					public getChannels(): java.util.Set<com.urbanairship.push.notifications.NotificationChannelCompat>;
 					public constructor(param0: globalAndroid.content.Context, param1: string, param2: string, param3: number);
+					public onUpgrade(param0: globalAndroid.database.sqlite.SQLiteDatabase, param1: number, param2: number): void;
 					public getChannel(param0: string): com.urbanairship.push.notifications.NotificationChannelCompat;
+					public onDowngrade(param0: globalAndroid.database.sqlite.SQLiteDatabase, param1: number, param2: number): void;
 					public onCreate(param0: globalAndroid.database.sqlite.SQLiteDatabase): void;
 				}
 			}
@@ -4986,6 +5483,7 @@ declare module com {
 				public static MESSAGE_CENTER: string;
 				public static NAMED_USER_MODULE: string;
 				public static CHANNEL_MODULE: string;
+				public static PREFERENCE_CENTER_MODULE: string;
 				public static ANALYTICS_MODULE: string;
 				public static IN_APP_MODULE: string;
 				public static CHAT_MODULE: string;
@@ -4993,6 +5491,7 @@ declare module com {
 				public static ALL_MODULES: java.util.List<string>;
 				public static PUSH_MODULE: string;
 				public static AUTOMATION_MODULE: string;
+				public static CONTACT_MODULE: string;
 			}
 		}
 	}
@@ -5043,7 +5542,7 @@ declare module com {
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
 				public tearDown(): void;
 				public addRemoteAirshipConfigListener(param0: com.urbanairship.remoteconfig.RemoteAirshipConfigListener): void;
-				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.remotedata.RemoteData);
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.remotedata.RemoteData);
 				public init(): void;
 			}
 		}
@@ -5055,17 +5554,18 @@ declare module com {
 		export module remotedata {
 			export class RemoteData extends com.urbanairship.AirshipComponent {
 				public static class: java.lang.Class<com.urbanairship.remotedata.RemoteData>;
+				public static DEFAULT_FOREGROUND_REFRESH_INTERVAL_MS: number;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
 				public payloadsForType(param0: string): com.urbanairship.reactive.Observable<com.urbanairship.remotedata.RemoteDataPayload>;
 				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.locale.LocaleManager, param6: com.urbanairship.base.Supplier<com.urbanairship.PushProviders>);
 				public isMetadataCurrent(param0: com.urbanairship.json.JsonMap): boolean;
 				public init(): void;
 				public tearDown(): void;
 				public getForegroundRefreshInterval(): number;
+				public payloadsForTypes(param0: androidNative.Array<string>): com.urbanairship.reactive.Observable<java.util.Collection<com.urbanairship.remotedata.RemoteDataPayload>>;
 				public setForegroundRefreshInterval(param0: number): void;
 				public refresh(): void;
-				public payloadsForTypes(param0: native.Array<string>): com.urbanairship.reactive.Observable<java.util.Collection<com.urbanairship.remotedata.RemoteDataPayload>>;
-				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.push.PushManager, param4: com.urbanairship.locale.LocaleManager);
 				public onUrlConfigUpdated(): void;
 				public payloadsForTypes(param0: java.util.Collection<string>): com.urbanairship.reactive.Observable<java.util.Collection<com.urbanairship.remotedata.RemoteDataPayload>>;
 			}
@@ -5194,7 +5694,7 @@ declare module com {
 				public static class: java.lang.Class<com.urbanairship.util.AttributeSetConfigParser>;
 				public getName(param0: number): string;
 				public getString(param0: string, param1: string): string;
-				public getStringArray(param0: string): native.Array<string>;
+				public getStringArray(param0: string): androidNative.Array<string>;
 				public constructor(param0: globalAndroid.content.Context, param1: globalAndroid.util.AttributeSet);
 				public getLong(param0: string, param1: number): number;
 				public getBoolean(param0: string, param1: boolean): boolean;
@@ -5298,7 +5798,7 @@ declare module com {
 					getString(param0: string): string;
 					getString(param0: string, param1: string): string;
 					getBoolean(param0: string, param1: boolean): boolean;
-					getStringArray(param0: string): native.Array<string>;
+					getStringArray(param0: string): androidNative.Array<string>;
 					getDrawableResourceId(param0: string): number;
 					getColor(param0: string, param1: number): number;
 					getLong(param0: string, param1: number): number;
@@ -5308,7 +5808,7 @@ declare module com {
 				public constructor();
 				public getName(param0: number): string;
 				public getString(param0: string, param1: string): string;
-				public getStringArray(param0: string): native.Array<string>;
+				public getStringArray(param0: string): androidNative.Array<string>;
 				public getLong(param0: string, param1: number): number;
 				public getBoolean(param0: string, param1: boolean): boolean;
 				public getRawResourceId(param0: string): number;
@@ -5339,25 +5839,25 @@ declare module com {
 		export module util {
 			export abstract class DataManager {
 				public static class: java.lang.Class<com.urbanairship.util.DataManager>;
-				public query(param0: string, param1: native.Array<string>, param2: string, param3: native.Array<string>, param4: string, param5: string): globalAndroid.database.Cursor;
+				public delete(param0: string, param1: string, param2: androidNative.Array<string>): number;
+				public query(param0: string, param1: androidNative.Array<string>, param2: string, param3: androidNative.Array<string>, param4: string, param5: string): globalAndroid.database.Cursor;
 				public close(): void;
+				public rawQuery(param0: string, param1: androidNative.Array<string>): globalAndroid.database.Cursor;
 				public onConfigure(param0: globalAndroid.database.sqlite.SQLiteDatabase): void;
 				public getReadableDatabase(): globalAndroid.database.sqlite.SQLiteDatabase;
-				public bulkInsert(param0: string, param1: native.Array<globalAndroid.content.ContentValues>): java.util.List<globalAndroid.content.ContentValues>;
 				public getWritableDatabase(): globalAndroid.database.sqlite.SQLiteDatabase;
 				public onCreate(param0: globalAndroid.database.sqlite.SQLiteDatabase): void;
 				public onUpgrade(param0: globalAndroid.database.sqlite.SQLiteDatabase, param1: number, param2: number): void;
 				public onDowngrade(param0: globalAndroid.database.sqlite.SQLiteDatabase, param1: number, param2: number): void;
 				public databaseExists(param0: globalAndroid.content.Context): boolean;
 				public deleteDatabase(param0: globalAndroid.content.Context): boolean;
+				public update(param0: string, param1: globalAndroid.content.ContentValues, param2: string, param3: androidNative.Array<string>): number;
 				public constructor(param0: globalAndroid.content.Context, param1: string, param2: string, param3: number);
-				public delete(param0: string, param1: string, param2: native.Array<string>): number;
+				public query(param0: string, param1: androidNative.Array<string>, param2: string, param3: androidNative.Array<string>, param4: string): globalAndroid.database.Cursor;
 				public insert(param0: string, param1: globalAndroid.content.ContentValues): number;
 				public static migrateDatabase(param0: globalAndroid.content.Context, param1: string, param2: string): string;
-				public rawQuery(param0: string, param1: native.Array<string>): globalAndroid.database.Cursor;
 				public onOpen(param0: globalAndroid.database.sqlite.SQLiteDatabase): void;
-				public query(param0: string, param1: native.Array<string>, param2: string, param3: native.Array<string>, param4: string): globalAndroid.database.Cursor;
-				public update(param0: string, param1: globalAndroid.content.ContentValues, param2: string, param3: native.Array<string>): number;
+				public bulkInsert(param0: string, param1: androidNative.Array<globalAndroid.content.ContentValues>): java.util.List<globalAndroid.content.ContentValues>;
 			}
 		}
 	}
@@ -5405,11 +5905,11 @@ declare module com {
 				public static RESULT_RECEIVER_EXTRA: string;
 				public static RESULT_INTENT_EXTRA: string;
 				public static START_ACTIVITY_INTENT_EXTRA: string;
+				public static requestPermissions(param0: globalAndroid.content.Context, param1: androidNative.Array<string>): androidNative.Array<number>;
 				public static startActivityForResult(param0: globalAndroid.content.Context, param1: globalAndroid.content.Intent): com.urbanairship.util.HelperActivity.ActivityResult;
 				public onActivityResult(param0: number, param1: number, param2: globalAndroid.content.Intent): void;
-				public static requestPermissions(param0: globalAndroid.content.Context, param1: native.Array<string>): native.Array<number>;
 				public onCreate(param0: globalAndroid.os.Bundle): void;
-				public onRequestPermissionsResult(param0: number, param1: native.Array<string>, param2: native.Array<number>): void;
+				public onRequestPermissionsResult(param0: number, param1: androidNative.Array<string>, param2: androidNative.Array<number>): void;
 				public constructor();
 			}
 			export module HelperActivity {
@@ -5566,16 +6066,30 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module util {
+			export class PendingIntentCompat {
+				public static class: java.lang.Class<com.urbanairship.util.PendingIntentCompat>;
+				public static FLAG_MUTABLE: number;
+				public static getService(param0: globalAndroid.content.Context, param1: number, param2: globalAndroid.content.Intent, param3: number): globalAndroid.app.PendingIntent;
+				public static getBroadcast(param0: globalAndroid.content.Context, param1: number, param2: globalAndroid.content.Intent, param3: number): globalAndroid.app.PendingIntent;
+				public static getActivity(param0: globalAndroid.content.Context, param1: number, param2: globalAndroid.content.Intent, param3: number): globalAndroid.app.PendingIntent;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module util {
 			export class PermissionsRequester {
 				public static class: java.lang.Class<com.urbanairship.util.PermissionsRequester>;
 				/**
 				 * Constructs a new instance of the com.urbanairship.util.PermissionsRequester interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 				 */
 				public constructor(implementation: {
-					requestPermissions(param0: globalAndroid.content.Context, param1: java.util.List<string>): native.Array<number>;
+					requestPermissions(param0: globalAndroid.content.Context, param1: java.util.List<string>): androidNative.Array<number>;
 				});
 				public constructor();
-				public requestPermissions(param0: globalAndroid.content.Context, param1: java.util.List<string>): native.Array<number>;
+				public requestPermissions(param0: globalAndroid.content.Context, param1: java.util.List<string>): androidNative.Array<number>;
 			}
 		}
 	}
@@ -5586,6 +6100,10 @@ declare module com {
 		export module util {
 			export class PlatformUtils {
 				public static class: java.lang.Class<com.urbanairship.util.PlatformUtils>;
+				public static AMAZON: string;
+				public static ANDROID: string;
+				public static UNKNOWN: string;
+				public static getDeviceType(param0: number): string;
 				public static parsePlatform(param0: number): number;
 				public static asString(param0: number): string;
 				public constructor();
@@ -5600,13 +6118,13 @@ declare module com {
 		export module util {
 			export class PropertiesConfigParser extends com.urbanairship.util.ConfigParser {
 				public static class: java.lang.Class<com.urbanairship.util.PropertiesConfigParser>;
-				public getStringArray(param0: string): native.Array<string>;
 				public getBoolean(param0: string, param1: boolean): boolean;
 				public getColor(param0: string, param1: number): number;
 				public getCount(): number;
 				public getInt(param0: string, param1: number): number;
 				public getName(param0: number): string;
 				public getString(param0: string, param1: string): string;
+				public getStringArray(param0: string): androidNative.Array<string>;
 				public getLong(param0: string, param1: number): number;
 				public getRawResourceId(param0: string): number;
 				public static fromAssets(param0: globalAndroid.content.Context, param1: string): com.urbanairship.util.PropertiesConfigParser;
@@ -5627,7 +6145,7 @@ declare module com {
 				public static RESULT_RETRY: number;
 				public static RESULT_CANCEL: number;
 				public execute(param0: java.lang.Runnable): void;
-				public execute(param0: native.Array<com.urbanairship.util.RetryingExecutor.Operation>): void;
+				public execute(param0: androidNative.Array<com.urbanairship.util.RetryingExecutor.Operation>): void;
 				public static newSerialExecutor(param0: globalAndroid.os.Looper): com.urbanairship.util.RetryingExecutor;
 				public execute(param0: com.urbanairship.util.RetryingExecutor.Operation): void;
 				public constructor(param0: globalAndroid.os.Handler, param1: java.util.concurrent.Executor);
@@ -5708,17 +6226,17 @@ declare module com {
 			export abstract class UAStringUtil {
 				public static class: java.lang.Class<com.urbanairship.util.UAStringUtil>;
 				public static namedStringResource(param0: globalAndroid.content.Context, param1: string, param2: string): string;
-				public static base64Decode(param0: string): native.Array<number>;
+				public static base64Decode(param0: string): androidNative.Array<number>;
+				public static sha256Digest(param0: string): androidNative.Array<number>;
+				public static byteToHex(param0: androidNative.Array<number>): string;
 				public static equals(param0: string, param1: string): boolean;
 				public static nullIfEmpty(param0: string): string;
-				public static sha256Digest(param0: string): native.Array<number>;
 				public static repeat(param0: string, param1: number, param2: string): string;
 				public static base64DecodedString(param0: string): string;
 				public static join(param0: java.util.Collection<string>, param1: string): string;
 				public static isEmpty(param0: string): boolean;
 				public constructor();
 				public static sha256(param0: string): string;
-				public static byteToHex(param0: native.Array<number>): string;
 			}
 		}
 	}
@@ -5769,7 +6287,6 @@ declare module com {
 			export class XmlConfigParser extends com.urbanairship.util.AttributeSetConfigParser {
 				public static class: java.lang.Class<com.urbanairship.util.XmlConfigParser>;
 				public close(): void;
-				public getStringArray(param0: string): native.Array<string>;
 				public getBoolean(param0: string, param1: boolean): boolean;
 				public getColor(param0: string, param1: number): number;
 				public getCount(): number;
@@ -5777,6 +6294,7 @@ declare module com {
 				public static parseElement(param0: globalAndroid.content.Context, param1: number, param2: string): com.urbanairship.util.XmlConfigParser;
 				public getName(param0: number): string;
 				public getString(param0: string, param1: string): string;
+				public getStringArray(param0: string): androidNative.Array<string>;
 				public getLong(param0: string, param1: number): number;
 				public getRawResourceId(param0: string): number;
 				public getString(param0: string): string;
@@ -6000,4 +6518,738 @@ declare module com {
 //com.urbanairship.reactive.Supplier:1
 //com.urbanairship.util.ImageUtils.ImageProcessor:1
 //com.urbanairship.util.JsonDataStoreQueue:1
+
+//preff
+/// <reference path="android-declarations.d.ts"/>
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class BuildConfig {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.BuildConfig>;
+				public static DEBUG: boolean;
+				public static LIBRARY_PACKAGE_NAME: string;
+				public static BUILD_TYPE: string;
+				public static AIRSHIP_VERSION: string;
+				public static SDK_VERSION: string;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class OpenPreferenceCenterAction {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.OpenPreferenceCenterAction>;
+				public acceptsArguments(param0: com.urbanairship.actions.ActionArguments): boolean;
+				public constructor(param0: java.util.concurrent.Callable<com.urbanairship.preferencecenter.PreferenceCenter>);
+				public perform(param0: com.urbanairship.actions.ActionArguments): com.urbanairship.actions.ActionResult;
+				public shouldRunOnMainThread(): boolean;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class PreferenceCenter {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenter>;
+				public static PAYLOAD_TYPE: string;
+				public static KEY_PREFERENCE_FORMS: string;
+				public static DEEP_LINK_HOST: string;
+				public static Companion: com.urbanairship.preferencecenter.PreferenceCenter.Companion;
+				public getComponentGroup(): number;
+				public getOpenListener(): com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener;
+				public onAirshipDeepLink(param0: globalAndroid.net.Uri): boolean;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData, param4: globalAndroid.os.Looper);
+				public getConfig(param0: string): com.urbanairship.PendingResult<com.urbanairship.preferencecenter.data.PreferenceCenterConfig>;
+				public setOpenListener(param0: com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener): void;
+				public open(param0: string): void;
+				public static shared(): com.urbanairship.preferencecenter.PreferenceCenter;
+			}
+			export module PreferenceCenter {
+				export class Companion {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenter.Companion>;
+					public shared(): com.urbanairship.preferencecenter.PreferenceCenter;
+				}
+				export class OnOpenListener {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener>;
+					/**
+					 * Constructs a new instance of the com.urbanairship.preferencecenter.PreferenceCenter$OnOpenListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+					 */
+					public constructor(implementation: {
+						onOpenPreferenceCenter(param0: string): boolean;
+					});
+					public constructor();
+					public onOpenPreferenceCenter(param0: string): boolean;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class PreferenceCenterModuleFactoryImpl {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.PreferenceCenterModuleFactoryImpl>;
+				public getPackageVersion(): string;
+				public getAirshipVersion(): string;
+				public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData): com.urbanairship.modules.Module;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export class CommonDisplay {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.CommonDisplay>;
+					public static Companion: com.urbanairship.preferencecenter.data.CommonDisplay.Companion;
+					public constructor(param0: string, param1: string);
+					public equals(param0: any): boolean;
+					public toString(): string;
+					public component1(): string;
+					public component2(): string;
+					public getName(): string;
+					public constructor();
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public getDescription(): string;
+					public copy(param0: string, param1: string): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public hashCode(): number;
+					public static getEMPTY(): com.urbanairship.preferencecenter.data.CommonDisplay;
+				}
+				export module CommonDisplay {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.CommonDisplay.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public getEMPTY(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonValue): com.urbanairship.preferencecenter.data.CommonDisplay;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export abstract class Item {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item>;
+					public static Companion: com.urbanairship.preferencecenter.data.Item.Companion;
+					public getId(): string;
+					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public jsonMapBuilder(): com.urbanairship.json.JsonMap.Builder;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+				}
+				export module Item {
+					export class ChannelSubscription extends com.urbanairship.preferencecenter.data.Item {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.ChannelSubscription>;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public copy(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						public constructor(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
+						public component2(): string;
+						public getSubscriptionId(): string;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getId(): string;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public toString(): string;
+					}
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Item;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export class PreferenceCenterConfig {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterConfig>;
+					public static Companion: com.urbanairship.preferencecenter.data.PreferenceCenterConfig.Companion;
+					public equals(param0: any): boolean;
+					public copy(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					public toString(): string;
+					public getId(): string;
+					public component1(): string;
+					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
+					public component2(): java.util.List<com.urbanairship.preferencecenter.data.Section>;
+					public getSections(): java.util.List<com.urbanairship.preferencecenter.data.Section>;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public hashCode(): number;
+				}
+				export module PreferenceCenterConfig {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterConfig.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export class PreferenceCenterPayload {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterPayload>;
+					public static Companion: com.urbanairship.preferencecenter.data.PreferenceCenterPayload.Companion;
+					public equals(param0: any): boolean;
+					public toString(): string;
+					public constructor(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig);
+					public component1(): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					public getConfig(): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public copy(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig): com.urbanairship.preferencecenter.data.PreferenceCenterPayload;
+					public hashCode(): number;
+				}
+				export module PreferenceCenterPayload {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterPayload.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.PreferenceCenterPayload;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export abstract class Section {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section>;
+					public static Companion: com.urbanairship.preferencecenter.data.Section.Companion;
+					public getId(): string;
+					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+					public jsonMapBuilder(): com.urbanairship.json.JsonMap.Builder;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public getItems(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+				}
+				export module Section {
+					export class Common extends com.urbanairship.preferencecenter.data.Section {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section.Common>;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public getItems(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+						public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getId(): string;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public copy(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.Section.Common;
+						public component2(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+						public toString(): string;
+					}
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Section;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module testing {
+				export class OpenForTesting {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.testing.OpenForTesting>;
+					/**
+					 * Constructs a new instance of the com.urbanairship.preferencecenter.testing.OpenForTesting interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+					 */
+					public constructor(implementation: {
+					});
+					public constructor();
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export abstract class PrefCenterItem {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+					public static TYPE_DESCRIPTION: number;
+					public static TYPE_SECTION: number;
+					public static TYPE_PREF_CHANNEL_SUBSCRIPTION: number;
+					public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.Companion;
+					public getType(): number;
+					public getId(): string;
+					public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+					public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+				}
+				export module PrefCenterItem {
+					export class ChannelSubscriptionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem>;
+						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.Companion;
+						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public copy(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription): com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem;
+						public getSubscriptionId(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getItem(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						public constructor(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription);
+						public toString(): string;
+						public getTitle(): string;
+						public component1(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public getId(): string;
+						public getSubtitle(): string;
+					}
+					export module ChannelSubscriptionItem {
+						export class Companion {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.Companion>;
+							public getWIDGET(): number;
+							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater, param2: kotlin.jvm.functions.Function1<any,java.lang.Boolean>, param3: kotlin.jvm.functions.Function2<any,any,kotlin.Unit>): com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.ViewHolder;
+							public getLAYOUT(): number;
+						}
+						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem> {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.ViewHolder>;
+							public bind(param0: any): void;
+							public constructor(param0: globalAndroid.view.View, param1: kotlin.jvm.functions.Function1<any,java.lang.Boolean>, param2: kotlin.jvm.functions.Function2<any,any,kotlin.Unit>);
+							public constructor(param0: globalAndroid.view.View);
+							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem): void;
+						}
+					}
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.Companion>;
+					}
+					export class DescriptionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem>;
+						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.Companion;
+						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public component2(): string;
+						public copy(param0: string, param1: string): com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public getId(): string;
+						public constructor(param0: string, param1: string);
+						public getDescription(): string;
+						public toString(): string;
+						public getTitle(): string;
+					}
+					export module DescriptionItem {
+						export class Companion {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.Companion>;
+							public getLAYOUT(): number;
+							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater): com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.ViewHolder;
+						}
+						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem> {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.ViewHolder>;
+							public bind(param0: any): void;
+							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem): void;
+							public constructor(param0: globalAndroid.view.View);
+						}
+					}
+					export class SectionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem>;
+						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.Companion;
+						public constructor(param0: com.urbanairship.preferencecenter.data.Section);
+						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
+						public getSection(): com.urbanairship.preferencecenter.data.Section;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public copy(param0: com.urbanairship.preferencecenter.data.Section): com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem;
+						public getId(): string;
+						public component1(): com.urbanairship.preferencecenter.data.Section;
+						public toString(): string;
+						public getTitle(): string;
+						public getSubtitle(): string;
+					}
+					export module SectionItem {
+						export class Companion {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.Companion>;
+							public getLAYOUT(): number;
+							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater): com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.ViewHolder;
+						}
+						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem> {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.ViewHolder>;
+							public bind(param0: any): void;
+							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem): void;
+							public constructor(param0: globalAndroid.view.View);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export abstract class PrefCenterViewHolder<T>  extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>>;
+					public bindItem(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): void;
+					public getDescriptionView(): globalAndroid.widget.TextView;
+					public constructor(param0: globalAndroid.view.View);
+					public getTitleView(): globalAndroid.widget.TextView;
+					public bind(param0: any): void;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterActivity {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterActivity>;
+					public static EXTRA_ID: string;
+					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterActivity.Companion;
+					public onCreate(param0: globalAndroid.os.Bundle): void;
+					public constructor();
+					public onOptionsItemSelected(param0: globalAndroid.view.MenuItem): boolean;
+				}
+				export module PreferenceCenterActivity {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterActivity.Companion>;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterAdapter extends androidx.recyclerview.widget.ListAdapter<com.urbanairship.preferencecenter.ui.PrefCenterItem,com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>> {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter>;
+					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.Companion;
+					public onCreateViewHolder(param0: globalAndroid.view.ViewGroup, param1: number): com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>;
+					public getItemEvents(): kotlinx.coroutines.flow.SharedFlow<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent>;
+					public constructor(param0: kotlin.jvm.functions.Function0<any>);
+					public submit(param0: java.util.List<any>, param1: java.util.Set<string>): void;
+					public getItemViewType(param0: number): number;
+					public onBindViewHolder(param0: com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>, param1: number): void;
+					public getItemId(param0: number): number;
+					public setHeaderItem$urbanairship_preference_center_release(param0: string, param1: string): void;
+				}
+				export module PreferenceCenterAdapter {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.Companion>;
+					}
+					export abstract class ItemEvent {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent>;
+					}
+					export module ItemEvent {
+						export class ChannelSubscriptionChange extends com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent.ChannelSubscriptionChange>;
+							public copy(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent.ChannelSubscriptionChange;
+							public hashCode(): number;
+							public component2(): boolean;
+							public getItem(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+							public isChecked(): boolean;
+							public constructor(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription, param1: boolean);
+							public toString(): string;
+							public equals(param0: any): boolean;
+							public component1(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterFragment {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment>;
+					public static ARG_ID: string;
+					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Companion;
+					public getViewModelScopeProvider(): kotlin.jvm.functions.Function0<kotlinx.coroutines.CoroutineScope>;
+					public onCreateView(param0: globalAndroid.view.LayoutInflater, param1: globalAndroid.view.ViewGroup, param2: globalAndroid.os.Bundle): globalAndroid.view.View;
+					public showHeaderItem(param0: string, param1: string): void;
+					public constructor();
+					public setOnDisplayPreferenceCenterListener(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.OnDisplayPreferenceCenterListener): void;
+					public static create(param0: string): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment;
+					public getViewModelFactory(): androidx.lifecycle.ViewModelProvider.Factory;
+					public onResume(): void;
+					public onViewCreated(param0: globalAndroid.view.View, param1: globalAndroid.os.Bundle): void;
+				}
+				export module PreferenceCenterFragment {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Companion>;
+						public create(param0: string): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment;
+					}
+					export class OnDisplayPreferenceCenterListener {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.OnDisplayPreferenceCenterListener>;
+						/**
+						 * Constructs a new instance of the com.urbanairship.preferencecenter.ui.PreferenceCenterFragment$OnDisplayPreferenceCenterListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+						 */
+						public constructor(implementation: {
+							onDisplayPreferenceCenter(param0: string, param1: string): boolean;
+						});
+						public constructor();
+						public onDisplayPreferenceCenter(param0: string, param1: string): boolean;
+					}
+					export class Views {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Views>;
+						public copy(param0: globalAndroid.view.View, param1: androidx.recyclerview.widget.RecyclerView, param2: globalAndroid.view.ViewGroup, param3: globalAndroid.view.ViewGroup, param4: globalAndroid.widget.TextView, param5: globalAndroid.widget.Button): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Views;
+						public component4(): globalAndroid.view.ViewGroup;
+						public component1(): globalAndroid.view.View;
+						public getList(): androidx.recyclerview.widget.RecyclerView;
+						public component2(): androidx.recyclerview.widget.RecyclerView;
+						public component3(): globalAndroid.view.ViewGroup;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public showError(): void;
+						public toString(): string;
+						public showContent(): void;
+						public getLoading(): globalAndroid.view.ViewGroup;
+						public getError(): globalAndroid.view.ViewGroup;
+						public component6(): globalAndroid.widget.Button;
+						public getErrorRetryButton(): globalAndroid.widget.Button;
+						public showLoading(): void;
+						public getView(): globalAndroid.view.View;
+						public component5(): globalAndroid.widget.TextView;
+						public constructor(param0: globalAndroid.view.View, param1: androidx.recyclerview.widget.RecyclerView, param2: globalAndroid.view.ViewGroup, param3: globalAndroid.view.ViewGroup, param4: globalAndroid.widget.TextView, param5: globalAndroid.widget.Button);
+						public getErrorMessage(): globalAndroid.widget.TextView;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterViewModel {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel>;
+					public getStates(): kotlinx.coroutines.flow.StateFlow<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State>;
+					public constructor(param0: string);
+					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter);
+					public updatePreference(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean): kotlinx.coroutines.flow.Flow<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change>;
+					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter, param2: com.urbanairship.channel.AirshipChannel, param3: kotlinx.coroutines.CoroutineDispatcher);
+					public handle(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action): void;
+					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter, param2: com.urbanairship.channel.AirshipChannel);
+				}
+				export module PreferenceCenterViewModel {
+					export abstract class Action {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action>;
+					}
+					export module Action {
+						export class PreferenceItemChanged extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.PreferenceItemChanged>;
+							public copy(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.PreferenceItemChanged;
+							public hashCode(): number;
+							public isEnabled(): boolean;
+							public component2(): boolean;
+							public component1(): com.urbanairship.preferencecenter.data.Item;
+							public getItem(): com.urbanairship.preferencecenter.data.Item;
+							public toString(): string;
+							public equals(param0: any): boolean;
+							public constructor(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean);
+						}
+						export class Refresh extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.Refresh>;
+							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.Refresh;
+						}
+					}
+					export abstract class Change {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change>;
+					}
+					export module Change {
+						export class ShowContent extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowContent>;
+							public constructor(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content);
+							public hashCode(): number;
+							public getState(): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
+							public toString(): string;
+							public copy(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowContent;
+							public equals(param0: any): boolean;
+							public component1(): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
+						}
+						export class ShowError extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowError>;
+							public constructor();
+							public getError(): java.lang.Throwable;
+							public hashCode(): number;
+							public toString(): string;
+							public copy(param0: string, param1: java.lang.Throwable): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowError;
+							public constructor(param0: string, param1: java.lang.Throwable);
+							public equals(param0: any): boolean;
+							public getMessage(): string;
+							public component1(): string;
+							public component2(): java.lang.Throwable;
+						}
+						export class ShowLoading extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowLoading>;
+							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowLoading;
+						}
+						export class UpdateSubscriptions extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.UpdateSubscriptions>;
+							public constructor(param0: string, param1: boolean);
+							public hashCode(): number;
+							public isSubscribed(): boolean;
+							public component2(): boolean;
+							public copy(param0: string, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.UpdateSubscriptions;
+							public getSubscriptionId(): string;
+							public toString(): string;
+							public equals(param0: any): boolean;
+							public component1(): string;
+						}
+					}
+					export class PreferenceCenterViewModelFactory {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.PreferenceCenterViewModelFactory>;
+						public create(param0: java.lang.Class): androidx.lifecycle.ViewModel;
+						public constructor(param0: string);
+					}
+					export abstract class State {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State>;
+					}
+					export module State {
+						export class Content extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content>;
+							public component2(): string;
+							public hashCode(): number;
+							public getTitle(): string;
+							public component4(): java.util.Set<string>;
+							public toString(): string;
+							public component1(): string;
+							public component3(): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+							public getSubtitle(): string;
+							public copy(param0: string, param1: string, param2: java.util.List<any>, param3: java.util.Set<string>): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
+							public constructor(param0: string, param1: string, param2: java.util.List<any>, param3: java.util.Set<string>);
+							public equals(param0: any): boolean;
+							public getListItems(): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+							public getSubscriptions(): java.util.Set<string>;
+						}
+						export class Error extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Error>;
+							public constructor();
+							public getError(): java.lang.Throwable;
+							public hashCode(): number;
+							public copy(param0: string, param1: java.lang.Throwable): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Error;
+							public toString(): string;
+							public constructor(param0: string, param1: java.lang.Throwable);
+							public equals(param0: any): boolean;
+							public getMessage(): string;
+							public component1(): string;
+							public component2(): java.lang.Throwable;
+						}
+						export class Loading extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Loading>;
+							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Loading;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class PreferenceCenterViewModelKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModelKt>;
+					public static asPrefCenterItems(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module ui {
+				export class SectionDividerDecoration {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.SectionDividerDecoration>;
+					public constructor(param0: globalAndroid.content.Context);
+					public onDrawOver(param0: globalAndroid.graphics.Canvas, param1: androidx.recyclerview.widget.RecyclerView, param2: androidx.recyclerview.widget.RecyclerView.State): void;
+					public getItemOffsets(param0: globalAndroid.graphics.Rect, param1: globalAndroid.view.View, param2: androidx.recyclerview.widget.RecyclerView, param3: androidx.recyclerview.widget.RecyclerView.State): void;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module util {
+				export class FlowExtensionsKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.FlowExtensionsKt>;
+					public static scanConcat(param0: kotlinx.coroutines.flow.Flow, param1: any, param2: kotlin.jvm.functions.Function3): kotlinx.coroutines.flow.Flow;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module util {
+				export class JsonExtensionsKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.JsonExtensionsKt>;
+					public static jsonListOf(param0: androidNative.Array<any>): com.urbanairship.json.JsonList;
+					public static jsonMapOf(param0: androidNative.Array<kotlin.Pair<string,any>>): com.urbanairship.json.JsonMap;
+					public static toJsonList(param0: java.util.List<any>): com.urbanairship.json.JsonList;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module util {
+				export class ViewExtensionsKt {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.ViewExtensionsKt>;
+					public static setTextOrHide(param0: globalAndroid.widget.TextView, param1: string): void;
+				}
+			}
+		}
+	}
+}
+
+//Generics information:
+//com.urbanairship.preferencecenter.ui.PrefCenterViewHolder:1
 
