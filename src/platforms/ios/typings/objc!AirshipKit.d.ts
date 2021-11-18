@@ -1,7 +1,16 @@
 
-declare var AirshipVersionNumber: number;
+declare var AirshipKitVersionNumber: number;
 
-declare var AirshipVersionString: interop.Reference<number>;
+declare var AirshipKitVersionString: interop.Reference<number>;
+
+interface AppStateTrackerProtocol {
+
+	state: UAApplicationState;
+}
+declare var AppStateTrackerProtocol: {
+
+	prototype: AppStateTrackerProtocol;
+};
 
 declare class ChannelRegistrar extends NSObject implements UAChannelRegistrarProtocol {
 
@@ -811,7 +820,7 @@ declare class UAAnalytics extends NSObject implements UAAnalyticsProtocol, UACom
 
 	readonly  // inherited from NSObjectProtocol
 
-	constructor(o: { config: UARuntimeConfig; dataStore: UAPreferenceDataStore; channel: UAChannelProtocol; eventManager: UAEventManagerProtocol; notificationCenter: NSNotificationCenter; date: UADate; dispatcher: UADispatcher; localeManager: LocaleManagerProtocol; appStateTracker: UAAppStateTracker; privacyManager: UAPrivacyManager; });
+	constructor(o: { config: UARuntimeConfig; dataStore: UAPreferenceDataStore; channel: UAChannelProtocol; eventManager: UAEventManagerProtocol; notificationCenter: NSNotificationCenter; date: UADate; dispatcher: UADispatcher; localeManager: LocaleManagerProtocol; appStateTracker: AppStateTrackerProtocol; privacyManager: UAPrivacyManager; });
 
 	constructor(o: { config: UARuntimeConfig; dataStore: UAPreferenceDataStore; channel: UAChannelProtocol; localeManager: LocaleManagerProtocol; privacyManager: UAPrivacyManager; });
 
@@ -835,7 +844,7 @@ declare class UAAnalytics extends NSObject implements UAAnalyticsProtocol, UACom
 
 	deepLink(deepLink: NSURL): boolean;
 
-	initWithConfigDataStoreChannelEventManagerNotificationCenterDateDispatcherLocaleManagerAppStateTrackerPrivacyManager(config: UARuntimeConfig, dataStore: UAPreferenceDataStore, channel: UAChannelProtocol, eventManager: UAEventManagerProtocol, notificationCenter: NSNotificationCenter, date: UADate, dispatcher: UADispatcher, localeManager: LocaleManagerProtocol, appStateTracker: UAAppStateTracker, privacyManager: UAPrivacyManager): this;
+	initWithConfigDataStoreChannelEventManagerNotificationCenterDateDispatcherLocaleManagerAppStateTrackerPrivacyManager(config: UARuntimeConfig, dataStore: UAPreferenceDataStore, channel: UAChannelProtocol, eventManager: UAEventManagerProtocol, notificationCenter: NSNotificationCenter, date: UADate, dispatcher: UADispatcher, localeManager: LocaleManagerProtocol, appStateTracker: AppStateTrackerProtocol, privacyManager: UAPrivacyManager): this;
 
 	initWithConfigDataStoreChannelLocaleManagerPrivacyManager(config: UARuntimeConfig, dataStore: UAPreferenceDataStore, channel: UAChannelProtocol, localeManager: LocaleManagerProtocol, privacyManager: UAPrivacyManager): this;
 
@@ -906,118 +915,6 @@ declare var UAAnalyticsProtocol: {
 	prototype: UAAnalyticsProtocol;
 };
 
-declare class UAAppBackgroundEvent extends UAAppExitEvent {
-
-	static alloc(): UAAppBackgroundEvent; // inherited from NSObject
-
-	static new(): UAAppBackgroundEvent; // inherited from NSObject
-}
-
-declare class UAAppExitEvent extends NSObject implements UAEvent {
-
-	static alloc(): UAAppExitEvent; // inherited from NSObject
-
-	static new(): UAAppExitEvent; // inherited from NSObject
-
-	readonly data: NSDictionary<any, any>; // inherited from UAEvent
-
-	readonly debugDescription: string; // inherited from NSObjectProtocol
-
-	readonly description: string; // inherited from NSObjectProtocol
-
-	readonly eventType: string; // inherited from UAEvent
-
-	readonly hash: number; // inherited from NSObjectProtocol
-
-	readonly isProxy: boolean; // inherited from NSObjectProtocol
-
-	readonly priority: UAEventPriority; // inherited from UAEvent
-
-	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
-
-	readonly  // inherited from NSObjectProtocol
-
-	class(): typeof NSObject;
-
-	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
-
-	isEqual(object: any): boolean;
-
-	isKindOfClass(aClass: typeof NSObject): boolean;
-
-	isMemberOfClass(aClass: typeof NSObject): boolean;
-
-	isValid(): boolean;
-
-	performSelector(aSelector: string): any;
-
-	performSelectorWithObject(aSelector: string, object: any): any;
-
-	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
-
-	respondsToSelector(aSelector: string): boolean;
-
-	retainCount(): number;
-
-	self(): this;
-}
-
-declare class UAAppForegroundEvent extends UAAppInitEvent {
-
-	static alloc(): UAAppForegroundEvent; // inherited from NSObject
-
-	static new(): UAAppForegroundEvent; // inherited from NSObject
-}
-
-declare class UAAppInitEvent extends NSObject implements UAEvent {
-
-	static alloc(): UAAppInitEvent; // inherited from NSObject
-
-	static new(): UAAppInitEvent; // inherited from NSObject
-
-	readonly data: NSDictionary<any, any>; // inherited from UAEvent
-
-	readonly debugDescription: string; // inherited from NSObjectProtocol
-
-	readonly description: string; // inherited from NSObjectProtocol
-
-	readonly eventType: string; // inherited from UAEvent
-
-	readonly hash: number; // inherited from NSObjectProtocol
-
-	readonly isProxy: boolean; // inherited from NSObjectProtocol
-
-	readonly priority: UAEventPriority; // inherited from UAEvent
-
-	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
-
-	readonly  // inherited from NSObjectProtocol
-
-	class(): typeof NSObject;
-
-	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
-
-	isEqual(object: any): boolean;
-
-	isKindOfClass(aClass: typeof NSObject): boolean;
-
-	isMemberOfClass(aClass: typeof NSObject): boolean;
-
-	isValid(): boolean;
-
-	performSelector(aSelector: string): any;
-
-	performSelectorWithObject(aSelector: string, object: any): any;
-
-	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
-
-	respondsToSelector(aSelector: string): boolean;
-
-	retainCount(): number;
-
-	self(): this;
-}
-
 declare class UAAppIntegration extends NSObject {
 
 	static alloc(): UAAppIntegration; // inherited from NSObject
@@ -1062,13 +959,11 @@ declare var UAAppIntegrationDelegate: {
 	prototype: UAAppIntegrationDelegate;
 };
 
-declare class UAAppStateTracker extends NSObject implements UAAppStateTrackerDelegate {
+declare class UAAppStateTracker extends NSObject implements AppStateTrackerProtocol, UAAppStateTrackerDelegate {
 
 	static alloc(): UAAppStateTracker; // inherited from NSObject
 
 	static new(): UAAppStateTracker; // inherited from NSObject
-
-	readonly state: UAApplicationState;
 
 	static readonly didBecomeActiveNotification: string;
 
@@ -1085,6 +980,8 @@ declare class UAAppStateTracker extends NSObject implements UAAppStateTrackerDel
 	static readonly willResignActiveNotification: string;
 
 	static readonly willTerminateNotification: string;
+
+	readonly state: UAApplicationState; // inherited from AppStateTrackerProtocol
 
 	constructor(o: { notificationCenter: NSNotificationCenter; adapter: UAAppStateTrackerAdapter; });
 
@@ -3038,59 +2935,6 @@ declare var UADelayProtocol: {
 	prototype: UADelayProtocol;
 };
 
-declare class UADeviceRegistrationEvent extends NSObject implements UAEvent {
-
-	static alloc(): UADeviceRegistrationEvent; // inherited from NSObject
-
-	static new(): UADeviceRegistrationEvent; // inherited from NSObject
-
-	readonly data: NSDictionary<any, any>; // inherited from UAEvent
-
-	readonly debugDescription: string; // inherited from NSObjectProtocol
-
-	readonly description: string; // inherited from NSObjectProtocol
-
-	readonly eventType: string; // inherited from UAEvent
-
-	readonly hash: number; // inherited from NSObjectProtocol
-
-	readonly isProxy: boolean; // inherited from NSObjectProtocol
-
-	readonly priority: UAEventPriority; // inherited from UAEvent
-
-	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
-
-	readonly  // inherited from NSObjectProtocol
-
-	constructor(o: { channel: UAChannelProtocol; push: UAPushProtocol; privacyManager: UAPrivacyManager; });
-
-	class(): typeof NSObject;
-
-	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
-
-	initWithChannelPushPrivacyManager(channel: UAChannelProtocol, push: UAPushProtocol, privacyManager: UAPrivacyManager): this;
-
-	isEqual(object: any): boolean;
-
-	isKindOfClass(aClass: typeof NSObject): boolean;
-
-	isMemberOfClass(aClass: typeof NSObject): boolean;
-
-	isValid(): boolean;
-
-	performSelector(aSelector: string): any;
-
-	performSelectorWithObject(aSelector: string, object: any): any;
-
-	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
-
-	respondsToSelector(aSelector: string): boolean;
-
-	retainCount(): number;
-
-	self(): this;
-}
-
 declare class UADispatcher extends NSObject {
 
 	static alloc(): UADispatcher; // inherited from NSObject
@@ -3736,6 +3580,10 @@ declare class UAIOSChannelSettings extends NSObject implements NSCopying {
 	quietTime: UAQuietTime;
 
 	quietTimeTimeZone: string;
+
+	scheduledSummary: number;
+
+	timeSensitive: number;
 
 	copyWithZone(zone: interop.Pointer | interop.Reference<any>): any;
 }
@@ -6828,7 +6676,7 @@ declare class UAPadding extends NSObject {
 
 	static new(): UAPadding; // inherited from NSObject
 
-	static paddingWithDictionary(dictionary: NSDictionary<any, any>): UAPadding;
+	static paddingWithDictionary(paddingDict: NSDictionary<any, any>): UAPadding;
 
 	static paddingWithTopBottomLeadingTrailing(top: number, bottom: number, leading: number, trailing: number): UAPadding;
 
@@ -6839,6 +6687,10 @@ declare class UAPadding extends NSObject {
 	top: number;
 
 	trailing: number;
+
+	constructor(o: { top: number; bottom: number; leading: number; trailing: number; });
+
+	initWithTopBottomLeadingTrailing(top: number, bottom: number, leading: number, trailing: number): this;
 }
 
 declare class UAPasteboardAction extends NSObject implements UAAction {
@@ -7065,6 +6917,10 @@ declare class UAPreferenceCenterStyle extends NSObject {
 
 	subtitleFont: UIFont;
 
+	switchThumbTintColor: UIColor;
+
+	switchTintColor: UIColor;
+
 	tintColor: UIColor;
 
 	title: string;
@@ -7121,7 +6977,7 @@ declare class UAPreferenceDataStore extends NSObject {
 
 	static new(): UAPreferenceDataStore; // inherited from NSObject
 
-	constructor(o: { keyPrefix: string; });
+	constructor(o: { appKey: string; });
 
 	arrayForKey(key: string): NSArray<NSObject>;
 
@@ -7139,7 +6995,7 @@ declare class UAPreferenceDataStore extends NSObject {
 
 	floatForKey(key: string): number;
 
-	initWithKeyPrefix(keyPrefix: string): this;
+	initWithAppKey(appKey: string): this;
 
 	integerForKey(key: string): number;
 
@@ -7269,8 +7125,6 @@ declare class UAPush extends NSObject implements UAComponent, UAPushProtocol {
 	static readonly receivedNotificationResponseEventResponseKey: string;
 
 	static readonly shared: UAPush;
-
-	static readonly tagsMigratedToChannelTagsKey: string;
 
 	accengageCategories: NSSet<UNNotificationCategory>; // inherited from UAPushProtocol
 
@@ -7422,59 +7276,6 @@ declare var UAPushProtocol: {
 
 	prototype: UAPushProtocol;
 };
-
-declare class UAPushReceivedEvent extends NSObject implements UAEvent {
-
-	static alloc(): UAPushReceivedEvent; // inherited from NSObject
-
-	static new(): UAPushReceivedEvent; // inherited from NSObject
-
-	readonly data: NSDictionary<any, any>; // inherited from UAEvent
-
-	readonly debugDescription: string; // inherited from NSObjectProtocol
-
-	readonly description: string; // inherited from NSObjectProtocol
-
-	readonly eventType: string; // inherited from UAEvent
-
-	readonly hash: number; // inherited from NSObjectProtocol
-
-	readonly isProxy: boolean; // inherited from NSObjectProtocol
-
-	readonly priority: UAEventPriority; // inherited from UAEvent
-
-	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
-
-	readonly  // inherited from NSObjectProtocol
-
-	constructor(o: { notification: NSDictionary<any, any>; });
-
-	class(): typeof NSObject;
-
-	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
-
-	initWithNotification(notification: NSDictionary<any, any>): this;
-
-	isEqual(object: any): boolean;
-
-	isKindOfClass(aClass: typeof NSObject): boolean;
-
-	isMemberOfClass(aClass: typeof NSObject): boolean;
-
-	isValid(): boolean;
-
-	performSelector(aSelector: string): any;
-
-	performSelectorWithObject(aSelector: string, object: any): any;
-
-	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
-
-	respondsToSelector(aSelector: string): boolean;
-
-	retainCount(): number;
-
-	self(): this;
-}
 
 interface UAPushableComponent {
 
@@ -8516,67 +8317,6 @@ declare const enum UAScheduleTriggerType {
 declare var UAScheduleTriggerTypeKey: string;
 
 declare var UAScheduleTriggerVersionName: string;
-
-declare class UAScreenTrackingEvent extends NSObject implements UAEvent {
-
-	static alloc(): UAScreenTrackingEvent; // inherited from NSObject
-
-	static new(): UAScreenTrackingEvent; // inherited from NSObject
-
-	readonly previousScreen: string;
-
-	readonly screen: string;
-
-	readonly startTime: number;
-
-	readonly stopTime: number;
-
-	readonly data: NSDictionary<any, any>; // inherited from UAEvent
-
-	readonly debugDescription: string; // inherited from NSObjectProtocol
-
-	readonly description: string; // inherited from NSObjectProtocol
-
-	readonly eventType: string; // inherited from UAEvent
-
-	readonly hash: number; // inherited from NSObjectProtocol
-
-	readonly isProxy: boolean; // inherited from NSObjectProtocol
-
-	readonly priority: UAEventPriority; // inherited from UAEvent
-
-	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
-
-	readonly  // inherited from NSObjectProtocol
-
-	constructor(o: { screen: string; previousScreen: string; startTime: number; stopTime: number; });
-
-	class(): typeof NSObject;
-
-	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
-
-	initWithScreenPreviousScreenStartTimeStopTime(screen: string, previousScreen: string, startTime: number, stopTime: number): this;
-
-	isEqual(object: any): boolean;
-
-	isKindOfClass(aClass: typeof NSObject): boolean;
-
-	isMemberOfClass(aClass: typeof NSObject): boolean;
-
-	isValid(): boolean;
-
-	performSelector(aSelector: string): any;
-
-	performSelectorWithObject(aSelector: string, object: any): any;
-
-	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
-
-	respondsToSelector(aSelector: string): boolean;
-
-	retainCount(): number;
-
-	self(): this;
-}
 
 declare class UASemaphore extends NSObject {
 
