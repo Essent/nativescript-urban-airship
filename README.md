@@ -56,8 +56,8 @@ Since version 6.0 of the plugin, if the project does not already include it, it 
 ```
 
 #### Styling the Preference Center
-In order to style the Preference Center on iOS, it is necesssary to create a AirshipPreferenceCenterStyle.plist file and populate it according to the information that can be found ([here](https://docs.airship.com/platform/ios/preference-center/)).
-NOTE: At the time of writing this, all the possible parameters have not been listed on the page mentioned and can be found ([here](https://github.com/urbanairship/ios-library/blob/main/Airship/AirshipPreferenceCenter/Source/PreferenceCenterStyle.swift)).
+In order to style the Preference Center on iOS, it is necesssary to create a AirshipPreferenceCenterStyle.plist file and populate it according to the information that can be found [here](https://docs.airship.com/platform/ios/preference-center/).
+NOTE: At the time of writing this, all the possible parameters have not been listed on the page mentioned and can be found [here](https://github.com/urbanairship/ios-library/blob/main/Airship/AirshipPreferenceCenter/Source/PreferenceCenterStyle.swift).
 
 ### Known Issues
 When using webpack, calling `startUp()` on Android in a custom native android.app.Application is not working, in that case it is better to call the native function instead of `startUp()`:
