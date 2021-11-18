@@ -1,6 +1,6 @@
 {
     "name": "nativescript-urban-airship",
-    "version": "6.0.0",
+    "version": "6.1.0",
     "description": "Urban Airship plugin for NativeScript.",
     "main": "urban-airship",
     "typings": "index.d.ts",
