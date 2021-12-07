@@ -85,6 +85,16 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         UAirship.push.pushNotificationDelegate = delegate;
     }
 
+
+
+    // delegate is type of UAPushNotificationDelegate
+    public setDeepLinkDelegate(delegate: any): void {
+        if (!this.pushIsValid()) {
+            return;
+        }
+        UAirship.shared.deepLinkDelegate = delegate;
+    }
+
     public getRegistrationToken(): string {
         if (!this.pushIsValid()) {
             return undefined;
