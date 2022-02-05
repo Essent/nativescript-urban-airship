@@ -26,6 +26,9 @@ export class NsUrbanAirship implements CommonUrbanAirship {
             .setProductionAppKey(urbanAirshipSettings.productionAppKey)
             .setProductionAppSecret(urbanAirshipSettings.productionAppSecret)
             .setInProduction(urbanAirshipSettings.inProduction)
+            .setUrlAllowList([urbanAirshipSettings.urlAllowList])
+            .setUrlAllowListScopeJavaScriptInterface([urbanAirshipSettings.urlAllowListScopeJavaScriptInterface])
+            .setUrlAllowListScopeOpenUrl([urbanAirshipSettings.urlAllowListScopeOpenURL])
             .build();
 
         UAirship.takeOff(application, options);

@@ -8,11 +8,12 @@ export declare class NsUrbanAirship implements CommonUrbanAirship {
     unRegisterUser(): void;
     notificationOptIn(): Promise<boolean>;
     notificationOptOut(): Promise<boolean>;
-    private setOptIn(optIn);
+    private setOptIn;
     isOptIn(): boolean;
     getChannelID(): string;
     getRegistrationToken(): string;
+    openPreferenceCenter(id: string): void;
     resetBadgeCount(): void;
     setNotificationDelegate(delegate: any): void;
-    openPreferenceCenter(id: string): void;
+    setDeepLinkDelegate(delegate: any): void;
 }

@@ -1,8 +1,8 @@
-import { ios } from "@nativescript/core/application";
+import { Application } from "@nativescript/core";
 import { urbanAirshipSettings } from '~/urbanAirshipSettings';
 import { NsUrbanAirship } from 'nativescript-urban-airship';
 
-if (ios) {
+if (global.isIOS) {
     @NativeClass()
     class MyDelegate extends UIResponder implements UIApplicationDelegate {
         public static ObjCProtocols = [UIApplicationDelegate];
@@ -17,5 +17,5 @@ if (ios) {
         }
     }
 
-    ios.delegate = MyDelegate;
+    Application.ios.delegate = MyDelegate;
 }
