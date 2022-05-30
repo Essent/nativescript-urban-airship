@@ -1,10 +1,3 @@
-android {
-
-    // (possibly-temporary) workaround for https://stackoverflow.com/questions/52518378/more-than-one-file-was-found-with-os-independent-path-meta-inf-proguard-android
-    packagingOptions {
-        exclude 'META-INF/proguard/androidx-annotations.pro'
-    }
-}
 repositories {
     mavenCentral()
     maven {
@@ -13,8 +6,8 @@ repositories {
     jcenter()
 }
 dependencies {
-    def airshipVersion = "15.0.0"
-    compile "com.urbanairship.android:urbanairship-automation:$airshipVersion"
+    def airshipVersion = "16.3.1"
+    implementation "com.urbanairship.android:urbanairship-automation:$airshipVersion"
 
     implementation "com.urbanairship.android:urbanairship-fcm:$airshipVersion"
     implementation "com.urbanairship.android:urbanairship-preference-center:$airshipVersion"

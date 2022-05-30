@@ -6,6 +6,9 @@ export interface UrbanAirshipSettings {
     productionAppKey: string;
     productionAppSecret: string;
     fcmSender?: string;
+    urlAllowList?: string;
+    urlAllowListScopeOpenURL?: string;
+    urlAllowListScopeJavaScriptInterface?: string;
 }
 
 export interface CommonUrbanAirship {

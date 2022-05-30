@@ -6,6 +6,9 @@ export interface UrbanAirshipSettings {
     productionAppKey: string;
     productionAppSecret: string;
     fcmSender?: string;
+    urlAllowList?: string;
+    urlAllowListScopeOpenURL?: string;
+    urlAllowListScopeJavaScriptInterface?: string;
 }
 export interface CommonUrbanAirship {
     startUp(urbanAirshipSettings: UrbanAirshipSettings, application: any): void;
@@ -18,4 +21,5 @@ export interface CommonUrbanAirship {
     unRegisterUser(): void;
     resetBadgeCount(): void;
     getRegistrationToken(): string;
+    openPreferenceCenter(id: string): void;
 }

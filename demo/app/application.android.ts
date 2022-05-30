@@ -16,9 +16,6 @@ class MyCustomApplication extends android.app.Application {
         super.attachBaseContext(baseContext);
 
         // This code enables MultiDex support for the application (if needed)
-        android.support.multidex.MultiDex.install(this);
+        androidx.multidex.MultiDex.install(this);
     }
 }
-
-/* tslint:disable */
-MyCustomApplication;

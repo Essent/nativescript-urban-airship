@@ -23,6 +23,9 @@ export class NsUrbanAirship implements CommonUrbanAirship {
         config.productionAppKey = urbanAirshipSettings.productionAppKey;
         config.productionAppSecret = urbanAirshipSettings.productionAppSecret;
         config.inProduction = urbanAirshipSettings.inProduction;
+        config.URLAllowList = NSArray.arrayWithArray([urbanAirshipSettings.urlAllowList]);
+        config.URLAllowListScopeJavaScriptInterface = NSArray.arrayWithArray([urbanAirshipSettings.urlAllowListScopeJavaScriptInterface]);
+        config.URLAllowListScopeOpenURL = NSArray.arrayWithArray([urbanAirshipSettings.urlAllowListScopeOpenURL]);
         
         UAirship.takeOffLaunchOptions(config, null);
         if (!this.pushIsValid()) {
