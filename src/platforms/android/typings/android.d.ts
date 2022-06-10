@@ -6,10 +6,10 @@ declare module com {
 			public static class: java.lang.Class<com.urbanairship.AirshipComponent>;
 			public onComponentEnableChange(param0: boolean): void;
 			public getComponentGroup(): number;
-			public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
 			public init(): void;
 			public onNewConfig(param0: com.urbanairship.json.JsonMap): void;
 			public setComponentEnabled(param0: boolean): void;
+			public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): com.urbanairship.job.JobResult;
 			public onAirshipDeepLink(param0: globalAndroid.net.Uri): boolean;
 			public tearDown(): void;
 			public getDataStore(): com.urbanairship.PreferenceDataStore;
@@ -108,6 +108,7 @@ declare module com {
 			public notificationChannel: string;
 			public inProduction: boolean;
 			public requireInitialRemoteConfigEnabled: boolean;
+			public fcmFirebaseAppName: string;
 			public validate(): void;
 			public static newBuilder(): com.urbanairship.AirshipConfigOptions.Builder;
 		}
@@ -158,6 +159,7 @@ declare module com {
 				public setChannelCreationDelayEnabled(param0: boolean): com.urbanairship.AirshipConfigOptions.Builder;
 				public applyConfig(param0: globalAndroid.content.Context, param1: number): com.urbanairship.AirshipConfigOptions.Builder;
 				public setProductionAppKey(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
+				public setFcmFirebaseAppName(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 				public setAllowedTransports(param0: androidNative.Array<string>): com.urbanairship.AirshipConfigOptions.Builder;
 				public setDevelopmentAppKey(param0: string): com.urbanairship.AirshipConfigOptions.Builder;
 			}
@@ -178,9 +180,20 @@ declare module com {
 	export module urbanairship {
 		export class AirshipExecutors {
 			public static class: java.lang.Class<com.urbanairship.AirshipExecutors>;
-			public static THREAD_POOL_EXECUTOR: java.util.concurrent.ExecutorService;
 			public static newSerialExecutor(): java.util.concurrent.Executor;
+			public static threadPoolExecutor(): java.util.concurrent.ExecutorService;
 			public constructor();
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export class AirshipInitializer extends androidx.startup.Initializer<java.lang.Boolean> {
+			public static class: java.lang.Class<com.urbanairship.AirshipInitializer>;
+			public dependencies(): java.util.List<java.lang.Class<any>>;
+			public constructor();
+			public create(param0: globalAndroid.content.Context): java.lang.Boolean;
 		}
 	}
 }
@@ -327,6 +340,7 @@ declare module com {
 			public static class: java.lang.Class<com.urbanairship.Fonts>;
 			public addFontFamily(param0: string, param1: globalAndroid.graphics.Typeface): void;
 			public getFontFamily(param0: string): globalAndroid.graphics.Typeface;
+			public isSystemFont(param0: string): boolean;
 			public static shared(param0: globalAndroid.content.Context): com.urbanairship.Fonts;
 		}
 	}
@@ -530,6 +544,8 @@ declare module com {
 			public getDao(): com.urbanairship.PreferenceDataDao;
 			public createOpenHelper(param0: androidx.room.DatabaseConfiguration): androidx.sqlite.db.SupportSQLiteOpenHelper;
 			public createInvalidationTracker(): androidx.room.InvalidationTracker;
+			public getRequiredAutoMigrationSpecs(): java.util.Set<java.lang.Class<any>>;
+			public getAutoMigrations(param0: java.util.Map<java.lang.Class<any>,androidx.room.migration.AutoMigrationSpec>): java.util.List<androidx.room.migration.Migration>;
 			public constructor();
 			public clearAllTables(): void;
 		}
@@ -684,7 +700,7 @@ declare module com {
 			public static shared(param0: com.urbanairship.UAirship.OnReadyCallback): com.urbanairship.Cancelable;
 			public static getVersion(): string;
 			public getChannel(): com.urbanairship.channel.AirshipChannel;
-			public getComponent(param0: java.lang.Class): com.urbanairship.AirshipComponent;
+			public getComponent(param0: java.lang.Class<any>): com.urbanairship.AirshipComponent;
 			public static takeOff(param0: globalAndroid.app.Application, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.UAirship.OnReadyCallback): void;
 			public getRuntimeConfig(): com.urbanairship.config.AirshipRuntimeConfig;
 			public static land(): void;
@@ -722,7 +738,7 @@ declare module com {
 			public getDeepLinkListener(): com.urbanairship.actions.DeepLinkListener;
 			public static takeOff(param0: globalAndroid.app.Application): void;
 			public getAnalytics(): com.urbanairship.analytics.Analytics;
-			public requireComponent(param0: java.lang.Class): com.urbanairship.AirshipComponent;
+			public requireComponent(param0: java.lang.Class<any>): com.urbanairship.AirshipComponent;
 			/** @deprecated */
 			public isDataCollectionEnabled(): boolean;
 			public getPlatformType(): number;
@@ -752,49 +768,6 @@ declare module com {
 				});
 				public constructor();
 			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export class UrbanAirshipProvider {
-			public static class: java.lang.Class<com.urbanairship.UrbanAirshipProvider>;
-			public static QUERY_PARAMETER_LIMIT: string;
-			public onCreate(): boolean;
-			public bulkInsert(param0: globalAndroid.net.Uri, param1: androidNative.Array<globalAndroid.content.ContentValues>): number;
-			public update(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues, param2: string, param3: androidNative.Array<string>): number;
-			public static getRichPushContentUri(param0: globalAndroid.content.Context): globalAndroid.net.Uri;
-			public constructor();
-			public delete(param0: globalAndroid.net.Uri, param1: string, param2: androidNative.Array<string>): number;
-			public shutdown(): void;
-			public insert(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues): globalAndroid.net.Uri;
-			public static getPreferencesContentUri(param0: globalAndroid.content.Context): globalAndroid.net.Uri;
-			public getType(param0: globalAndroid.net.Uri): string;
-			public query(param0: globalAndroid.net.Uri, param1: androidNative.Array<string>, param2: string, param3: androidNative.Array<string>, param4: string): globalAndroid.database.Cursor;
-			public static getAuthorityString(param0: globalAndroid.content.Context): string;
-		}
-		export module UrbanAirshipProvider {
-			export class DatabaseModel {
-				public static class: java.lang.Class<com.urbanairship.UrbanAirshipProvider.DatabaseModel>;
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export class UrbanAirshipResolver {
-			public static class: java.lang.Class<com.urbanairship.UrbanAirshipResolver>;
-			public bulkInsert(param0: globalAndroid.net.Uri, param1: androidNative.Array<globalAndroid.content.ContentValues>): number;
-			public update(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues, param2: string, param3: androidNative.Array<string>): number;
-			public unregisterContentObserver(param0: globalAndroid.database.ContentObserver): void;
-			public delete(param0: globalAndroid.net.Uri, param1: string, param2: androidNative.Array<string>): number;
-			public insert(param0: globalAndroid.net.Uri, param1: globalAndroid.content.ContentValues): globalAndroid.net.Uri;
-			public registerContentObserver(param0: globalAndroid.net.Uri, param1: boolean, param2: globalAndroid.database.ContentObserver): void;
-			public constructor(param0: globalAndroid.content.Context);
-			public query(param0: globalAndroid.net.Uri, param1: androidNative.Array<string>, param2: string, param3: androidNative.Array<string>, param4: string): globalAndroid.database.Cursor;
-			public notifyChange(param0: globalAndroid.net.Uri, param1: globalAndroid.database.ContentObserver): void;
 		}
 	}
 }
@@ -1270,6 +1243,21 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module actions {
+			export class SubscriptionListAction extends com.urbanairship.actions.Action {
+				public static class: java.lang.Class<com.urbanairship.actions.SubscriptionListAction>;
+				public static DEFAULT_REGISTRY_NAME: string;
+				public static DEFAULT_REGISTRY_SHORT_NAME: string;
+				public acceptsArguments(param0: com.urbanairship.actions.ActionArguments): boolean;
+				public perform(param0: com.urbanairship.actions.ActionArguments): com.urbanairship.actions.ActionResult;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module actions {
 			export class ToastAction extends com.urbanairship.actions.Action {
 				public static class: java.lang.Class<com.urbanairship.actions.ToastAction>;
 				public static DEFAULT_REGISTRY_NAME: string;
@@ -1456,8 +1444,8 @@ declare module com {
 				public setEnabled(param0: boolean): void;
 				public uploadEvents(): void;
 				public addHeaderDelegate(param0: com.urbanairship.analytics.Analytics.AnalyticsHeaderDelegate): void;
-				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
 				public getAssociatedIdentifiers(): com.urbanairship.analytics.AssociatedIdentifiers;
+				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): com.urbanairship.job.JobResult;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.locale.LocaleManager);
 				public addEventListener(param0: com.urbanairship.analytics.Analytics.EventListener): void;
 				public init(): void;
@@ -1875,9 +1863,24 @@ declare module com {
 					public createOpenHelper(param0: androidx.room.DatabaseConfiguration): androidx.sqlite.db.SupportSQLiteOpenHelper;
 					public createInvalidationTracker(): androidx.room.InvalidationTracker;
 					public constructor();
+					public getAutoMigrations(param0: java.util.Map<java.lang.Class<any>,androidx.room.migration.AutoMigrationSpec>): java.util.List<androidx.room.migration.Migration>;
 					public getRequiredTypeConverters(): java.util.Map<java.lang.Class<any>,java.util.List<java.lang.Class<any>>>;
 					public clearAllTables(): void;
+					public getRequiredAutoMigrationSpecs(): java.util.Set<java.lang.Class<any>>;
 					public getEventDao(): com.urbanairship.analytics.data.EventDao;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module analytics {
+			export module data {
+				export class BatchedQueryHelper {
+					public static class: java.lang.Class<com.urbanairship.analytics.data.BatchedQueryHelper>;
+					public static runBatched(param0: java.util.List<any>, param1: androidx.core.util.Consumer): void;
 				}
 			}
 		}
@@ -2298,6 +2301,24 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module base {
+			export class Extender<T>  extends java.lang.Object {
+				public static class: java.lang.Class<com.urbanairship.base.Extender<any>>;
+				/**
+				 * Constructs a new instance of the com.urbanairship.base.Extender<any> interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+				 */
+				public constructor(implementation: {
+					extend(param0: T): T;
+				});
+				public constructor();
+				public extend(param0: T): T;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module base {
 			export class Supplier<V>  extends java.lang.Object {
 				public static class: java.lang.Class<com.urbanairship.base.Supplier<any>>;
 				/**
@@ -2343,7 +2364,7 @@ declare module com {
 				public setChannelTagRegistrationEnabled(param0: boolean): void;
 				public removeChannelListener(param0: com.urbanairship.channel.AirshipChannelListener): void;
 				public editTags(): com.urbanairship.channel.TagEditor;
-				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
+				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): com.urbanairship.job.JobResult;
 				public addChannelListener(param0: com.urbanairship.channel.AirshipChannelListener): void;
 				public editAttributes(): com.urbanairship.channel.AttributeEditor;
 				public getPendingAttributeUpdates(): java.util.List<com.urbanairship.channel.AttributeMutation>;
@@ -2686,6 +2707,7 @@ declare module com {
 				public equals(param0: any): boolean;
 				public getListId(): string;
 				public toString(): string;
+				public static fromJsonList(param0: com.urbanairship.json.JsonList): java.util.List<com.urbanairship.channel.SubscriptionListMutation>;
 			}
 		}
 	}
@@ -2939,27 +2961,63 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module contacts {
+			export class AssociatedChannel extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.AssociatedChannel>;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public getChannelId(): string;
+				public getChannelType(): com.urbanairship.contacts.ChannelType;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ChannelType {
+				public static class: java.lang.Class<com.urbanairship.contacts.ChannelType>;
+				public static OPEN: com.urbanairship.contacts.ChannelType;
+				public static SMS: com.urbanairship.contacts.ChannelType;
+				public static EMAIL: com.urbanairship.contacts.ChannelType;
+				public static values(): androidNative.Array<com.urbanairship.contacts.ChannelType>;
+				public static valueOf(param0: string): com.urbanairship.contacts.ChannelType;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
 			export class Contact extends com.urbanairship.AirshipComponent {
 				public static class: java.lang.Class<com.urbanairship.contacts.Contact>;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
 				public getComponentGroup(): number;
 				public addTagGroupListener(param0: com.urbanairship.channel.TagGroupListener): void;
 				public onComponentEnableChange(param0: boolean): void;
+				public associateChannel(param0: string, param1: com.urbanairship.contacts.ChannelType): void;
 				public addAttributeListener(param0: com.urbanairship.channel.AttributeListener): void;
+				public editTagGroups(): com.urbanairship.channel.TagGroupsEditor;
+				public addContactChangeListener(param0: com.urbanairship.contacts.ContactChangeListener): void;
+				public init(): void;
+				public reset(): void;
+				public registerSms(param0: string, param1: com.urbanairship.contacts.SmsRegistrationOptions): void;
+				public registerEmail(param0: string, param1: com.urbanairship.contacts.EmailRegistrationOptions): void;
+				public editSubscriptionLists(): com.urbanairship.contacts.ScopedSubscriptionListEditor;
+				public getPendingTagUpdates(): java.util.List<com.urbanairship.channel.TagGroupsMutation>;
+				public getSubscriptionLists(param0: boolean): com.urbanairship.PendingResult<java.util.Map<string,java.util.Set<com.urbanairship.contacts.Scope>>>;
+				public getPendingSubscriptionListUpdates(): java.util.List<com.urbanairship.contacts.ScopedSubscriptionListMutation>;
 				public removeContactChangeListener(param0: com.urbanairship.contacts.ContactChangeListener): void;
+				public registerOpenChannel(param0: string, param1: com.urbanairship.contacts.OpenChannelRegistrationOptions): void;
 				public removeTagGroupListener(param0: com.urbanairship.channel.TagGroupListener): void;
 				public setContactConflictListener(param0: com.urbanairship.contacts.ContactConflictListener): void;
 				public removeAttributeListener(param0: com.urbanairship.channel.AttributeListener): void;
-				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
-				public editTagGroups(): com.urbanairship.channel.TagGroupsEditor;
-				public addContactChangeListener(param0: com.urbanairship.contacts.ContactChangeListener): void;
+				public getSubscriptionLists(): com.urbanairship.PendingResult<java.util.Map<string,java.util.Set<com.urbanairship.contacts.Scope>>>;
 				public getNamedUserId(): string;
-				public init(): void;
+				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): com.urbanairship.job.JobResult;
 				public editAttributes(): com.urbanairship.channel.AttributeEditor;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel);
-				public reset(): void;
 				public getPendingAttributeUpdates(): java.util.List<com.urbanairship.channel.AttributeMutation>;
-				public getPendingTagUpdates(): java.util.List<com.urbanairship.channel.TagGroupsMutation>;
 				public identify(param0: string): void;
 			}
 		}
@@ -2971,6 +3029,17 @@ declare module com {
 		export module contacts {
 			export class ContactApiClient {
 				public static class: java.lang.Class<com.urbanairship.contacts.ContactApiClient>;
+			}
+			export module ContactApiClient {
+				export class EmailType {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactApiClient.EmailType>;
+					public static COMMERCIAL_OPTED_IN: com.urbanairship.contacts.ContactApiClient.EmailType;
+					public static COMMERCIAL_OPTED_OUT: com.urbanairship.contacts.ContactApiClient.EmailType;
+					public static TRANSACTIONAL_OPTED_IN: com.urbanairship.contacts.ContactApiClient.EmailType;
+					public static TRANSACTIONAL_OPTED_OUT: com.urbanairship.contacts.ContactApiClient.EmailType;
+					public static values(): androidNative.Array<com.urbanairship.contacts.ContactApiClient.EmailType>;
+					public static valueOf(param0: string): com.urbanairship.contacts.ContactApiClient.EmailType;
+				}
 			}
 		}
 	}
@@ -3017,11 +3086,13 @@ declare module com {
 		export module contacts {
 			export class ContactData extends com.urbanairship.json.JsonSerializable {
 				public static class: java.lang.Class<com.urbanairship.contacts.ContactData>;
+				public getSubscriptionLists(): java.util.Map<string,java.util.Set<com.urbanairship.contacts.Scope>>;
 				public toJsonValue(): com.urbanairship.json.JsonValue;
 				public hashCode(): number;
 				public getTagGroups(): java.util.Map<string,java.util.Set<string>>;
 				public equals(param0: any): boolean;
 				public getAttributes(): java.util.Map<string,com.urbanairship.json.JsonValue>;
+				public getAssociatedChannels(): java.util.List<com.urbanairship.contacts.AssociatedChannel>;
 			}
 		}
 	}
@@ -3053,6 +3124,14 @@ declare module com {
 				public toString(): string;
 			}
 			export module ContactOperation {
+				export class AssociateChannelPayload extends com.urbanairship.contacts.ContactOperation.Payload {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.AssociateChannelPayload>;
+					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ContactOperation.AssociateChannelPayload;
+					public constructor(param0: string, param1: com.urbanairship.contacts.ChannelType);
+					public getChannelType(): com.urbanairship.contacts.ChannelType;
+					public getChannelId(): string;
+					public toJsonValue(): com.urbanairship.json.JsonValue;
+				}
 				export class IdentifyPayload extends com.urbanairship.contacts.ContactOperation.Payload {
 					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.IdentifyPayload>;
 					public toString(): string;
@@ -3072,15 +3151,149 @@ declare module com {
 					public constructor();
 					public toJsonValue(): com.urbanairship.json.JsonValue;
 				}
+				export class RegisterEmailPayload extends com.urbanairship.contacts.ContactOperation.Payload {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.RegisterEmailPayload>;
+					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ContactOperation.RegisterEmailPayload;
+					public getOptions(): com.urbanairship.contacts.EmailRegistrationOptions;
+					public constructor(param0: string, param1: com.urbanairship.contacts.EmailRegistrationOptions);
+					public getEmailAddress(): string;
+					public toJsonValue(): com.urbanairship.json.JsonValue;
+				}
+				export class RegisterOpenChannelPayload extends com.urbanairship.contacts.ContactOperation.Payload {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.RegisterOpenChannelPayload>;
+					public getAddress(): string;
+					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ContactOperation.RegisterOpenChannelPayload;
+					public constructor(param0: string, param1: com.urbanairship.contacts.OpenChannelRegistrationOptions);
+					public getOptions(): com.urbanairship.contacts.OpenChannelRegistrationOptions;
+					public toJsonValue(): com.urbanairship.json.JsonValue;
+				}
+				export class RegisterSmsPayload extends com.urbanairship.contacts.ContactOperation.Payload {
+					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.RegisterSmsPayload>;
+					public getOptions(): com.urbanairship.contacts.SmsRegistrationOptions;
+					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ContactOperation.RegisterSmsPayload;
+					public constructor(param0: string, param1: com.urbanairship.contacts.SmsRegistrationOptions);
+					public getMsisdn(): string;
+					public toJsonValue(): com.urbanairship.json.JsonValue;
+				}
 				export class UpdatePayload extends com.urbanairship.contacts.ContactOperation.Payload {
 					public static class: java.lang.Class<com.urbanairship.contacts.ContactOperation.UpdatePayload>;
+					public constructor(param0: java.util.List<com.urbanairship.channel.TagGroupsMutation>, param1: java.util.List<com.urbanairship.channel.AttributeMutation>, param2: java.util.List<com.urbanairship.contacts.ScopedSubscriptionListMutation>);
 					public toString(): string;
 					public getTagGroupMutations(): java.util.List<com.urbanairship.channel.TagGroupsMutation>;
 					public getAttributeMutations(): java.util.List<com.urbanairship.channel.AttributeMutation>;
+					public getSubscriptionListMutations(): java.util.List<com.urbanairship.contacts.ScopedSubscriptionListMutation>;
 					public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ContactOperation.UpdatePayload;
-					public constructor(param0: java.util.List<com.urbanairship.channel.TagGroupsMutation>, param1: java.util.List<com.urbanairship.channel.AttributeMutation>);
 					public toJsonValue(): com.urbanairship.json.JsonValue;
 				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class EmailRegistrationOptions extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.EmailRegistrationOptions>;
+				public static TRANSACTIONAL_OPTED_IN_KEY: string;
+				public static COMMERCIAL_OPTED_IN_KEY: string;
+				public static PROPERTIES_KEY: string;
+				public static DOUBLE_OPT_IN_KEY: string;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public static options(param0: java.util.Date, param1: com.urbanairship.json.JsonMap, param2: boolean): com.urbanairship.contacts.EmailRegistrationOptions;
+				public static options(param0: com.urbanairship.json.JsonMap, param1: boolean): com.urbanairship.contacts.EmailRegistrationOptions;
+				public static commercialOptions(param0: java.util.Date, param1: java.util.Date, param2: com.urbanairship.json.JsonMap): com.urbanairship.contacts.EmailRegistrationOptions;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class OpenChannelRegistrationOptions extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.OpenChannelRegistrationOptions>;
+				public static PLATFORM_NAME_KEY: string;
+				public static IDENTIFIERS_KEY: string;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public static options(param0: string): com.urbanairship.contacts.OpenChannelRegistrationOptions;
+				public static options(param0: string, param1: java.util.Map<string,string>): com.urbanairship.contacts.OpenChannelRegistrationOptions;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class Scope extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.Scope>;
+				public static APP: com.urbanairship.contacts.Scope;
+				public static WEB: com.urbanairship.contacts.Scope;
+				public static EMAIL: com.urbanairship.contacts.Scope;
+				public static SMS: com.urbanairship.contacts.Scope;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public static valueOf(param0: string): com.urbanairship.contacts.Scope;
+				public static fromJson(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.Scope;
+				public toString(): string;
+				public static values(): androidNative.Array<com.urbanairship.contacts.Scope>;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export abstract class ScopedSubscriptionListEditor {
+				public static class: java.lang.Class<com.urbanairship.contacts.ScopedSubscriptionListEditor>;
+				public mutate(param0: string, param1: java.util.Set<com.urbanairship.contacts.Scope>, param2: boolean): com.urbanairship.contacts.ScopedSubscriptionListEditor;
+				public unsubscribe(param0: java.util.Set<string>, param1: com.urbanairship.contacts.Scope): com.urbanairship.contacts.ScopedSubscriptionListEditor;
+				public apply(): void;
+				public subscribe(param0: string, param1: com.urbanairship.contacts.Scope): com.urbanairship.contacts.ScopedSubscriptionListEditor;
+				public onApply(param0: java.util.List<com.urbanairship.contacts.ScopedSubscriptionListMutation>): void;
+				public constructor(param0: com.urbanairship.util.Clock);
+				public subscribe(param0: java.util.Set<string>, param1: com.urbanairship.contacts.Scope): com.urbanairship.contacts.ScopedSubscriptionListEditor;
+				public unsubscribe(param0: string, param1: com.urbanairship.contacts.Scope): com.urbanairship.contacts.ScopedSubscriptionListEditor;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class ScopedSubscriptionListMutation extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.ScopedSubscriptionListMutation>;
+				public static ACTION_SUBSCRIBE: string;
+				public static ACTION_UNSUBSCRIBE: string;
+				public static newSubscribeMutation(param0: string, param1: com.urbanairship.contacts.Scope, param2: number): com.urbanairship.contacts.ScopedSubscriptionListMutation;
+				public getAction(): string;
+				public static fromJsonList(param0: com.urbanairship.json.JsonList): java.util.List<com.urbanairship.contacts.ScopedSubscriptionListMutation>;
+				public static collapseMutations(param0: java.util.List<com.urbanairship.contacts.ScopedSubscriptionListMutation>): java.util.List<com.urbanairship.contacts.ScopedSubscriptionListMutation>;
+				public getListId(): string;
+				public toString(): string;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public getTimestamp(): string;
+				public static fromJsonValue(param0: com.urbanairship.json.JsonValue): com.urbanairship.contacts.ScopedSubscriptionListMutation;
+				public hashCode(): number;
+				public apply(param0: java.util.Map<string,java.util.Set<com.urbanairship.contacts.Scope>>): void;
+				public static newUnsubscribeMutation(param0: string, param1: com.urbanairship.contacts.Scope, param2: number): com.urbanairship.contacts.ScopedSubscriptionListMutation;
+				public equals(param0: any): boolean;
+				public getScope(): com.urbanairship.contacts.Scope;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module contacts {
+			export class SmsRegistrationOptions extends com.urbanairship.json.JsonSerializable {
+				public static class: java.lang.Class<com.urbanairship.contacts.SmsRegistrationOptions>;
+				public static SENDER_ID_KEY: string;
+				public toJsonValue(): com.urbanairship.json.JsonValue;
+				public static options(param0: string): com.urbanairship.contacts.SmsRegistrationOptions;
 			}
 		}
 	}
@@ -3242,18 +3455,21 @@ declare module com {
 			export class Response<T>  extends java.lang.Object {
 				public static class: java.lang.Class<com.urbanairship.http.Response<any>>;
 				public static HTTP_TOO_MANY_REQUESTS: number;
-				public getResponseHeaders(): java.util.Map<string,java.util.List<string>>;
 				public getResponseBody(): string;
-				public isClientError(): boolean;
-				public getLastModifiedTime(): number;
 				public constructor(param0: com.urbanairship.http.Response<T>);
 				public getResponseHeader(param0: string): string;
 				public getStatus(): number;
-				public isSuccessful(): boolean;
 				public getResult(): T;
 				public isServerError(): boolean;
 				public isTooManyRequestsError(): boolean;
 				public toString(): string;
+				public getResponseHeaders(): java.util.Map<string,java.util.List<string>>;
+				public isClientError(): boolean;
+				public getLastModifiedTime(): number;
+				public getRetryAfterHeader(param0: java.util.concurrent.TimeUnit, param1: number, param2: com.urbanairship.util.Clock): number;
+				public getRetryAfterHeader(param0: java.util.concurrent.TimeUnit, param1: number): number;
+				public isSuccessful(): boolean;
+				public getLocationHeader(): globalAndroid.net.Uri;
 			}
 			export module Response {
 				export class Builder<T>  extends java.lang.Object {
@@ -3361,9 +3577,11 @@ declare module com {
 		export module images {
 			export class ImageRequestOptions {
 				public static class: java.lang.Class<com.urbanairship.images.ImageRequestOptions>;
+				public getZeroHeightFallback(): number;
 				public getPlaceHolder(): number;
 				public getCallback(): com.urbanairship.images.ImageLoader.ImageLoadedCallback;
 				public getUrl(): string;
+				public getZeroWidthFallback(): number;
 				public static newBuilder(param0: string): com.urbanairship.images.ImageRequestOptions.Builder;
 			}
 			export module ImageRequestOptions {
@@ -3372,6 +3590,7 @@ declare module com {
 					public setPlaceHolder(param0: number): com.urbanairship.images.ImageRequestOptions.Builder;
 					public setImageLoadedCallback(param0: com.urbanairship.images.ImageLoader.ImageLoadedCallback): com.urbanairship.images.ImageRequestOptions.Builder;
 					public build(): com.urbanairship.images.ImageRequestOptions;
+					public setFallbackDimensions(param0: number, param1: number): com.urbanairship.images.ImageRequestOptions.Builder;
 				}
 			}
 		}
@@ -3465,9 +3684,17 @@ declare module com {
 			export class JobDispatcher {
 				public static class: java.lang.Class<com.urbanairship.job.JobDispatcher>;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.job.Scheduler);
+				public setRateLimit(param0: string, param1: number, param2: number, param3: java.util.concurrent.TimeUnit): void;
 				public static setInstance(param0: com.urbanairship.job.JobDispatcher): void;
+				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.job.Scheduler, param2: com.urbanairship.job.JobRunner, param3: com.urbanairship.job.RateLimiter);
+				public onStartJob(param0: com.urbanairship.job.JobInfo, param1: number, param2: androidx.core.util.Consumer<com.urbanairship.job.JobResult>): void;
 				public dispatch(param0: com.urbanairship.job.JobInfo): void;
 				public static shared(param0: globalAndroid.content.Context): com.urbanairship.job.JobDispatcher;
+			}
+			export module JobDispatcher {
+				export class Pending {
+					public static class: java.lang.Class<com.urbanairship.job.JobDispatcher.Pending>;
+				}
 			}
 		}
 	}
@@ -3478,16 +3705,16 @@ declare module com {
 		export module job {
 			export class JobInfo {
 				public static class: java.lang.Class<com.urbanairship.job.JobInfo>;
-				public static JOB_FINISHED: number;
-				public static JOB_RETRY: number;
 				public static REPLACE: number;
 				public static APPEND: number;
 				public static KEEP: number;
+				public getInitialBackOffMs(): number;
+				public getMinDelayMs(): number;
 				public getAirshipComponentName(): string;
 				public hashCode(): number;
 				public getExtras(): com.urbanairship.json.JsonMap;
 				public getAction(): string;
-				public getInitialDelay(): number;
+				public getRateLimitIds(): java.util.Set<string>;
 				public equals(param0: any): boolean;
 				public getConflictStrategy(): number;
 				public isNetworkAccessRequired(): boolean;
@@ -3497,12 +3724,14 @@ declare module com {
 			export module JobInfo {
 				export class Builder {
 					public static class: java.lang.Class<com.urbanairship.job.JobInfo.Builder>;
+					public addRateLimit(param0: string): com.urbanairship.job.JobInfo.Builder;
 					public setExtras(param0: com.urbanairship.json.JsonMap): com.urbanairship.job.JobInfo.Builder;
 					public setAirshipComponent(param0: java.lang.Class<any>): com.urbanairship.job.JobInfo.Builder;
 					public setConflictStrategy(param0: number): com.urbanairship.job.JobInfo.Builder;
+					public setMinDelay(param0: number, param1: java.util.concurrent.TimeUnit): com.urbanairship.job.JobInfo.Builder;
 					public setAction(param0: string): com.urbanairship.job.JobInfo.Builder;
-					public setInitialDelay(param0: number, param1: java.util.concurrent.TimeUnit): com.urbanairship.job.JobInfo.Builder;
 					public setNetworkAccessRequired(param0: boolean): com.urbanairship.job.JobInfo.Builder;
+					public setInitialBackOff(param0: number, param1: java.util.concurrent.TimeUnit): com.urbanairship.job.JobInfo.Builder;
 					public build(): com.urbanairship.job.JobInfo;
 				}
 				export class ConflictStrategy {
@@ -3514,14 +3743,45 @@ declare module com {
 					});
 					public constructor();
 				}
-				export class JobResult {
-					public static class: java.lang.Class<com.urbanairship.job.JobInfo.JobResult>;
-					/**
-					 * Constructs a new instance of the com.urbanairship.job.JobInfo$JobResult interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-					 */
-					public constructor(implementation: {
-					});
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module job {
+			export class JobResult {
+				public static class: java.lang.Class<com.urbanairship.job.JobResult>;
+				public static SUCCESS: com.urbanairship.job.JobResult;
+				public static RETRY: com.urbanairship.job.JobResult;
+				public static FAILURE: com.urbanairship.job.JobResult;
+				public static valueOf(param0: string): com.urbanairship.job.JobResult;
+				public static values(): androidNative.Array<com.urbanairship.job.JobResult>;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module job {
+			export class JobRunner {
+				public static class: java.lang.Class<com.urbanairship.job.JobRunner>;
+				/**
+				 * Constructs a new instance of the com.urbanairship.job.JobRunner interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+				 */
+				public constructor(implementation: {
+					run(param0: com.urbanairship.job.JobInfo, param1: androidx.core.util.Consumer<com.urbanairship.job.JobResult>): void;
+				});
+				public constructor();
+				public run(param0: com.urbanairship.job.JobInfo, param1: androidx.core.util.Consumer<com.urbanairship.job.JobResult>): void;
+			}
+			export module JobRunner {
+				export class DefaultRunner extends com.urbanairship.job.JobRunner {
+					public static class: java.lang.Class<com.urbanairship.job.JobRunner.DefaultRunner>;
 					public constructor();
+					public run(param0: com.urbanairship.job.JobInfo, param1: androidx.core.util.Consumer<com.urbanairship.job.JobResult>): void;
 				}
 			}
 		}
@@ -3531,25 +3791,30 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module job {
-			export class JobRunnable {
-				public static class: java.lang.Class<com.urbanairship.job.JobRunnable>;
-				public run(): void;
-				public static newBuilder(param0: com.urbanairship.job.JobInfo): com.urbanairship.job.JobRunnable.Builder;
+			export class RateLimiter {
+				public static class: java.lang.Class<com.urbanairship.job.RateLimiter>;
+				public status(param0: string): com.urbanairship.job.RateLimiter.Status;
+				public track(param0: string): void;
+				public setLimit(param0: string, param1: number, param2: number, param3: java.util.concurrent.TimeUnit): void;
+				public constructor(param0: com.urbanairship.util.Clock);
+				public constructor();
 			}
-			export module JobRunnable {
-				export class Builder {
-					public static class: java.lang.Class<com.urbanairship.job.JobRunnable.Builder>;
+			export module RateLimiter {
+				export class LimitStatus {
+					public static class: java.lang.Class<com.urbanairship.job.RateLimiter.LimitStatus>;
+					public static OVER: com.urbanairship.job.RateLimiter.LimitStatus;
+					public static UNDER: com.urbanairship.job.RateLimiter.LimitStatus;
+					public static valueOf(param0: string): com.urbanairship.job.RateLimiter.LimitStatus;
+					public static values(): androidNative.Array<com.urbanairship.job.RateLimiter.LimitStatus>;
 				}
-				export class Callback {
-					public static class: java.lang.Class<com.urbanairship.job.JobRunnable.Callback>;
-					/**
-					 * Constructs a new instance of the com.urbanairship.job.JobRunnable$Callback interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-					 */
-					public constructor(implementation: {
-						onFinish(param0: com.urbanairship.job.JobRunnable, param1: number): void;
-					});
-					public constructor();
-					public onFinish(param0: com.urbanairship.job.JobRunnable, param1: number): void;
+				export class Rule {
+					public static class: java.lang.Class<com.urbanairship.job.RateLimiter.Rule>;
+				}
+				export class Status {
+					public static class: java.lang.Class<com.urbanairship.job.RateLimiter.Status>;
+					public getNextAvailable(param0: java.util.concurrent.TimeUnit): number;
+					public getLimitStatus(): com.urbanairship.job.RateLimiter.LimitStatus;
+					public constructor(param0: com.urbanairship.job.RateLimiter.LimitStatus, param1: number);
 				}
 			}
 		}
@@ -3565,10 +3830,10 @@ declare module com {
 				 * Constructs a new instance of the com.urbanairship.job.Scheduler interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 				 */
 				public constructor(implementation: {
-					schedule(param0: globalAndroid.content.Context, param1: com.urbanairship.job.JobInfo): void;
+					schedule(param0: globalAndroid.content.Context, param1: com.urbanairship.job.JobInfo, param2: number): void;
 				});
 				public constructor();
-				public schedule(param0: globalAndroid.content.Context, param1: com.urbanairship.job.JobInfo): void;
+				public schedule(param0: globalAndroid.content.Context, param1: com.urbanairship.job.JobInfo, param2: number): void;
 			}
 		}
 	}
@@ -3589,7 +3854,7 @@ declare module com {
 		export module job {
 			export class WorkManagerScheduler extends com.urbanairship.job.Scheduler {
 				public static class: java.lang.Class<com.urbanairship.job.WorkManagerScheduler>;
-				public schedule(param0: globalAndroid.content.Context, param1: com.urbanairship.job.JobInfo): void;
+				public schedule(param0: globalAndroid.content.Context, param1: com.urbanairship.job.JobInfo, param2: number): void;
 			}
 		}
 	}
@@ -3860,10 +4125,13 @@ declare module com {
 				public getInt(param0: number): number;
 				public isBoolean(): boolean;
 				public optMap(): com.urbanairship.json.JsonMap;
+				public coerceString(): string;
 				public getBoolean(): java.lang.Boolean;
 				public writeToParcel(param0: globalAndroid.os.Parcel, param1: number): void;
 				public getString(): string;
 				public isJsonMap(): boolean;
+				public requireMap(): com.urbanairship.json.JsonMap;
+				public requireList(): com.urbanairship.json.JsonList;
 				public static wrapOpt(param0: any): com.urbanairship.json.JsonValue;
 				public getMap(): com.urbanairship.json.JsonMap;
 				public static wrap(param0: any, param1: com.urbanairship.json.JsonValue): com.urbanairship.json.JsonValue;
@@ -3873,6 +4141,8 @@ declare module com {
 				public isJsonList(): boolean;
 				public optList(): com.urbanairship.json.JsonList;
 				public getList(): com.urbanairship.json.JsonList;
+				public getInteger(): java.lang.Integer;
+				public requireString(): string;
 				public isString(): boolean;
 				public describeContents(): number;
 				public isNull(): boolean;
@@ -4091,7 +4361,7 @@ declare module com {
 				public static preferenceCenter(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.remotedata.RemoteData): com.urbanairship.modules.Module;
 				public static location(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.analytics.Analytics): com.urbanairship.modules.location.LocationModule;
 				public static automation(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager, param6: com.urbanairship.analytics.Analytics, param7: com.urbanairship.remotedata.RemoteData, param8: com.urbanairship.contacts.Contact): com.urbanairship.modules.Module;
-				public static messageCenter(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+				public static messageCenter(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.AirshipConfigOptions): com.urbanairship.modules.Module;
 				public static accengage(param0: globalAndroid.content.Context, param1: com.urbanairship.AirshipConfigOptions, param2: com.urbanairship.PreferenceDataStore, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.channel.AirshipChannel, param5: com.urbanairship.push.PushManager): com.urbanairship.modules.accengage.AccengageModule;
 				public constructor();
 			}
@@ -4333,12 +4603,12 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.modules.messagecenter.MessageCenterModuleFactory interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+						build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.AirshipConfigOptions): com.urbanairship.modules.Module;
 						getAirshipVersion(): string;
 						getPackageVersion(): string;
 					});
 					public constructor();
-					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager): com.urbanairship.modules.Module;
+					public build(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.PrivacyManager, param3: com.urbanairship.channel.AirshipChannel, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.AirshipConfigOptions): com.urbanairship.modules.Module;
 					public getPackageVersion(): string;
 					public getAirshipVersion(): string;
 				}
@@ -4573,12 +4843,12 @@ declare module com {
 				public getNotificationChannelRegistry(): com.urbanairship.push.notifications.NotificationChannelRegistry;
 				public setUserNotificationsEnabled(param0: boolean): void;
 				public removeNotificationActionButtonGroup(param0: string): void;
-				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
 				public getLastReceivedMetadata(): string;
 				public removePushTokenListener(param0: com.urbanairship.push.PushTokenListener): void;
 				/** @deprecated */
 				public isPushTokenRegistrationEnabled(): boolean;
 				public addNotificationActionButtonGroup(param0: string, param1: com.urbanairship.push.notifications.NotificationActionButtonGroup): void;
+				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): com.urbanairship.job.JobResult;
 				/** @deprecated */
 				public getQuietTimeInterval(): androidNative.Array<java.util.Date>;
 				public isOptIn(): boolean;
@@ -5255,11 +5525,11 @@ declare module com {
 				public defaultIfEmpty(param0: T): com.urbanairship.reactive.Observable<T>;
 				public static error(param0: java.lang.Exception): com.urbanairship.reactive.Observable<any>;
 				public subscribe(param0: com.urbanairship.reactive.Observer<T>): com.urbanairship.reactive.Subscription;
-				public static from(param0: java.util.Collection): com.urbanairship.reactive.Observable<any>;
+				public static from(param0: java.util.Collection<any>): com.urbanairship.reactive.Observable<any>;
 				public observeOn(param0: com.urbanairship.reactive.Scheduler): com.urbanairship.reactive.Observable<T>;
 				public constructor();
 				public static never(): com.urbanairship.reactive.Observable<any>;
-				public static merge(param0: java.util.Collection): com.urbanairship.reactive.Observable<any>;
+				public static merge(param0: java.util.Collection<any>): com.urbanairship.reactive.Observable<any>;
 				public subscribeOn(param0: com.urbanairship.reactive.Scheduler): com.urbanairship.reactive.Observable<T>;
 				public static just(param0: any): com.urbanairship.reactive.Observable<any>;
 				public static zip(param0: com.urbanairship.reactive.Observable<any>, param1: com.urbanairship.reactive.Observable<any>, param2: com.urbanairship.reactive.BiFunction<any,any,any>): com.urbanairship.reactive.Observable<any>;
@@ -5557,15 +5827,16 @@ declare module com {
 				public static DEFAULT_FOREGROUND_REFRESH_INTERVAL_MS: number;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore);
 				public payloadsForType(param0: string): com.urbanairship.reactive.Observable<com.urbanairship.remotedata.RemoteDataPayload>;
-				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): number;
 				public constructor(param0: globalAndroid.content.Context, param1: com.urbanairship.PreferenceDataStore, param2: com.urbanairship.config.AirshipRuntimeConfig, param3: com.urbanairship.PrivacyManager, param4: com.urbanairship.push.PushManager, param5: com.urbanairship.locale.LocaleManager, param6: com.urbanairship.base.Supplier<com.urbanairship.PushProviders>);
 				public isMetadataCurrent(param0: com.urbanairship.json.JsonMap): boolean;
+				public onPerformJob(param0: com.urbanairship.UAirship, param1: com.urbanairship.job.JobInfo): com.urbanairship.job.JobResult;
 				public init(): void;
 				public tearDown(): void;
 				public getForegroundRefreshInterval(): number;
 				public payloadsForTypes(param0: androidNative.Array<string>): com.urbanairship.reactive.Observable<java.util.Collection<com.urbanairship.remotedata.RemoteDataPayload>>;
 				public setForegroundRefreshInterval(param0: number): void;
-				public refresh(): void;
+				public refresh(param0: boolean): com.urbanairship.PendingResult<java.lang.Boolean>;
+				public refresh(): com.urbanairship.PendingResult<java.lang.Boolean>;
 				public onUrlConfigUpdated(): void;
 				public payloadsForTypes(param0: java.util.Collection<string>): com.urbanairship.reactive.Observable<java.util.Collection<com.urbanairship.remotedata.RemoteDataPayload>>;
 			}
@@ -5587,10 +5858,10 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.remotedata.RemoteDataApiClient$PayloadParser interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						parse(param0: globalAndroid.net.Uri, param1: com.urbanairship.json.JsonList): java.util.Set<com.urbanairship.remotedata.RemoteDataPayload>;
+						parse(param0: java.util.Map<string,java.util.List<string>>, param1: globalAndroid.net.Uri, param2: com.urbanairship.json.JsonList): java.util.Set<com.urbanairship.remotedata.RemoteDataPayload>;
 					});
 					public constructor();
-					public parse(param0: globalAndroid.net.Uri, param1: com.urbanairship.json.JsonList): java.util.Set<com.urbanairship.remotedata.RemoteDataPayload>;
+					public parse(param0: java.util.Map<string,java.util.List<string>>, param1: globalAndroid.net.Uri, param2: com.urbanairship.json.JsonList): java.util.Set<com.urbanairship.remotedata.RemoteDataPayload>;
 				}
 				export class Result {
 					public static class: java.lang.Class<com.urbanairship.remotedata.RemoteDataApiClient.Result>;
@@ -5652,9 +5923,21 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module util {
+			export class AccessibilityUtils {
+				public static class: java.lang.Class<com.urbanairship.util.AccessibilityUtils>;
+				public static setClickActionLabel(param0: globalAndroid.view.View, param1: string): void;
+				public static setClickActionLabel(param0: globalAndroid.view.View, param1: number): void;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module util {
 			export class AirshipComponentUtils {
 				public static class: java.lang.Class<com.urbanairship.util.AirshipComponentUtils>;
-				public static callableForComponent(param0: java.lang.Class): java.util.concurrent.Callable;
+				public static callableForComponent(param0: java.lang.Class<any>): java.util.concurrent.Callable<any>;
 				public constructor();
 			}
 		}
@@ -5682,6 +5965,17 @@ declare module com {
 				public static DEFAULT_THREAD_FACTORY: com.urbanairship.util.AirshipThreadFactory;
 				public newThread(param0: java.lang.Runnable): java.lang.Thread;
 				public constructor(param0: string);
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module util {
+			export class AppStoreUtils {
+				public static class: java.lang.Class<com.urbanairship.util.AppStoreUtils>;
+				public static getAppStoreIntent(param0: globalAndroid.content.Context, param1: number, param2: com.urbanairship.AirshipConfigOptions): globalAndroid.content.Intent;
 			}
 		}
 	}
@@ -5740,6 +6034,21 @@ declare module com {
 				public static REGION: string;
 				public static COMPANY: string;
 				public static FIRST_NAME: string;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module util {
+			export class CachedValue<T>  extends java.lang.Object {
+				public static class: java.lang.Class<com.urbanairship.util.CachedValue<any>>;
+				public get(): T;
+				public invalidate(): void;
+				public constructor(param0: com.urbanairship.util.Clock);
+				public set(param0: T, param1: number): void;
+				public constructor();
 			}
 		}
 	}
@@ -5929,11 +6238,12 @@ declare module com {
 		export module util {
 			export class ImageUtils {
 				public static class: java.lang.Class<com.urbanairship.util.ImageUtils>;
-				public static calculateTargetSize(param0: number, param1: number, param2: number, param3: number): com.urbanairship.util.ImageUtils.Size;
 				public static fetchScaledBitmap(param0: globalAndroid.content.Context, param1: java.net.URL, param2: number, param3: number): globalAndroid.graphics.Bitmap;
+				public static fetchScaledBitmap(param0: globalAndroid.content.Context, param1: java.net.URL, param2: number, param3: number, param4: number, param5: number): globalAndroid.graphics.Bitmap;
+				public static calculateTargetSize(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): com.urbanairship.util.ImageUtils.Size;
 				public static fetchScaledDrawable(param0: globalAndroid.content.Context, param1: java.net.URL, param2: number, param3: number): com.urbanairship.util.ImageUtils.DrawableResult;
 				public static calculateInSampleSize(param0: number, param1: number, param2: number, param3: number): number;
-				public constructor();
+				public static fetchScaledDrawable(param0: globalAndroid.content.Context, param1: java.net.URL, param2: number, param3: number, param4: number, param5: number): com.urbanairship.util.ImageUtils.DrawableResult;
 			}
 			export module ImageUtils {
 				export class DrawableResult {
@@ -6014,7 +6324,7 @@ declare module com {
 				public static getApplicationInfo(): globalAndroid.content.pm.ApplicationInfo;
 				public static shouldInstallNetworkSecurityProvider(): boolean;
 				public static shouldEnableLocalStorage(): boolean;
-				public static getActivityInfo(param0: java.lang.Class): globalAndroid.content.pm.ActivityInfo;
+				public static getActivityInfo(param0: java.lang.Class<any>): globalAndroid.content.pm.ActivityInfo;
 				public constructor();
 			}
 		}
@@ -6026,22 +6336,10 @@ declare module com {
 		export module util {
 			export class Network {
 				public static class: java.lang.Class<com.urbanairship.util.Network>;
-				public static isConnected(): boolean;
+				public isConnected(param0: globalAndroid.content.Context): boolean;
 				public static getCarrier(): string;
+				public static shared(): com.urbanairship.util.Network;
 				public constructor();
-			}
-			export module Network {
-				export class ConnectionListener {
-					public static class: java.lang.Class<com.urbanairship.util.Network.ConnectionListener>;
-					/**
-					 * Constructs a new instance of the com.urbanairship.util.Network$ConnectionListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-					 */
-					public constructor(implementation: {
-						onConnectionChanged(param0: boolean): void;
-					});
-					public constructor();
-					public onConnectionChanged(param0: boolean): void;
-				}
 			}
 		}
 	}
@@ -6116,6 +6414,18 @@ declare module com {
 declare module com {
 	export module urbanairship {
 		export module util {
+			export class ProcessUtils {
+				public static class: java.lang.Class<com.urbanairship.util.ProcessUtils>;
+				public static getProcessName(param0: globalAndroid.content.Context): string;
+				public static isMainProcess(param0: globalAndroid.app.Application): boolean;
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module util {
 			export class PropertiesConfigParser extends com.urbanairship.util.ConfigParser {
 				public static class: java.lang.Class<com.urbanairship.util.PropertiesConfigParser>;
 				public getBoolean(param0: string, param1: boolean): boolean;
@@ -6141,12 +6451,15 @@ declare module com {
 		export module util {
 			export class RetryingExecutor {
 				public static class: java.lang.Class<com.urbanairship.util.RetryingExecutor>;
-				public static RESULT_FINISHED: number;
-				public static RESULT_RETRY: number;
-				public static RESULT_CANCEL: number;
+				public static INITIAL_BACKOFF_MILLIS: number;
+				public execute(param0: com.urbanairship.util.RetryingExecutor.Operation, param1: number): void;
+				public static cancelResult(): com.urbanairship.util.RetryingExecutor.Result;
 				public execute(param0: java.lang.Runnable): void;
 				public execute(param0: androidNative.Array<com.urbanairship.util.RetryingExecutor.Operation>): void;
+				public static finishedResult(): com.urbanairship.util.RetryingExecutor.Result;
 				public static newSerialExecutor(param0: globalAndroid.os.Looper): com.urbanairship.util.RetryingExecutor;
+				public static retryResult(param0: number): com.urbanairship.util.RetryingExecutor.Result;
+				public static retryResult(): com.urbanairship.util.RetryingExecutor.Result;
 				public execute(param0: com.urbanairship.util.RetryingExecutor.Operation): void;
 				public constructor(param0: globalAndroid.os.Handler, param1: java.util.concurrent.Executor);
 				public setPaused(param0: boolean): void;
@@ -6154,7 +6467,7 @@ declare module com {
 			export module RetryingExecutor {
 				export class ChainedOperations extends com.urbanairship.util.RetryingExecutor.Operation {
 					public static class: java.lang.Class<com.urbanairship.util.RetryingExecutor.ChainedOperations>;
-					public run(): number;
+					public run(): com.urbanairship.util.RetryingExecutor.Result;
 				}
 				export class Operation {
 					public static class: java.lang.Class<com.urbanairship.util.RetryingExecutor.Operation>;
@@ -6162,19 +6475,21 @@ declare module com {
 					 * Constructs a new instance of the com.urbanairship.util.RetryingExecutor$Operation interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
 					 */
 					public constructor(implementation: {
-						run(): number;
+						run(): com.urbanairship.util.RetryingExecutor.Result;
 					});
 					public constructor();
-					public run(): number;
+					public run(): com.urbanairship.util.RetryingExecutor.Result;
 				}
 				export class Result {
 					public static class: java.lang.Class<com.urbanairship.util.RetryingExecutor.Result>;
-					/**
-					 * Constructs a new instance of the com.urbanairship.util.RetryingExecutor$Result interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-					 */
-					public constructor(implementation: {
-					});
-					public constructor();
+				}
+				export class Status {
+					public static class: java.lang.Class<com.urbanairship.util.RetryingExecutor.Status>;
+					public static FINISHED: com.urbanairship.util.RetryingExecutor.Status;
+					public static RETRY: com.urbanairship.util.RetryingExecutor.Status;
+					public static CANCEL: com.urbanairship.util.RetryingExecutor.Status;
+					public static values(): androidNative.Array<com.urbanairship.util.RetryingExecutor.Status>;
+					public static valueOf(param0: string): com.urbanairship.util.RetryingExecutor.Status;
 				}
 			}
 		}
@@ -6260,9 +6575,11 @@ declare module com {
 		export module util {
 			export class VersionUtils {
 				public static class: java.lang.Class<com.urbanairship.util.VersionUtils>;
+				public static isVersionNewer(param0: string, param1: string): boolean;
 				public static createVersionPredicate(param0: com.urbanairship.json.ValueMatcher): com.urbanairship.json.JsonPredicate;
 				public static createVersionObject(): com.urbanairship.json.JsonSerializable;
 				public static createVersionObject(param0: number): com.urbanairship.json.JsonSerializable;
+				public static isVersionNewerOrEqualTo(param0: string, param1: string): boolean;
 				public constructor();
 			}
 		}
@@ -6465,6 +6782,7 @@ declare module com {
 				public setFaviconEnabled(param0: boolean): void;
 				public setActionCompletionCallback(param0: com.urbanairship.actions.ActionCompletionCallback): void;
 				public addAuthRequestCredentials(param0: string, param1: string, param2: string): void;
+				public addListener(param0: com.urbanairship.webkit.AirshipWebViewClient.Listener): void;
 				public onClose(param0: globalAndroid.webkit.WebView): void;
 				public constructor(param0: com.urbanairship.actions.ActionRunRequestFactory);
 				public extendActionRequest(param0: com.urbanairship.actions.ActionRunRequest, param1: globalAndroid.webkit.WebView): com.urbanairship.actions.ActionRunRequest;
@@ -6473,7 +6791,9 @@ declare module com {
 				public removeAuthRequestCredentials(param0: string): void;
 				public shouldInterceptRequest(param0: globalAndroid.webkit.WebView, param1: string): globalAndroid.webkit.WebResourceResponse;
 				public constructor(param0: com.urbanairship.javascript.NativeBridge);
+				public removeListener(param0: com.urbanairship.webkit.AirshipWebViewClient.Listener): void;
 				public onPageFinished(param0: globalAndroid.webkit.WebView, param1: string): void;
+				public onReceivedError(param0: globalAndroid.webkit.WebView, param1: globalAndroid.webkit.WebResourceRequest, param2: globalAndroid.webkit.WebResourceError): void;
 				public shouldInterceptRequest(param0: globalAndroid.webkit.WebView, param1: globalAndroid.webkit.WebResourceRequest): globalAndroid.webkit.WebResourceResponse;
 				public onReceivedHttpAuthRequest(param0: globalAndroid.webkit.WebView, param1: globalAndroid.webkit.HttpAuthHandler, param2: string, param3: string): void;
 				public onAirshipCommand(param0: globalAndroid.webkit.WebView, param1: string, param2: globalAndroid.net.Uri): void;
@@ -6481,6 +6801,21 @@ declare module com {
 			export module AirshipWebViewClient {
 				export class Credentials {
 					public static class: java.lang.Class<com.urbanairship.webkit.AirshipWebViewClient.Credentials>;
+				}
+				export class Listener {
+					public static class: java.lang.Class<com.urbanairship.webkit.AirshipWebViewClient.Listener>;
+					/**
+					 * Constructs a new instance of the com.urbanairship.webkit.AirshipWebViewClient$Listener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+					 */
+					public constructor(implementation: {
+						onPageFinished(param0: globalAndroid.webkit.WebView, param1: string): void;
+						onReceivedError(param0: globalAndroid.webkit.WebView, param1: globalAndroid.webkit.WebResourceRequest, param2: globalAndroid.webkit.WebResourceError): void;
+						onClose(param0: globalAndroid.webkit.WebView): boolean;
+					});
+					public constructor();
+					public onClose(param0: globalAndroid.webkit.WebView): boolean;
+					public onPageFinished(param0: globalAndroid.webkit.WebView, param1: string): void;
+					public onReceivedError(param0: globalAndroid.webkit.WebView, param1: globalAndroid.webkit.WebResourceRequest, param2: globalAndroid.webkit.WebResourceError): void;
 				}
 			}
 		}
@@ -6499,29 +6834,6 @@ declare module com {
 	}
 }
 
-//Generics information:
-//com.urbanairship.PendingResult:1
-//com.urbanairship.Predicate:1
-//com.urbanairship.ResultCallback:1
-//com.urbanairship.base.Supplier:1
-//com.urbanairship.http.Response:1
-//com.urbanairship.http.Response.Builder:1
-//com.urbanairship.http.ResponseParser:1
-//com.urbanairship.reactive.BiFunction:3
-//com.urbanairship.reactive.Function:2
-//com.urbanairship.reactive.Observable:1
-//com.urbanairship.reactive.Observable.Holder:1
-//com.urbanairship.reactive.Observable.ObservableTracker:1
-//com.urbanairship.reactive.Observer:1
-//com.urbanairship.reactive.Subject:1
-//com.urbanairship.reactive.Subscriber:1
-//com.urbanairship.reactive.Supplier:1
-//com.urbanairship.util.ImageUtils.ImageProcessor:1
-//com.urbanairship.util.JsonDataStoreQueue:1
-
-//preff
-/// <reference path="android-declarations.d.ts"/>
-
 declare module com {
 	export module urbanairship {
 		export module preferencecenter {
@@ -6532,6 +6844,20 @@ declare module com {
 				public static BUILD_TYPE: string;
 				public static AIRSHIP_VERSION: string;
 				public static SDK_VERSION: string;
+				public constructor();
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export class ConditionStateMonitor {
+				public static class: java.lang.Class<com.urbanairship.preferencecenter.ConditionStateMonitor>;
+				public getStates(): kotlinx.coroutines.flow.Flow<com.urbanairship.preferencecenter.data.Condition.State>;
+				public constructor(param0: com.urbanairship.channel.AirshipChannel, param1: com.urbanairship.push.PushManager);
+				public getCurrentState(): com.urbanairship.preferencecenter.data.Condition.State;
 				public constructor();
 			}
 		}
@@ -6561,7 +6887,6 @@ declare module com {
 				public static PAYLOAD_TYPE: string;
 				public static KEY_PREFERENCE_FORMS: string;
 				public static DEEP_LINK_HOST: string;
-				public static Companion: com.urbanairship.preferencecenter.PreferenceCenter.Companion;
 				public getComponentGroup(): number;
 				public getOpenListener(): com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener;
 				public onAirshipDeepLink(param0: globalAndroid.net.Uri): boolean;
@@ -6570,6 +6895,7 @@ declare module com {
 				public setOpenListener(param0: com.urbanairship.preferencecenter.PreferenceCenter.OnOpenListener): void;
 				public open(param0: string): void;
 				public static shared(): com.urbanairship.preferencecenter.PreferenceCenter;
+				public getJsonConfig(param0: string): com.urbanairship.PendingResult<com.urbanairship.json.JsonValue>;
 			}
 			export module PreferenceCenter {
 				export class Companion {
@@ -6610,17 +6936,47 @@ declare module com {
 	export module urbanairship {
 		export module preferencecenter {
 			export module data {
+				export class Button {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Button>;
+					public equals(param0: any): boolean;
+					public component3(): java.util.Map<string,com.urbanairship.json.JsonValue>;
+					public toString(): string;
+					public component1(): string;
+					public getText(): string;
+					public component2(): string;
+					public getActions(): java.util.Map<string,com.urbanairship.json.JsonValue>;
+					public copy(param0: string, param1: string, param2: java.util.Map<string,any>): com.urbanairship.preferencecenter.data.Button;
+					public constructor(param0: string, param1: string, param2: java.util.Map<string,any>);
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public getContentDescription(): string;
+					public hashCode(): number;
+				}
+				export module Button {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Button.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Button;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
 				export class CommonDisplay {
 					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.CommonDisplay>;
-					public static Companion: com.urbanairship.preferencecenter.data.CommonDisplay.Companion;
+					public component2(): string;
+					public isEmpty$urbanairship_preference_center_release(): boolean;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
 					public constructor(param0: string, param1: string);
 					public equals(param0: any): boolean;
 					public toString(): string;
 					public component1(): string;
-					public component2(): string;
 					public getName(): string;
 					public constructor();
-					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
 					public getDescription(): string;
 					public copy(param0: string, param1: string): com.urbanairship.preferencecenter.data.CommonDisplay;
 					public hashCode(): number;
@@ -6643,33 +6999,216 @@ declare module com {
 	export module urbanairship {
 		export module preferencecenter {
 			export module data {
+				export abstract class Condition {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Condition>;
+					public jsonMapBuilder(): com.urbanairship.json.JsonMap.Builder;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public evaluate(param0: com.urbanairship.preferencecenter.data.Condition.State): boolean;
+				}
+				export module Condition {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Condition.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonValue): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Condition;
+					}
+					export class NotificationOptIn extends com.urbanairship.preferencecenter.data.Condition {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Condition.NotificationOptIn>;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public component1(): com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status;
+						public getStatus(): com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status;
+						public copy(param0: com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status): com.urbanairship.preferencecenter.data.Condition.NotificationOptIn;
+						public evaluate(param0: com.urbanairship.preferencecenter.data.Condition.State): boolean;
+						public toString(): string;
+						public constructor(param0: com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status);
+					}
+					export module NotificationOptIn {
+						export class Status {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status>;
+							public static OPT_IN: com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status;
+							public static OPT_OUT: com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status;
+							public static valueOf(param0: string): com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status;
+							public static values(): androidNative.Array<com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status>;
+							public getJsonValue(): string;
+						}
+						export module Status {
+							export class Companion {
+								public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status.Companion>;
+								public parse$urbanairship_preference_center_release(param0: string): com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.Status;
+							}
+						}
+						export class WhenMappings {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Condition.NotificationOptIn.WhenMappings>;
+						}
+					}
+					export class State {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Condition.State>;
+						public isOptedIn(): boolean;
+						public copy(param0: boolean): com.urbanairship.preferencecenter.data.Condition.State;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public constructor(param0: boolean);
+						public component1(): boolean;
+						public toString(): string;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
+				export class IconDisplay {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.IconDisplay>;
+					public component2(): string;
+					public component3(): string;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public equals(param0: any): boolean;
+					public toString(): string;
+					public component1(): string;
+					public getName(): string;
+					public copy(param0: string, param1: string, param2: string): com.urbanairship.preferencecenter.data.IconDisplay;
+					public constructor();
+					public getDescription(): string;
+					public hashCode(): number;
+					public constructor(param0: string, param1: string, param2: string);
+					public getIcon(): string;
+				}
+				export module IconDisplay {
+					export class Companion {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.IconDisplay.Companion>;
+						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.IconDisplay;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module urbanairship {
+		export module preferencecenter {
+			export module data {
 				export abstract class Item {
 					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item>;
-					public static Companion: com.urbanairship.preferencecenter.data.Item.Companion;
 					public getId(): string;
+					public getHasChannelSubscriptions$urbanairship_preference_center_release(): boolean;
 					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
 					public jsonMapBuilder(): com.urbanairship.json.JsonMap.Builder;
 					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public getHasContactSubscriptions$urbanairship_preference_center_release(): boolean;
+					public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
 				}
 				export module Item {
+					export class Alert extends com.urbanairship.preferencecenter.data.Item {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.Alert>;
+						public getButton(): com.urbanairship.preferencecenter.data.Button;
+						public getIconDisplay(): com.urbanairship.preferencecenter.data.IconDisplay;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public constructor(param0: string, param1: com.urbanairship.preferencecenter.data.IconDisplay, param2: com.urbanairship.preferencecenter.data.Button, param3: java.util.List<any>);
+						public toString(): string;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public getHasChannelSubscriptions$urbanairship_preference_center_release(): boolean;
+						public component2(): com.urbanairship.preferencecenter.data.IconDisplay;
+						public copy(param0: string, param1: com.urbanairship.preferencecenter.data.IconDisplay, param2: com.urbanairship.preferencecenter.data.Button, param3: java.util.List<any>): com.urbanairship.preferencecenter.data.Item.Alert;
+						public getId(): string;
+						public getHasContactSubscriptions$urbanairship_preference_center_release(): boolean;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public component4(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public component3(): com.urbanairship.preferencecenter.data.Button;
+					}
 					export class ChannelSubscription extends com.urbanairship.preferencecenter.data.Item {
 						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.ChannelSubscription>;
-						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
-						public copy(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
-						public constructor(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
-						public component2(): string;
 						public getSubscriptionId(): string;
 						public component1(): string;
 						public hashCode(): number;
 						public equals(param0: any): boolean;
+						public toString(): string;
+						public copy(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay, param3: java.util.List<any>): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public constructor(param0: string, param1: string, param2: com.urbanairship.preferencecenter.data.CommonDisplay, param3: java.util.List<any>);
+						public getHasChannelSubscriptions$urbanairship_preference_center_release(): boolean;
+						public component2(): string;
 						public getId(): string;
+						public getHasContactSubscriptions$urbanairship_preference_center_release(): boolean;
 						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
 						public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
-						public toString(): string;
+						public component4(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
 					}
 					export class Companion {
 						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.Companion>;
 						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Item;
+					}
+					export class ContactSubscription extends com.urbanairship.preferencecenter.data.Item {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.ContactSubscription>;
+						public getSubscriptionId(): string;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public component4(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public toString(): string;
+						public component3(): java.util.Set<com.urbanairship.contacts.Scope>;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public copy(param0: string, param1: string, param2: java.util.Set<any>, param3: com.urbanairship.preferencecenter.data.CommonDisplay, param4: java.util.List<any>): com.urbanairship.preferencecenter.data.Item.ContactSubscription;
+						public getHasChannelSubscriptions$urbanairship_preference_center_release(): boolean;
+						public component2(): string;
+						public constructor(param0: string, param1: string, param2: java.util.Set<any>, param3: com.urbanairship.preferencecenter.data.CommonDisplay, param4: java.util.List<any>);
+						public getId(): string;
+						public getHasContactSubscriptions$urbanairship_preference_center_release(): boolean;
+						public getScopes(): java.util.Set<com.urbanairship.contacts.Scope>;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public component5(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+					}
+					export class ContactSubscriptionGroup extends com.urbanairship.preferencecenter.data.Item {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup>;
+						public getSubscriptionId(): string;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public copy(param0: string, param1: string, param2: java.util.List<com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component>, param3: com.urbanairship.preferencecenter.data.CommonDisplay, param4: java.util.List<any>): com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup;
+						public getComponents(): java.util.List<com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component>;
+						public component4(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public toString(): string;
+						public component3(): java.util.List<com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component>;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public getHasChannelSubscriptions$urbanairship_preference_center_release(): boolean;
+						public component2(): string;
+						public constructor(param0: string, param1: string, param2: java.util.List<com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component>, param3: com.urbanairship.preferencecenter.data.CommonDisplay, param4: java.util.List<any>);
+						public getId(): string;
+						public getHasContactSubscriptions$urbanairship_preference_center_release(): boolean;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public component5(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+					}
+					export module ContactSubscriptionGroup {
+						export class Component {
+							public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component>;
+							public constructor(param0: java.util.Set<any>, param1: com.urbanairship.preferencecenter.data.CommonDisplay);
+							public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+							public component1(): java.util.Set<com.urbanairship.contacts.Scope>;
+							public copy(param0: java.util.Set<any>, param1: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component;
+							public hashCode(): number;
+							public getScopes(): java.util.Set<com.urbanairship.contacts.Scope>;
+							public toString(): string;
+							public toJson(): com.urbanairship.json.JsonMap;
+							public component2(): com.urbanairship.preferencecenter.data.CommonDisplay;
+							public equals(param0: any): boolean;
+						}
+						export module Component {
+							export class Companion {
+								public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component.Companion>;
+								public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Item.ContactSubscriptionGroup.Component;
+							}
+						}
 					}
 				}
 			}
@@ -6683,17 +7222,19 @@ declare module com {
 			export module data {
 				export class PreferenceCenterConfig {
 					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterConfig>;
-					public static Companion: com.urbanairship.preferencecenter.data.PreferenceCenterConfig.Companion;
-					public equals(param0: any): boolean;
+					public static KEY_ID: string;
 					public copy(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.PreferenceCenterConfig;
-					public toString(): string;
 					public getId(): string;
+					public getHasChannelSubscriptions(): boolean;
+					public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
+					public getSections(): java.util.List<com.urbanairship.preferencecenter.data.Section>;
+					public getHasContactSubscriptions(): boolean;
+					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+					public equals(param0: any): boolean;
+					public toString(): string;
 					public component1(): string;
 					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
-					public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
 					public component2(): java.util.List<com.urbanairship.preferencecenter.data.Section>;
-					public getSections(): java.util.List<com.urbanairship.preferencecenter.data.Section>;
-					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
 					public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
 					public hashCode(): number;
 				}
@@ -6714,7 +7255,7 @@ declare module com {
 			export module data {
 				export class PreferenceCenterPayload {
 					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.PreferenceCenterPayload>;
-					public static Companion: com.urbanairship.preferencecenter.data.PreferenceCenterPayload.Companion;
+					public static KEY_FORM: string;
 					public equals(param0: any): boolean;
 					public toString(): string;
 					public constructor(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig);
@@ -6741,32 +7282,53 @@ declare module com {
 			export module data {
 				export abstract class Section {
 					public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section>;
-					public static Companion: com.urbanairship.preferencecenter.data.Section.Companion;
 					public getId(): string;
+					public filterItems(param0: any): com.urbanairship.preferencecenter.data.Section;
+					public getHasChannelSubscriptions$urbanairship_preference_center_release(): boolean;
 					public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
 					public jsonMapBuilder(): com.urbanairship.json.JsonMap.Builder;
 					public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
 					public getItems(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+					public getHasContactSubscriptions$urbanairship_preference_center_release(): boolean;
+					public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
 				}
 				export module Section {
 					export class Common extends com.urbanairship.preferencecenter.data.Section {
 						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section.Common>;
-						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
 						public getItems(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
-						public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay);
 						public component1(): string;
 						public hashCode(): number;
 						public equals(param0: any): boolean;
+						public component2(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+						public toString(): string;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public copy(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay, param3: java.util.List<any>): com.urbanairship.preferencecenter.data.Section.Common;
 						public getId(): string;
 						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
 						public component3(): com.urbanairship.preferencecenter.data.CommonDisplay;
-						public copy(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay): com.urbanairship.preferencecenter.data.Section.Common;
-						public component2(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
-						public toString(): string;
+						public constructor(param0: string, param1: java.util.List<any>, param2: com.urbanairship.preferencecenter.data.CommonDisplay, param3: java.util.List<any>);
+						public component4(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
 					}
 					export class Companion {
 						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section.Companion>;
 						public parse$urbanairship_preference_center_release(param0: com.urbanairship.json.JsonMap): com.urbanairship.preferencecenter.data.Section;
+					}
+					export class SectionBreak extends com.urbanairship.preferencecenter.data.Section {
+						public static class: java.lang.Class<com.urbanairship.preferencecenter.data.Section.SectionBreak>;
+						public constructor(param0: string, param1: com.urbanairship.preferencecenter.data.CommonDisplay, param2: java.util.List<any>);
+						public getItems(): java.util.List<com.urbanairship.preferencecenter.data.Item>;
+						public copy(param0: string, param1: com.urbanairship.preferencecenter.data.CommonDisplay, param2: java.util.List<any>): com.urbanairship.preferencecenter.data.Section.SectionBreak;
+						public component1(): string;
+						public hashCode(): number;
+						public equals(param0: any): boolean;
+						public toString(): string;
+						public toJson$urbanairship_preference_center_release(): com.urbanairship.json.JsonMap;
+						public component2(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public getId(): string;
+						public getDisplay(): com.urbanairship.preferencecenter.data.CommonDisplay;
+						public getConditions(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
+						public component3(): java.util.List<com.urbanairship.preferencecenter.data.Condition>;
 					}
 				}
 			}
@@ -6796,454 +7358,11 @@ declare module com {
 	export module urbanairship {
 		export module preferencecenter {
 			export module ui {
-				export abstract class PrefCenterItem {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
-					public static TYPE_DESCRIPTION: number;
-					public static TYPE_SECTION: number;
-					public static TYPE_PREF_CHANNEL_SUBSCRIPTION: number;
-					public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.Companion;
-					public getType(): number;
-					public getId(): string;
-					public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-					public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-				}
-				export module PrefCenterItem {
-					export class ChannelSubscriptionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem>;
-						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.Companion;
-						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-						public copy(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription): com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem;
-						public getSubscriptionId(): string;
-						public hashCode(): number;
-						public equals(param0: any): boolean;
-						public getItem(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
-						public constructor(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription);
-						public toString(): string;
-						public getTitle(): string;
-						public component1(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
-						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-						public getId(): string;
-						public getSubtitle(): string;
-					}
-					export module ChannelSubscriptionItem {
-						export class Companion {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.Companion>;
-							public getWIDGET(): number;
-							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater, param2: kotlin.jvm.functions.Function1<any,java.lang.Boolean>, param3: kotlin.jvm.functions.Function2<any,any,kotlin.Unit>): com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.ViewHolder;
-							public getLAYOUT(): number;
-						}
-						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem> {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem.ViewHolder>;
-							public bind(param0: any): void;
-							public constructor(param0: globalAndroid.view.View, param1: kotlin.jvm.functions.Function1<any,java.lang.Boolean>, param2: kotlin.jvm.functions.Function2<any,any,kotlin.Unit>);
-							public constructor(param0: globalAndroid.view.View);
-							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.ChannelSubscriptionItem): void;
-						}
-					}
-					export class Companion {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.Companion>;
-					}
-					export class DescriptionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem>;
-						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.Companion;
-						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-						public component2(): string;
-						public copy(param0: string, param1: string): com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem;
-						public component1(): string;
-						public hashCode(): number;
-						public equals(param0: any): boolean;
-						public getId(): string;
-						public constructor(param0: string, param1: string);
-						public getDescription(): string;
-						public toString(): string;
-						public getTitle(): string;
-					}
-					export module DescriptionItem {
-						export class Companion {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.Companion>;
-							public getLAYOUT(): number;
-							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater): com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.ViewHolder;
-						}
-						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem> {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem.ViewHolder>;
-							public bind(param0: any): void;
-							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.DescriptionItem): void;
-							public constructor(param0: globalAndroid.view.View);
-						}
-					}
-					export class SectionItem extends com.urbanairship.preferencecenter.ui.PrefCenterItem {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem>;
-						public static Companion: com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.Companion;
-						public constructor(param0: com.urbanairship.preferencecenter.data.Section);
-						public areItemsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-						public areContentsTheSame(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): boolean;
-						public getSection(): com.urbanairship.preferencecenter.data.Section;
-						public hashCode(): number;
-						public equals(param0: any): boolean;
-						public copy(param0: com.urbanairship.preferencecenter.data.Section): com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem;
-						public getId(): string;
-						public component1(): com.urbanairship.preferencecenter.data.Section;
-						public toString(): string;
-						public getTitle(): string;
-						public getSubtitle(): string;
-					}
-					export module SectionItem {
-						export class Companion {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.Companion>;
-							public getLAYOUT(): number;
-							public createViewHolder(param0: globalAndroid.view.ViewGroup, param1: globalAndroid.view.LayoutInflater): com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.ViewHolder;
-						}
-						export class ViewHolder extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem> {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem.ViewHolder>;
-							public bind(param0: any): void;
-							public bind(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem.SectionItem): void;
-							public constructor(param0: globalAndroid.view.View);
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module ui {
-				export abstract class PrefCenterViewHolder<T>  extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>>;
-					public bindItem(param0: com.urbanairship.preferencecenter.ui.PrefCenterItem): void;
+				export abstract class CommonViewHolder<T>  extends com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any> {
+					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.CommonViewHolder<any>>;
 					public getDescriptionView(): globalAndroid.widget.TextView;
 					public constructor(param0: globalAndroid.view.View);
 					public getTitleView(): globalAndroid.widget.TextView;
-					public bind(param0: any): void;
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module ui {
-				export class PreferenceCenterActivity {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterActivity>;
-					public static EXTRA_ID: string;
-					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterActivity.Companion;
-					public onCreate(param0: globalAndroid.os.Bundle): void;
-					public constructor();
-					public onOptionsItemSelected(param0: globalAndroid.view.MenuItem): boolean;
-				}
-				export module PreferenceCenterActivity {
-					export class Companion {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterActivity.Companion>;
-					}
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module ui {
-				export class PreferenceCenterAdapter extends androidx.recyclerview.widget.ListAdapter<com.urbanairship.preferencecenter.ui.PrefCenterItem,com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>> {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter>;
-					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.Companion;
-					public onCreateViewHolder(param0: globalAndroid.view.ViewGroup, param1: number): com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>;
-					public getItemEvents(): kotlinx.coroutines.flow.SharedFlow<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent>;
-					public constructor(param0: kotlin.jvm.functions.Function0<any>);
-					public submit(param0: java.util.List<any>, param1: java.util.Set<string>): void;
-					public getItemViewType(param0: number): number;
-					public onBindViewHolder(param0: com.urbanairship.preferencecenter.ui.PrefCenterViewHolder<any>, param1: number): void;
-					public getItemId(param0: number): number;
-					public setHeaderItem$urbanairship_preference_center_release(param0: string, param1: string): void;
-				}
-				export module PreferenceCenterAdapter {
-					export class Companion {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.Companion>;
-					}
-					export abstract class ItemEvent {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent>;
-					}
-					export module ItemEvent {
-						export class ChannelSubscriptionChange extends com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent.ChannelSubscriptionChange>;
-							public copy(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterAdapter.ItemEvent.ChannelSubscriptionChange;
-							public hashCode(): number;
-							public component2(): boolean;
-							public getItem(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
-							public isChecked(): boolean;
-							public constructor(param0: com.urbanairship.preferencecenter.data.Item.ChannelSubscription, param1: boolean);
-							public toString(): string;
-							public equals(param0: any): boolean;
-							public component1(): com.urbanairship.preferencecenter.data.Item.ChannelSubscription;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module ui {
-				export class PreferenceCenterFragment {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment>;
-					public static ARG_ID: string;
-					public static Companion: com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Companion;
-					public getViewModelScopeProvider(): kotlin.jvm.functions.Function0<kotlinx.coroutines.CoroutineScope>;
-					public onCreateView(param0: globalAndroid.view.LayoutInflater, param1: globalAndroid.view.ViewGroup, param2: globalAndroid.os.Bundle): globalAndroid.view.View;
-					public showHeaderItem(param0: string, param1: string): void;
-					public constructor();
-					public setOnDisplayPreferenceCenterListener(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.OnDisplayPreferenceCenterListener): void;
-					public static create(param0: string): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment;
-					public getViewModelFactory(): androidx.lifecycle.ViewModelProvider.Factory;
-					public onResume(): void;
-					public onViewCreated(param0: globalAndroid.view.View, param1: globalAndroid.os.Bundle): void;
-				}
-				export module PreferenceCenterFragment {
-					export class Companion {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Companion>;
-						public create(param0: string): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment;
-					}
-					export class OnDisplayPreferenceCenterListener {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.OnDisplayPreferenceCenterListener>;
-						/**
-						 * Constructs a new instance of the com.urbanairship.preferencecenter.ui.PreferenceCenterFragment$OnDisplayPreferenceCenterListener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-						 */
-						public constructor(implementation: {
-							onDisplayPreferenceCenter(param0: string, param1: string): boolean;
-						});
-						public constructor();
-						public onDisplayPreferenceCenter(param0: string, param1: string): boolean;
-					}
-					export class Views {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Views>;
-						public copy(param0: globalAndroid.view.View, param1: androidx.recyclerview.widget.RecyclerView, param2: globalAndroid.view.ViewGroup, param3: globalAndroid.view.ViewGroup, param4: globalAndroid.widget.TextView, param5: globalAndroid.widget.Button): com.urbanairship.preferencecenter.ui.PreferenceCenterFragment.Views;
-						public component4(): globalAndroid.view.ViewGroup;
-						public component1(): globalAndroid.view.View;
-						public getList(): androidx.recyclerview.widget.RecyclerView;
-						public component2(): androidx.recyclerview.widget.RecyclerView;
-						public component3(): globalAndroid.view.ViewGroup;
-						public hashCode(): number;
-						public equals(param0: any): boolean;
-						public showError(): void;
-						public toString(): string;
-						public showContent(): void;
-						public getLoading(): globalAndroid.view.ViewGroup;
-						public getError(): globalAndroid.view.ViewGroup;
-						public component6(): globalAndroid.widget.Button;
-						public getErrorRetryButton(): globalAndroid.widget.Button;
-						public showLoading(): void;
-						public getView(): globalAndroid.view.View;
-						public component5(): globalAndroid.widget.TextView;
-						public constructor(param0: globalAndroid.view.View, param1: androidx.recyclerview.widget.RecyclerView, param2: globalAndroid.view.ViewGroup, param3: globalAndroid.view.ViewGroup, param4: globalAndroid.widget.TextView, param5: globalAndroid.widget.Button);
-						public getErrorMessage(): globalAndroid.widget.TextView;
-					}
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module ui {
-				export class PreferenceCenterViewModel {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel>;
-					public getStates(): kotlinx.coroutines.flow.StateFlow<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State>;
-					public constructor(param0: string);
-					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter);
-					public updatePreference(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean): kotlinx.coroutines.flow.Flow<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change>;
-					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter, param2: com.urbanairship.channel.AirshipChannel, param3: kotlinx.coroutines.CoroutineDispatcher);
-					public handle(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action): void;
-					public constructor(param0: string, param1: com.urbanairship.preferencecenter.PreferenceCenter, param2: com.urbanairship.channel.AirshipChannel);
-				}
-				export module PreferenceCenterViewModel {
-					export abstract class Action {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action>;
-					}
-					export module Action {
-						export class PreferenceItemChanged extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.PreferenceItemChanged>;
-							public copy(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.PreferenceItemChanged;
-							public hashCode(): number;
-							public isEnabled(): boolean;
-							public component2(): boolean;
-							public component1(): com.urbanairship.preferencecenter.data.Item;
-							public getItem(): com.urbanairship.preferencecenter.data.Item;
-							public toString(): string;
-							public equals(param0: any): boolean;
-							public constructor(param0: com.urbanairship.preferencecenter.data.Item, param1: boolean);
-						}
-						export class Refresh extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.Refresh>;
-							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Action.Refresh;
-						}
-					}
-					export abstract class Change {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change>;
-					}
-					export module Change {
-						export class ShowContent extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowContent>;
-							public constructor(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content);
-							public hashCode(): number;
-							public getState(): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
-							public toString(): string;
-							public copy(param0: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowContent;
-							public equals(param0: any): boolean;
-							public component1(): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
-						}
-						export class ShowError extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowError>;
-							public constructor();
-							public getError(): java.lang.Throwable;
-							public hashCode(): number;
-							public toString(): string;
-							public copy(param0: string, param1: java.lang.Throwable): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowError;
-							public constructor(param0: string, param1: java.lang.Throwable);
-							public equals(param0: any): boolean;
-							public getMessage(): string;
-							public component1(): string;
-							public component2(): java.lang.Throwable;
-						}
-						export class ShowLoading extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowLoading>;
-							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.ShowLoading;
-						}
-						export class UpdateSubscriptions extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.UpdateSubscriptions>;
-							public constructor(param0: string, param1: boolean);
-							public hashCode(): number;
-							public isSubscribed(): boolean;
-							public component2(): boolean;
-							public copy(param0: string, param1: boolean): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.Change.UpdateSubscriptions;
-							public getSubscriptionId(): string;
-							public toString(): string;
-							public equals(param0: any): boolean;
-							public component1(): string;
-						}
-					}
-					export class PreferenceCenterViewModelFactory {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.PreferenceCenterViewModelFactory>;
-						public create(param0: java.lang.Class): androidx.lifecycle.ViewModel;
-						public constructor(param0: string);
-					}
-					export abstract class State {
-						public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State>;
-					}
-					export module State {
-						export class Content extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content>;
-							public component2(): string;
-							public hashCode(): number;
-							public getTitle(): string;
-							public component4(): java.util.Set<string>;
-							public toString(): string;
-							public component1(): string;
-							public component3(): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
-							public getSubtitle(): string;
-							public copy(param0: string, param1: string, param2: java.util.List<any>, param3: java.util.Set<string>): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Content;
-							public constructor(param0: string, param1: string, param2: java.util.List<any>, param3: java.util.Set<string>);
-							public equals(param0: any): boolean;
-							public getListItems(): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
-							public getSubscriptions(): java.util.Set<string>;
-						}
-						export class Error extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Error>;
-							public constructor();
-							public getError(): java.lang.Throwable;
-							public hashCode(): number;
-							public copy(param0: string, param1: java.lang.Throwable): com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Error;
-							public toString(): string;
-							public constructor(param0: string, param1: java.lang.Throwable);
-							public equals(param0: any): boolean;
-							public getMessage(): string;
-							public component1(): string;
-							public component2(): java.lang.Throwable;
-						}
-						export class Loading extends com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State {
-							public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Loading>;
-							public static INSTANCE: com.urbanairship.preferencecenter.ui.PreferenceCenterViewModel.State.Loading;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module ui {
-				export class PreferenceCenterViewModelKt {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.PreferenceCenterViewModelKt>;
-					public static asPrefCenterItems(param0: com.urbanairship.preferencecenter.data.PreferenceCenterConfig): java.util.List<com.urbanairship.preferencecenter.ui.PrefCenterItem>;
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module ui {
-				export class SectionDividerDecoration {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.ui.SectionDividerDecoration>;
-					public constructor(param0: globalAndroid.content.Context);
-					public onDrawOver(param0: globalAndroid.graphics.Canvas, param1: androidx.recyclerview.widget.RecyclerView, param2: androidx.recyclerview.widget.RecyclerView.State): void;
-					public getItemOffsets(param0: globalAndroid.graphics.Rect, param1: globalAndroid.view.View, param2: androidx.recyclerview.widget.RecyclerView, param3: androidx.recyclerview.widget.RecyclerView.State): void;
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module util {
-				export class FlowExtensionsKt {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.FlowExtensionsKt>;
-					public static scanConcat(param0: kotlinx.coroutines.flow.Flow, param1: any, param2: kotlin.jvm.functions.Function3): kotlinx.coroutines.flow.Flow;
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module util {
-				export class JsonExtensionsKt {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.JsonExtensionsKt>;
-					public static jsonListOf(param0: androidNative.Array<any>): com.urbanairship.json.JsonList;
-					public static jsonMapOf(param0: androidNative.Array<kotlin.Pair<string,any>>): com.urbanairship.json.JsonMap;
-					public static toJsonList(param0: java.util.List<any>): com.urbanairship.json.JsonList;
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module urbanairship {
-		export module preferencecenter {
-			export module util {
-				export class ViewExtensionsKt {
-					public static class: java.lang.Class<com.urbanairship.preferencecenter.util.ViewExtensionsKt>;
-					public static setTextOrHide(param0: globalAndroid.widget.TextView, param1: string): void;
 				}
 			}
 		}
@@ -7251,5 +7370,24 @@ declare module com {
 }
 
 //Generics information:
-//com.urbanairship.preferencecenter.ui.PrefCenterViewHolder:1
+//com.urbanairship.PendingResult:1
+//com.urbanairship.Predicate:1
+//com.urbanairship.ResultCallback:1
+//com.urbanairship.base.Extender:1
+//com.urbanairship.base.Supplier:1
+//com.urbanairship.http.Response:1
+//com.urbanairship.http.Response.Builder:1
+//com.urbanairship.http.ResponseParser:1
+//com.urbanairship.reactive.BiFunction:3
+//com.urbanairship.reactive.Function:2
+//com.urbanairship.reactive.Observable:1
+//com.urbanairship.reactive.Observable.Holder:1
+//com.urbanairship.reactive.Observable.ObservableTracker:1
+//com.urbanairship.reactive.Observer:1
+//com.urbanairship.reactive.Subject:1
+//com.urbanairship.reactive.Subscriber:1
+//com.urbanairship.reactive.Supplier:1
+//com.urbanairship.util.CachedValue:1
+//com.urbanairship.util.ImageUtils.ImageProcessor:1
+//com.urbanairship.util.JsonDataStoreQueue:1
 

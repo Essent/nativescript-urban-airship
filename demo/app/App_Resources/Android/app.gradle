@@ -6,25 +6,15 @@
 //}
 
 android {  
-  defaultConfig {
-    applicationId = "nl.essent.urbanairship"
-
+  compileSdkVersion 32
+  buildToolsVersion "32.0.0"
+  defaultConfig {  
+    minSdkVersion 23
+    targetSdkVersion 32
     generatedDensities = []
   }
 
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
   }  
-}
-
-configurations.all {
-resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-    def requested = details.requested
-    if (requested.group == 'com.android.support') {
-        if (!requested.name.startsWith("multidex")) {
-            details.useVersion '27.1.1'
-        }
-     }
-
-   }
 }
