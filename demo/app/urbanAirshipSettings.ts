@@ -14,5 +14,8 @@ export const urbanAirshipSettings: UrbanAirshipSettings = {
     // Before submitting your application to an app store set to true
     inProduction: false,
     productionAppKey: "Your Production App Key",
-    productionAppSecret: "Your Production Secret"
+    productionAppSecret: "Your Production Secret",
+    urlAllowList: "*",
+    urlAllowListScopeJavaScriptInterface: "*",
+    urlAllowListScopeOpenURL: "*"
 };

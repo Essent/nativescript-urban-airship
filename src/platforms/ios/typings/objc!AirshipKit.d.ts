@@ -24,11 +24,7 @@ declare class ChannelRegistrar extends NSObject implements UAChannelRegistrarPro
 
 	constructor(o: { config: UARuntimeConfig; dataStore: UAPreferenceDataStore; });
 
-	constructor(o: { config: UARuntimeConfig; dataStore: UAPreferenceDataStore; channelAPIClient: UAChannelAPIClient; date: UADate; dispatcher: UADispatcher; taskManager: UATaskManager; });
-
 	initWithConfigDataStore(config: UARuntimeConfig, dataStore: UAPreferenceDataStore): this;
-
-	initWithConfigDataStoreChannelAPIClientDateDispatcherTaskManager(config: UARuntimeConfig, dataStore: UAPreferenceDataStore, channelAPIClient: UAChannelAPIClient, date: UADate, dispatcher: UADispatcher, taskManager: UATaskManager): this;
 
 	performFullRegistration(): void;
 
@@ -3601,6 +3597,15 @@ declare class UAIdentityHints extends NSObject implements NSCopying {
 	copyWithZone(zone: interop.Pointer | interop.Reference<any>): any;
 }
 
+interface UAImageProvider {
+
+	getWithUrl(url: NSURL): UIImage;
+}
+declare var UAImageProvider: {
+
+	prototype: UAImageProvider;
+};
+
 declare class UAInAppAutomation extends NSObject implements UAComponent {
 
 	static alloc(): UAInAppAutomation; // inherited from NSObject
@@ -3713,7 +3718,7 @@ declare class UAInAppMessage extends NSObject {
 
 interface UAInAppMessageAdapterProtocol extends NSObjectProtocol {
 
-	display(completionHandler: (p1: UAInAppMessageResolution) => void): void;
+	display?(completionHandler: (p1: UAInAppMessageResolution) => void): void;
 
 	isReadyToDisplay(): boolean;
 
@@ -4228,7 +4233,9 @@ declare const enum UAInAppMessageDisplayType {
 
 	HTML = 3,
 
-	Custom = 4
+	Custom = 4,
+
+	AirshipLayout = 5
 }
 
 declare var UAInAppMessageDurationKey: string;
@@ -7992,6 +7999,8 @@ declare class UAScheduleAudience extends NSObject {
 
 	readonly notificationsOptIn: number;
 
+	readonly requiresAnalytics: number;
+
 	readonly tagSelector: UATagSelector;
 
 	readonly versionPredicate: UAJSONPredicate;
@@ -8010,6 +8019,8 @@ declare class UAScheduleAudienceBuilder extends NSObject {
 	missBehavior: UAScheduleAudienceMissBehaviorType;
 
 	notificationsOptIn: number;
+
+	requiresAnalytics: number;
 
 	tagSelector: UATagSelector;
 
@@ -8671,6 +8682,127 @@ declare class UATaskRequestOptions extends NSObject {
 
 declare var UATextAdditonalPaddingKey: string;
 
+declare class UAThomas extends NSObject {
+
+	static alloc(): UAThomas; // inherited from NSObject
+
+	static deferredDisplayWithDataSceneExtensionsDelegateError(data: NSData, scene: UIWindowScene, extensions: UAThomasExtensions, delegate: UAThomasDelegate): () => UADisposable;
+
+	static deferredDisplayWithJsonSceneExtensionsDelegateError(json: any, scene: UIWindowScene, extensions: UAThomasExtensions, delegate: UAThomasDelegate): () => UADisposable;
+
+	static new(): UAThomas; // inherited from NSObject
+
+	static urlsWithJsonError(json: any): NSArray<UAURLInfo>;
+
+	static validateWithDataError(data: NSData): boolean;
+
+	static validateWithJsonError(json: any): boolean;
+}
+
+interface UAThomasDelegate {
+
+	onButtonTappedWithButtonIdentifierLayoutContext(buttonIdentifier: string, layoutContext: UAThomasLayoutContext): void;
+
+	onDismissedWithButtonIdentifierButtonDescriptionCancelLayoutContext(buttonIdentifier: string, buttonDescription: string, cancel: boolean, layoutContext: UAThomasLayoutContext): void;
+
+	onDismissedWithLayoutContext(layoutContext: UAThomasLayoutContext): void;
+
+	onFormDisplayedWithFormInfoLayoutContext(formInfo: UAThomasFormInfo, layoutContext: UAThomasLayoutContext): void;
+
+	onFormSubmittedWithFormResultLayoutContext(formResult: UAThomasFormResult, layoutContext: UAThomasLayoutContext): void;
+
+	onPageSwipedFromToLayoutContext(from: UAThomasPagerInfo, to: UAThomasPagerInfo, layoutContext: UAThomasLayoutContext): void;
+
+	onPageViewedWithPagerInfoLayoutContext(pagerInfo: UAThomasPagerInfo, layoutContext: UAThomasLayoutContext): void;
+
+	onTimedOutWithLayoutContext(layoutContext: UAThomasLayoutContext): void;
+}
+declare var UAThomasDelegate: {
+
+	prototype: UAThomasDelegate;
+};
+
+declare class UAThomasExtensions extends NSObject {
+
+	static alloc(): UAThomasExtensions; // inherited from NSObject
+
+	static new(): UAThomasExtensions; // inherited from NSObject
+
+	constructor(o: { nativeBridgeExtension: UANativeBridgeExtensionDelegate; imageProvider: UAImageProvider; });
+
+	initWithNativeBridgeExtensionImageProvider(nativeBridgeExtension: UANativeBridgeExtensionDelegate, imageProvider: UAImageProvider): this;
+}
+
+declare class UAThomasFormInfo extends NSObject {
+
+	static alloc(): UAThomasFormInfo; // inherited from NSObject
+
+	static new(): UAThomasFormInfo; // inherited from NSObject
+
+	readonly formResponseType: string;
+
+	readonly formType: string;
+
+	readonly identifier: string;
+
+	readonly submitted: boolean;
+
+	constructor(o: { identifier: string; submitted: boolean; formType: string; formResponseType: string; });
+
+	initWithIdentifierSubmittedFormTypeFormResponseType(identifier: string, submitted: boolean, formType: string, formResponseType: string): this;
+}
+
+declare class UAThomasFormResult extends NSObject {
+
+	static alloc(): UAThomasFormResult; // inherited from NSObject
+
+	static new(): UAThomasFormResult; // inherited from NSObject
+
+	readonly formData: NSDictionary<string, any>;
+
+	readonly identifier: string;
+
+	constructor(o: { identifier: string; formData: NSDictionary<string, any>; });
+
+	initWithIdentifierFormData(identifier: string, formData: NSDictionary<string, any>): this;
+}
+
+declare class UAThomasLayoutContext extends NSObject {
+
+	static alloc(): UAThomasLayoutContext; // inherited from NSObject
+
+	static new(): UAThomasLayoutContext; // inherited from NSObject
+
+	readonly formInfo: UAThomasFormInfo;
+
+	readonly pagerInfo: UAThomasPagerInfo;
+
+	constructor(o: { formInfo: UAThomasFormInfo; pagerInfo: UAThomasPagerInfo; });
+
+	initWithFormInfoPagerInfo(formInfo: UAThomasFormInfo, pagerInfo: UAThomasPagerInfo): this;
+}
+
+declare class UAThomasPagerInfo extends NSObject {
+
+	static alloc(): UAThomasPagerInfo; // inherited from NSObject
+
+	static new(): UAThomasPagerInfo; // inherited from NSObject
+
+	readonly completed: boolean;
+
+	readonly identifier: string;
+
+	readonly pageCount: number;
+
+	readonly pageIdentifier: string;
+
+	readonly pageIndex: number;
+
+	constructor(o: { identifier: string; pageIndex: number; pageIdentifier: string; pageCount: number; completed: boolean; });
+
+	initWithIdentifierPageIndexPageIdentifierPageCountCompleted(identifier: string, pageIndex: number, pageIdentifier: string, pageCount: number, completed: boolean): this;
+}
+
 declare class UAUIKitStateTrackerAdapter extends NSObject implements UAAppStateTrackerAdapter {
 
 	static alloc(): UAUIKitStateTrackerAdapter; // inherited from NSObject
@@ -8779,6 +8911,21 @@ declare const enum UAURLAllowListScope {
 	OpenURL = 2,
 
 	All = 3
+}
+
+declare class UAURLInfo extends NSObject {
+
+	static alloc(): UAURLInfo; // inherited from NSObject
+
+	static new(): UAURLInfo; // inherited from NSObject
+
+	readonly url: string;
+
+	readonly urlType: URLType;
+
+	constructor(o: { urlType: URLType; url: string; });
+
+	initWithUrlTypeUrl(urlType: URLType, url: string): this;
 }
 
 declare class UAUser extends NSObject {
@@ -9004,6 +9151,24 @@ declare class UAirshipVersion extends NSObject {
 	static get(): string;
 
 	static new(): UAirshipVersion; // inherited from NSObject
+}
+
+declare const enum URLType {
+
+	Web = 0,
+
+	Video = 1,
+
+	Image = 2
+}
+
+declare const enum UrlTypes {
+
+	Image = 0,
+
+	Video = 1,
+
+	Web = 2
 }
 
 declare var uaLogLevel: number;
