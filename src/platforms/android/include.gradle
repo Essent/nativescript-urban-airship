@@ -6,7 +6,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    def airshipVersion = "16.3.1"
+    def airshipVersion = "16.7.0"
     implementation "com.urbanairship.android:urbanairship-automation:$airshipVersion"
 
     implementation "com.urbanairship.android:urbanairship-fcm:$airshipVersion"

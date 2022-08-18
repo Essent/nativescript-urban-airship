@@ -1,7 +1,7 @@
 import { NativeScriptConfig } from '@nativescript/core';
 
 export default {
-  id: 'org.nativescript.demo',
+  id: 'nl.essent.urbanairship',
   appResourcesPath: 'app/App_Resources',
   webpackConfigPath: 'webpack.config.js',
   android: {
